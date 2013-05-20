@@ -1,2 +1,3 @@
 source :rubygems
-gem "sass"
+gem "sass", "~> 3.2.9"
+gem "jekyll", "~> 1.0.2"

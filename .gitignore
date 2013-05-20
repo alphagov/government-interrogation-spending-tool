@@ -1,5 +1,7 @@
 .sass-cache/
 Gemfile.lock
 
+_site
+
 # OSX flob
 .DS_Store
