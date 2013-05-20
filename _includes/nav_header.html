@@ -9,10 +9,10 @@
 						<div class="inner-nav">
 							<ul id="navigation">
 								<li class="sub-level">
-									<a href="/oscar" title="View OSCAR spending data">OSCAR</a>
+									<a href="/oscar" title="View OSCAR spending data" {% if page.url contains "/oscar" %}class="current"{% endif %}>OSCAR</a>
 								</li>
 								<li class="sub-level">
-									<a href="/qds" title="View Quarterly data summaries">QDS</a>
+									<a href="/qds" title="View Quarterly data summaries" {% if page.url contains "/qds" %}class="current"{% endif %}>QDS</a>
 								</li>
 							</ul>
 						</div>
