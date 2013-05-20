@@ -33,29 +33,35 @@
   // google analytics goes here
 </script>
 <!-- Custom CSS/JS goes here -->
+<link href="/assets/stylesheets/main.css" rel="stylesheet" type="text/css">
 </head>
 <body>
       <script type="text/javascript">document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script><a href="#homepage" class="visuallyhidden">Skip to main content</a>
 
-    <header role="banner" id="global-header"><div class="header-wrapper">
-        <div class="header-global">
-          <div class="header-logo">
-            <a href="/" title="Go to the gov.uk homepage" id="logo" class="content">
-              <img src="/static/gov.uk_logotype-2x.png" alt="GOV.UK"></a>
-            <a href="#search" class="search-toggle js-header-toggle">Search</a>
-          </div>
-
-          <form id="search" class="site-search" action="/search" method="get" role="search">
-            <div class="content">
-              <label for="site-search-text">Search</label>
-              <input type="search" name="q" id="site-search-text" title="Search" class="js-search-focus"><input class="submit" type="submit" value="Search">
-</div>
-          </form>
-        </div>
-      </div>
-    </header><!--end header-->
-
     <div id="wrapper">
+    	
+			<header id="global">
+				<nav class="performance-nav">
+					<a href="/performance/licensing" class="top-level">
+						<span class="top-level-link">GIST</span>
+						<span class="alpha-tag">Alpha</span>
+					</a>      
+					<div class="menu-wrapper">
+						<a id="menu-toggle" href="#" data-hide-or-show="sub-level">menu</a>
+						<div class="inner-nav">
+							<ul id="navigation">
+								<li class="sub-level">
+									<a href="/oscar">OSCAR</a>
+								</li>
+								<li class="sub-level">
+									<a href="/qds">QDS</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</nav>
+			</header>
+
     	<section id="content">
 				{{ content }}
 			</section>

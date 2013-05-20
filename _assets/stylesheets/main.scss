@@ -1,11 +1,21 @@
-body {
-  font: 16px/1.5 verdana, helvetica-neue, helvetica, arial, san-serif;
-  background: black;
-  color: #ececec;
-  padding: 0;
-  margin: 0;
+@import '_colours';
+@import '_conditionals';
+@import '_typography';
 
-  h1 {
-  	color: red;
-  }
+$primary-colour: #097F96;
+$primary-colour-text: darken($primary-colour, 7%);
+
+@import 'nav';
+@import 'layout';
+
+/*layout overrides*/
+footer#footer div.footer-wrapper {
+    padding:0;
+}
+footer#footer div.footer-wrapper div.footer-meta {
+    border:none;
+    margin:0;
+}
+footer#footer .footer-meta .copyright a {
+    background: transparent url(/static/govuk-crest.png) no-repeat 50% 0;
 }
