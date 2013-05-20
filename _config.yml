@@ -2,4 +2,4 @@ safe:        false
 
 destination: ./_site
 plugins:     ./_plugins
-exclude:     ["GemFile", "Gemfile.lock", "README.md", "copy_govuk_styles.sh"]
+exclude:     ["GemFile", "Gemfile.lock", "README.md", "copy_govuk_styles.sh", "process_data.sh", "process_test_data.sh", "run_tests.sh"]
