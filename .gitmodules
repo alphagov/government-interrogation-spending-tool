@@ -1,0 +1,6 @@
+[submodule "_submodules/toolkit"]
+	path = _submodules/toolkit
+	url = https://github.com/alphagov/govuk_frontend_toolkit.git
+[submodule "_submodules/static"]
+	path = _submodules/static
+	url = https://github.com/alphagov/static.git

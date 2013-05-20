@@ -1,0 +1,5 @@
+.sass-cache/
+Gemfile.lock
+
+# OSX flob
+.DS_Store

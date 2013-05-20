@@ -1,0 +1,6 @@
+safe:        false
+auto:		 true
+source:      .
+destination: ./_site
+plugins:     ./_plugins
+exclude:     ["GemFile", "Gemfile.lock", "README.md", "copy_govuk_styles.sh"]
