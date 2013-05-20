@@ -1,4 +1,5 @@
 .sass-cache/
+.jhw-cache/
 Gemfile.lock
 
 _site

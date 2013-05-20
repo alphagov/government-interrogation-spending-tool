@@ -4,3 +4,4 @@ gem "jekyll", "~> 1.0.2"
 
 ## Testing
 gem "rspec", "~> 2.13.0"
+gem "jasmine-headless-webkit", "~> 0.8.4"
