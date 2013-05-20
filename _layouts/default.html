@@ -1,92 +1,19 @@
 
 <!DOCTYPE html>
 <!--[if lt IE 9]><html class="lte-ie8 " lang="en"><![endif]--><!--[if gt IE 8]><!--><html lang="en" class="">
-<!--<![endif]--><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>GIST - Government Interrogation Spending Tool</title>
-<script type="text/javascript">
-  (function(){if(navigator.userAgent.match(/IEMobile\/10\.0/)){var d=document,c="appendChild",a=d.createElement("style");a[c](d.createTextNode("@-ms-viewport{width:auto!important}"));d.getElementsByTagName("head")[0][c](a);}})();
-</script><!--[if gt IE 8]><!--><link href="/static/application.css" media="screen" rel="stylesheet" type="text/css">
-<!--<![endif]--><!--[if IE 6]><link href="/static/application-ie6.css" media="screen" rel="stylesheet" type="text/css" /><![endif]--><!--[if IE 7]><link href="/static/application-ie7.css" media="screen" rel="stylesheet" type="text/css" /><![endif]--><!--[if IE 8]><link href="/static/application-ie8.css" media="screen" rel="stylesheet" type="text/css" /><![endif]--><link href="/static/print.css" media="print" rel="stylesheet" type="text/css">
-<!--[if IE 8]>
-<script type="text/javascript">
-  (function(){if(window.opera){return;}
-  setTimeout(function(){var a=document,g,b={families:(g=
-  ["nta"]),urls:["/static/fonts-ie8.css"]},
-  c="/static/libs/goog/webfont-debug.js",d="script",
-  e=a.createElement(d),f=a.getElementsByTagName(d)[0],h=g.length;WebFontConfig
-  ={custom:b},e.src=c,f.parentNode.insertBefore(e,f);for(;h=h-1;a.documentElement
-  .className+=' wf-'+g[h].replace(/\s/g,'').toLowerCase()+'-n4-loading');},0)
-  })()
-</script>
-<![endif]--><!--[if gte IE 9]><!--><link href="/static/fonts.css" media="all" rel="stylesheet" type="text/css">
-<!--<![endif]--><!--[if lt IE 9]>
-      <script src="/static/ie.js" type="text/javascript"></script>
-    <![endif]--><link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
-<!-- For third-generation iPad with high-resolution Retina display: --><link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/apple-touch-icon.png">
-<!-- For iPhone with high-resolution Retina display: --><link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/apple-touch-icon.png">
-<!-- For first- and second-generation iPad: --><link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/apple-touch-icon-72x72.png">
-<!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: --><link rel="apple-touch-icon-precomposed" href="/static/apple-touch-icon-57x57.png">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="og:image" content="/static/opengraph-image.png">
-<script src="/static/libs/jquery/jquery-1.7.2.js" type="text/javascript"></script><script defer src="/static/application.js" type="text/javascript"></script><script id="ga-params" type="text/javascript">
-  // google analytics goes here
-</script>
-<!-- Custom CSS/JS goes here -->
-<link href="/assets/stylesheets/main.css" rel="stylesheet" type="text/css">
-</head>
+<!--<![endif]-->{% include head.html %}
 <body>
       <script type="text/javascript">document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script><a href="#homepage" class="visuallyhidden">Skip to main content</a>
 
     <div id="wrapper">
-    	
-			<header id="global">
-				<nav class="performance-nav">
-					<a href="/performance/licensing" class="top-level">
-						<span class="top-level-link">GIST</span>
-						<span class="alpha-tag">Alpha</span>
-					</a>      
-					<div class="menu-wrapper">
-						<a id="menu-toggle" href="#" data-hide-or-show="sub-level">menu</a>
-						<div class="inner-nav">
-							<ul id="navigation">
-								<li class="sub-level">
-									<a href="/oscar">OSCAR</a>
-								</li>
-								<li class="sub-level">
-									<a href="/qds">QDS</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</nav>
-			</header>
+
+{% include nav_header.html %}
 
     	<section id="content">
 				{{ content }}
 			</section>
     </div>
 
-    <footer class="group" id="footer" role="contentinfo">
-        <div class="footer-wrapper">
-            <div class="footer-meta">
-                <nav>
-                    <ul>
-                        <li><a href="/support">Support</a></li>
-                        <li><a href="/support/cookies">Cookies</a></li>
-                        <li><a href="/feedback">Feedback</a></li>
-                        <li><a href="/cymraeg">Cymraeg</a></li>
-                        <li>Built by the <a href="http://digital.cabinetoffice.gov.uk/">Government Digital Service</a>
-                        </li>
-                    </ul>
-                    <p>All content is available under the <a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/">Open Government Licence</a>, except where otherwise stated</p>
-                </nav>
-
-                <div class="copyright">
-                    <a href="http://www.nationalarchives.gov.uk/information-management/our-services/crown-copyright.htm">© Crown Copyright</a>
-                </div>
-            </div>
-        </div>
-    </footer><!--end footer--><div id="global-app-error" class="app-error hidden"></div>
+{% include footer.html %}<div id="global-app-error" class="app-error hidden"></div>
   </body>
 </html>
