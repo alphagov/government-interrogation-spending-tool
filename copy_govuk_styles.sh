@@ -2,6 +2,7 @@
 # styles from static and the toolkit, generates SASS files, and 
 # copies css/js/images into the right locations in Jekyll.
 git submodule init
+git submodule update
 
 # Copy normalize.css to normalize.scss so it can be included in load path
 # This is needed as GOV.UK scss imports it but does not use standard import with extension
