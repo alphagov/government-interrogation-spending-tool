@@ -29,8 +29,10 @@ class CsvParser
     parsed_rows = []
     CSV.foreach(file_full_path, { :encoding => "iso-8859-1:utf-8" }) do |row|
       begin
-        parsed_rows << self.parse_row(row)
-        parsed_count += 1
+        if row_index > 0
+          parsed_rows << self.parse_row(row)
+          parsed_count += 1
+        end
       rescue Exception => e
         log.info "INVALID ROW: #{row_index} - #{row.to_s} - #{e.message}"
       end
