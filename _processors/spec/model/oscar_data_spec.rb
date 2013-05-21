@@ -9,11 +9,12 @@ describe "OscarData" do
 			"DEL",
 			"PAY (RECOVERY OF COSTS)",
 			"Qtr3 - 12-13",
+			"Dec-12",
 			64)
 	end
 
 	describe "#new" do
-		it "takes 6 parameters and returns a OscarData object" do
+		it "takes 7 parameters and returns a OscarData object" do
 			@oscar_data1.should be_an_instance_of OscarData
 		end
 	end
@@ -40,6 +41,11 @@ describe "OscarData" do
 	describe "#quarter" do
     	it "returns the correct quarter" do
         	@oscar_data1.quarter.should eql "Qtr3 - 12-13"
+    	end
+	end
+	describe "#month" do
+    	it "returns the correct month" do
+        	@oscar_data1.month.should eql "Dec-12"
     	end
 	end
 	describe "#amount" do
