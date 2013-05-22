@@ -27,6 +27,12 @@ describe "QdsCsvParser" do
       @csv_parser.filter_row(@sample_row).should be_false
     end
 
+    it "returns true for rows with no value" do
+      no_value_row = @sample_row.clone
+      no_value_row[9] = ""
+      @csv_parser.filter_row(no_value_row).should be_true
+    end
+
     it "returns true for rows with Scope not core" do
       not_core_row = @sample_row.clone
       not_core_row[1] = "DVLA"
