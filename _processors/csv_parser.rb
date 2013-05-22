@@ -6,10 +6,12 @@ require "fileutils"
 
 class CsvParser
 
-  LOG_FILE = "_processors/logs/CsvParser.log"
-
   def log_file_path
-    LOG_FILE
+    "_processors/logs/CsvParser.log"
+  end
+
+  def parse_value(numeric_string)
+    numeric_string.to_f
   end
 
   def parse_row(row)
@@ -17,8 +19,8 @@ class CsvParser
   end
   
   def parse_file(file_full_path)
-    FileUtils.rm(LOG_FILE) if File.exists?(LOG_FILE)
-    log = Logger.new(LOG_FILE)
+    FileUtils.rm(self.log_file_path) if File.exists?(self.log_file_path)
+    log = Logger.new(self.log_file_path)
     log.level = Logger::DEBUG
 
     raise ArgumentError, "File does not exist", caller if !File.exists?(file_full_path)

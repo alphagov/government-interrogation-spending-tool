@@ -4,10 +4,10 @@ require_relative "../../model/oscar_data.rb"
 describe "OscarData" do
 	before :all do
 		@oscar_data1 = OscarData.new(
-			"Cabinet Office",
 			"CABINET OFFICE",
 			"DEL",
-			"PAY (RECOVERY OF COSTS)",
+			"Cabinet Office",
+      "PAY (RECOVERY OF COSTS)",
 			"Qtr3 - 12-13",
 			"Dec-12",
 			64)
@@ -17,11 +17,6 @@ describe "OscarData" do
 		it "takes 7 parameters and returns a OscarData object" do
 			@oscar_data1.should be_an_instance_of OscarData
 		end
-	end
-	describe "#segment_department_long_name" do
-    	it "returns the correct segment_department_long_name" do
-        	@oscar_data1.segment_department_long_name.should eql "Cabinet Office"
-    	end
 	end
 	describe "#organisation" do
     	it "returns the correct organisation" do
@@ -33,6 +28,11 @@ describe "OscarData" do
         	@oscar_data1.control_budget_code.should eql "DEL"
     	end
 	end
+  describe "#segment_department_long_name" do
+      it "returns the correct segment_department_long_name" do
+          @oscar_data1.segment_department_long_name.should eql "Cabinet Office"
+      end
+  end
 	describe "#economic_category_long_name" do
     	it "returns the correct economic_category_long_name" do
         	@oscar_data1.economic_category_long_name.should eql "PAY (RECOVERY OF COSTS)"

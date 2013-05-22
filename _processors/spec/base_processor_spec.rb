@@ -2,7 +2,7 @@
 require_relative "../base_processor.rb"
 
 describe "BaseProcessor" do
-	before(:each) do
+	before(:all) do
 		@processor = BaseProcessor.new
 	end
 
