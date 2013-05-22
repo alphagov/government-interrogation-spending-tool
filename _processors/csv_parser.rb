@@ -14,6 +14,10 @@ class CsvParser
     numeric_string.to_f
   end
 
+  def filter_row(row)
+    false
+  end
+
   def parse_row(row)
     row.join(",")
   end
@@ -32,7 +36,7 @@ class CsvParser
     CSV.foreach(file_full_path, { :encoding => "iso-8859-1:utf-8" }) do |row|
       begin
         if row_index > 0
-          parsed_rows << self.parse_row(row)
+          parsed_rows << self.parse_row(row) if !self.filter_row(row)
           parsed_count += 1
         end
       rescue Exception => e

@@ -8,6 +8,19 @@ class QdsCsvParser < CsvParser
     "_processors/logs/QdsCsvParser.log"
   end
 
+  def filter_row(row)
+    # Scope must be 'Core'
+    return true if !row[1].downcase.include? 'core'
+    # Return period must be 'Current Quarter'
+    return true if !row[3].downcase.include? 'current quarter'
+    # Main Data Type  must be 'Spending Data'
+    return true if !row[4].downcase.include? 'spending data'
+    # Data Period  must be 'Actual'
+    return true if !row[8].downcase.include? 'actual'
+
+    false
+  end
+
 	def parse_row(row)
     raise ArgumentError, "Too few rows", caller if row.length < 11
 

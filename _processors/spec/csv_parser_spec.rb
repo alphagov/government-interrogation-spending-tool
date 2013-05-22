@@ -26,6 +26,12 @@ describe "CsvParser" do
     end
   end
 
+  describe "#filter_row" do
+    it "returns false" do
+      @csv_parser.filter_row(["1"]).should be_false
+    end
+  end
+
   describe "#parse_row" do
     it "takes a row object and returns a string" do
       @csv_parser.parse_row(['1','2']).should eq "1,2"

@@ -7,6 +7,7 @@ describe "QdsCsvParser" do
     @csv_parser = QdsCsvParser.new
     @log_file_path = "_processors/logs/QdsCsvParser.log"
     @sample_file_full_path = "_processors/spec/test_data/test_qds_sample.csv"
+    @sample_row = ["TOY", "TOY - Core", "Quarter 2 - 2012/13", "Current Quarter", "Spending Data", "Spend by Budget Type", "Top Total", "Top Total", "Actual", "105", "A note 1"]
   end
 
   describe "#new" do
@@ -21,9 +22,46 @@ describe "QdsCsvParser" do
     end
   end
 
+  describe "#filter_row" do
+    it "return false for valid row" do
+      @csv_parser.filter_row(@sample_row).should be_false
+    end
+
+    it "returns true for rows with Scope not core" do
+      not_core_row = @sample_row.clone
+      not_core_row[1] = "DVLA"
+      @csv_parser.filter_row(not_core_row).should be_true
+    end
+
+    it "returns true for rows with Return Period not 'Current Quarter'" do
+      not_current_quarter_row1 = @sample_row.clone
+      not_current_quarter_row1[3] = "Year To Date"
+
+      not_current_quarter_row2 = @sample_row.clone
+      not_current_quarter_row2[3] = "Full Year Forecast"
+
+      @csv_parser.filter_row(not_current_quarter_row1).should be_true
+      @csv_parser.filter_row(not_current_quarter_row2).should be_true
+    end
+
+    it "return true for rows with Main Data Type not 'Spending Data'" do
+      not_spending_data_row = @sample_row.clone
+      not_spending_data_row[4] = "Performance Indicators"
+
+      @csv_parser.filter_row(not_spending_data_row).should be_true
+    end
+
+    it "return true for rows with Data Period not 'Actual'" do
+      not_actual_row = @sample_row.clone
+      not_actual_row[8] = "Target"
+
+      @csv_parser.filter_row(not_actual_row).should be_true
+    end
+
+  end
+
   describe "#parse_row" do
     before(:all) do
-      @sample_row = ["TOY", "TOY - Core", "Quarter 2 - 2012/13", "Current Quarter", "Spending Data", "Spend by Budget Type", "Top Total", "Top Total", "Actual", "105", "A note 1"]
       @parse_row_result = @csv_parser.parse_row(@sample_row)
     end
     
