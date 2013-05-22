@@ -108,7 +108,7 @@ describe "QdsCsvParser" do
     end
   
     it "returns an array of parsed rows" do
-      @parse_file_results.should have_at_least(1).items
+      @parse_file_results.should have(4).items
       @parse_file_results[0].should be_an_instance_of QdsData
     end
   end

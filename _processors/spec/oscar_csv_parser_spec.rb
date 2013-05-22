@@ -94,7 +94,8 @@ describe "OscarCsvParser" do
     end
   
     it "returns an array of parsed rows" do
-      @parse_file_results.should have_at_least(1).items
+      puts "@parse_file_results.length : #{@parse_file_results.length}"
+      @parse_file_results.should have(16).items
       @parse_file_results[0].should be_an_instance_of OscarData
     end
   end
