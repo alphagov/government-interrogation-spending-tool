@@ -18,6 +18,13 @@ class CsvParser
     false
   end
 
+  def is_numeric_string_empty_or_zero(numeric_string)
+    return true if numeric_string.empty?
+    return true if self.parse_value(numeric_string) == 0.0
+
+    false
+  end
+
   def parse_row(row)
     row.join(",")
   end

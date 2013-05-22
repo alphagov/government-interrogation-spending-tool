@@ -9,8 +9,8 @@ class QdsCsvParser < CsvParser
   end
 
   def filter_row(row)
-    # Value  must be set
-    return true if row[9].empty?
+    # Value must be set
+    return true if self.is_numeric_string_empty_or_zero(row[9])
     # Scope must be 'Core'
     return true if !row[1].downcase.include? 'core'
     # Return period must be 'Current Quarter'

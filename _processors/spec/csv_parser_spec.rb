@@ -26,6 +26,20 @@ describe "CsvParser" do
     end
   end
 
+  describe "#is_numeric_string_empty_or_zero" do
+    it "takes a numeric string and returns true if empty" do
+      @csv_parser.is_numeric_string_empty_or_zero("").should be_true
+    end
+    
+    it "takes a numeric_string and returns true if zero" do
+      @csv_parser.is_numeric_string_empty_or_zero("0").should be_true
+    end
+
+    it "takes a numeric_string and returns false if non-zero" do
+      @csv_parser.is_numeric_string_empty_or_zero("11.0").should be_false
+    end
+  end
+
   describe "#filter_row" do
     it "returns false" do
       @csv_parser.filter_row(["1"]).should be_false

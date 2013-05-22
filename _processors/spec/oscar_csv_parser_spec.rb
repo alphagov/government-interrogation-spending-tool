@@ -7,6 +7,24 @@ describe "OscarCsvParser" do
     @csv_parser = OscarCsvParser.new
     @log_file_path = "_processors/logs/OscarCsvParser.log"
     @sample_file_full_path = "_processors/spec/test_data/test_oscar_sample.csv"
+    @sample_row = [
+      "TST010", 
+      "TEST OFFICE", 
+      "DEL", 
+      "DEL ADMIN", 
+      "Test Office", 
+      "X010CR01", 
+      "X010CR01-POLITICAL AND CONSTITUTIONAL REFORM VOTED DEL ADMIN", 
+      "A101", 
+      "PAY", 
+      "RESOURCE", 
+      "STAFF COSTS", 
+      "Staff costs", 
+      "RETURN10_FEB", 
+      "2012-13", 
+      "Qtr3 - 12-13", 
+      "Dec-12", 
+      "275"]
   end
 
   describe "#new" do
@@ -21,26 +39,26 @@ describe "OscarCsvParser" do
     end
   end
 
+  describe "#filter_row" do
+    it "return false for valid row" do
+      @csv_parser.filter_row(@sample_row).should be_false
+    end
+
+    it "returns true for rows with no value" do
+      no_value_row = @sample_row.clone
+      no_value_row[16] = ""
+      @csv_parser.filter_row(no_value_row).should be_true
+    end
+    
+    it "returns true for rows with zero value" do
+      zero_value_row = @sample_row.clone
+      zero_value_row[16] = "0"
+      @csv_parser.filter_row(zero_value_row).should be_true
+    end
+  end
+
   describe "#parse_row" do
     before(:all) do
-      @sample_row = [
-        "TST010", 
-        "TEST OFFICE", 
-        "DEL", 
-        "DEL ADMIN", 
-        "Test Office", 
-        "X010CR01", 
-        "X010CR01-POLITICAL AND CONSTITUTIONAL REFORM VOTED DEL ADMIN", 
-        "A101", 
-        "PAY", 
-        "RESOURCE", 
-        "STAFF COSTS", 
-        "Staff costs", 
-        "RETURN10_FEB", 
-        "2012-13", 
-        "Qtr3 - 12-13", 
-        "Dec-12", 
-        "275"]
       @parse_row_result = @csv_parser.parse_row(@sample_row)
     end
     

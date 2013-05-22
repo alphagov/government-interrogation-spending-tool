@@ -8,6 +8,13 @@ class OscarCsvParser < CsvParser
     "_processors/logs/OscarCsvParser.log"
   end
 
+  def filter_row(row)
+    # Value must be set
+    return true if self.is_numeric_string_empty_or_zero(row[16])
+
+    false
+  end
+
   def parse_row(row)
     raise ArgumentError, "Too few rows", caller if row.length < 17
 
