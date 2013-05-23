@@ -18,9 +18,20 @@ class TablePageGenerator
 
   def generate_from_root_node(root_table_page_node)
     delete_existing_files
+    generate_for_nodes(root_table_page_node)
+  end
+
+  def generate_for_nodes(table_page_node)
+    generate_for_node(table_page_node)
+
+    if !table_page_node.children.nil?
+      table_page_node.children.each { |node| generate_for_nodes(node) }
+    end
   end
 
   def generate_for_node(table_page_node, parent_slug_list=[])
+    return if table_page_node.children.empty?
+
     parent_dir_path = parent_slug_list.empty? ? @root_directory_path : "#{@root_directory_path}/#{parent_slug_list.join('/')}"
     node_dir_path = table_page_node.slug.empty? ? parent_dir_path : "#{parent_dir_path}/#{table_page_node.slug}"
     file_path = "#{node_dir_path}/#{INDEX_FILE_NAME}"
