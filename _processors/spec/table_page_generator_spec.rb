@@ -75,12 +75,19 @@ describe "TablePageGenerator" do
   end
 
   describe "generate_for_node" do
+    before :each do
+      @test_content = "test"
+      @page_generator.stub(:generate_content).and_return(@test_content)
+    end
+
     context "node with children" do
-      before :each do
+      it "creates an index.html file for the node containing test content" do
+        @page_generator.should_receive(:generate_content).with(@root_node).once
         @page_generator.generate_for_node(@root_node)
-      end
-      it "creates an index.html file for the node" do
-        File.exists?("#{@root_directory_path}/index.html").should be_true
+        index_file = "#{@root_directory_path}/index.html"
+
+        File.exists?(index_file).should be_true
+        File.read(index_file).should eq (@test_content)
       end
     end
 
@@ -92,7 +99,14 @@ describe "TablePageGenerator" do
     end
 
     context "node under parent slug" do
-
+      it "creates an index.html file under the parent slug directory" do
+        @page_generator.generate_for_node(@root_node, ['toy'])
+        File.exists?("#{@root_directory_path}/toy/index.html").should be_true
+      end
+      it "creates an index.html file under the parent slug directory and own slug" do
+        @page_generator.generate_for_node(@child_node_not_empty, ['test'])
+        File.exists?("#{@root_directory_path}/test/toy/index.html").should be_true
+      end
     end
 
     after :each do

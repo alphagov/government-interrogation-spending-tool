@@ -40,8 +40,14 @@ class TablePageGenerator
     Dir::mkdir(parent_dir_path) unless File.exists?(parent_dir_path)
     Dir::mkdir(node_dir_path) unless File.exists?(node_dir_path)
 
-    content = @table_page_template_content.clone
+    content = generate_content(table_page_node)
 
     File.open(file_path, 'w') {|f| f.write(content) }
+  end
+
+  def generate_content(table_page_node)
+    content = @table_page_template_content.clone
+
+    "<table></table>"
   end
 end
