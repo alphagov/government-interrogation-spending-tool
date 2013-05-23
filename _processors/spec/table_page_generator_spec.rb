@@ -1,5 +1,6 @@
 # encoding: utf-8
 require_relative "../table_page_generator.rb"
+require_relative "../model/table_page_node.rb"
 
 describe "TablePageGenerator" do
   before(:all) do
@@ -54,6 +55,24 @@ describe "TablePageGenerator" do
       File.exists?(@dir_dir_w_contents).should be_false
 
       File.exists?(@dir_dir_file).should be_false
+    end
+  end
+
+  describe "generate_for_node" do
+    before :all do
+      @child_node1 = TablePageNode.new("toy", "Toy", 100.0, [])
+      @child_node2 = TablePageNode.new("test", "Test", 200.0, [])
+      @root_node = TablePageNode.new("", "All Departments", 300.0, [@child_node1, @child_node2])
+
+      @page_generator.generate_for_node(@root_node)
+    end
+
+    it "creates an index.html file for the node" do
+      File.exists?("#{@root_directory_path}/index.html").should be_true
+    end
+
+    after :all do
+      FileUtils.rm_rf Dir.glob("#{@root_directory_path}/*"), :secure => true
     end
   end
 
