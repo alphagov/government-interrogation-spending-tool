@@ -8,22 +8,22 @@ describe "OscarCsvParser" do
     @log_file_path = "_processors/logs/OscarCsvParser.log"
     @sample_file_full_path = "_processors/spec/test_data/test_oscar_sample.csv"
     @sample_row = [
-      "TST010", 
-      "TEST OFFICE", 
-      "DEL", 
-      "DEL ADMIN", 
-      "Test Office", 
-      "X010CR01", 
-      "X010CR01-POLITICAL AND CONSTITUTIONAL REFORM VOTED DEL ADMIN", 
-      "A101", 
-      "PAY", 
-      "RESOURCE", 
-      "STAFF COSTS", 
-      "Staff costs", 
-      "RETURN10_FEB", 
-      "2012-13", 
-      "Qtr3 - 12-13", 
-      "Dec-12", 
+      "TST010",
+      "TEST OFFICE",
+      "DEL",
+      "DEL ADMIN",
+      "Test Office",
+      "X010CR01",
+      "X010CR01-POLITICAL AND CONSTITUTIONAL REFORM VOTED DEL ADMIN",
+      "A101",
+      "PAY",
+      "RESOURCE",
+      "STAFF COSTS",
+      "Staff costs",
+      "RETURN10_FEB",
+      "2012-13",
+      "Qtr3 - 12-13",
+      "Dec-12",
       "275"]
   end
 
@@ -49,7 +49,7 @@ describe "OscarCsvParser" do
       no_value_row[16] = ""
       @csv_parser.filter_row(no_value_row).should be_true
     end
-    
+
     it "returns true for rows with zero value" do
       zero_value_row = @sample_row.clone
       zero_value_row[16] = "0"
@@ -61,10 +61,10 @@ describe "OscarCsvParser" do
     before(:all) do
       @parse_row_result = @csv_parser.parse_row(@sample_row)
     end
-    
+
     it "raises ArgumentError if row has less than 17 rows" do
-      expect { 
-          @csv_parser.parse_row((1..16).to_a.collect{ |i| i.to_s }) 
+      expect {
+          @csv_parser.parse_row((1..16).to_a.collect{ |i| i.to_s })
       }.to raise_error(ArgumentError)
     end
 
@@ -87,14 +87,13 @@ describe "OscarCsvParser" do
     before(:all) do
       @parse_file_results = @csv_parser.parse_file(@sample_file_full_path)
     end
-  
+
     it "creates a log file containing logging messages" do
       File.exist?(@log_file_path).should be_true
       File.readlines(@log_file_path).grep(/Finished parsing/).any?.should be_true
     end
-  
+
     it "returns an array of parsed rows" do
-      puts "@parse_file_results.length : #{@parse_file_results.length}"
       @parse_file_results.should have(16).items
       @parse_file_results[0].should be_an_instance_of OscarData
     end
