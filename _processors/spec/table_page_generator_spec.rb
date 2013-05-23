@@ -91,6 +91,10 @@ describe "TablePageGenerator" do
       end
     end
 
+    context "node under parent slug" do
+
+    end
+
     after :each do
       FileUtils.rm_rf Dir.glob("#{@root_directory_path}/*"), :secure => true
     end
@@ -109,12 +113,12 @@ describe "TablePageGenerator" do
         @page_generator.generate_from_root_node(@root_node_with_two_levels)
       end
 
-      it "calls generate_for_node for each node" do
-        @page_generator.should_receive(:generate_for_node).with(@root_node_with_two_levels).once
-        @page_generator.should_receive(:generate_for_node).with(@child_node_empty).once
-        @page_generator.should_receive(:generate_for_node).with(@child_node_not_empty).once
-        @page_generator.should_receive(:generate_for_node).with(@leaf_node1).once
-        @page_generator.should_receive(:generate_for_node).with(@leaf_node2).once
+      it "calls generate_for_node for each node passing parent slug path" do
+        @page_generator.should_receive(:generate_for_node).with(@root_node_with_two_levels, []).once
+        @page_generator.should_receive(:generate_for_node).with(@child_node_empty, []).once
+        @page_generator.should_receive(:generate_for_node).with(@child_node_not_empty, []).once
+        @page_generator.should_receive(:generate_for_node).with(@leaf_node1, ["toy"]).once
+        @page_generator.should_receive(:generate_for_node).with(@leaf_node2, ["toy"]).once
 
         @page_generator.generate_from_root_node(@root_node_with_two_levels)
       end

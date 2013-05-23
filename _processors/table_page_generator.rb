@@ -21,11 +21,12 @@ class TablePageGenerator
     generate_for_nodes(root_table_page_node)
   end
 
-  def generate_for_nodes(table_page_node)
-    generate_for_node(table_page_node)
+  def generate_for_nodes(table_page_node, parent_slug_list=[])
+    generate_for_node(table_page_node, parent_slug_list)
 
     if !table_page_node.children.nil?
-      table_page_node.children.each { |node| generate_for_nodes(node) }
+      slug_list = table_page_node.slug.empty? ? parent_slug_list : parent_slug_list + [table_page_node.slug]
+      table_page_node.children.each { |node| generate_for_nodes(node, slug_list) }
     end
   end
 
