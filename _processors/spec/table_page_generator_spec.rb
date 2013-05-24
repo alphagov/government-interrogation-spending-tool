@@ -139,4 +139,17 @@ describe "TablePageGenerator" do
     end
   end
 
+  describe "generate_content" do
+    context "node with two children, both empty" do
+      before :each do
+        @content = @page_generator.generate_content(@root_node)
+      end
+      it "should return a string containing a table with two rows" do
+        @content.should match /<table.*<tr.*<\/tr>.*<tr.*<\/tr>.*<\/table>/m
+        @content.should match /Test/
+        @content.should match /Toy/
+      end
+    end
+  end
+
 end
