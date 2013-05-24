@@ -70,6 +70,13 @@ describe "QdsCsvParser" do
       @csv_parser.filter_row(top_total_row).should be_true
     end
 
+    it "return true for rows with Data Headline 'Total Spend'" do
+      total_spend_row = @sample_row.clone
+      total_spend_row[6] = "Total Spend"
+
+      @csv_parser.filter_row(total_spend_row).should be_true
+    end
+
     it "return true for rows with Data Sub Type containing 'Sub-Total'" do
       sub_total_row = @sample_row.clone
       sub_total_row[7] = "Organisation's Own Budget (DEL), Sub-Total"

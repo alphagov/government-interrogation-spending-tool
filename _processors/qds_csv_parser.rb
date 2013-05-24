@@ -19,6 +19,8 @@ class QdsCsvParser < CsvParser
     return true if !row[4].downcase.include? 'spending data'
     # Data Headline must not be 'Top Total'
     return true if row[6].downcase.include? 'top total'
+    # Data Headline must not be 'Total Spend'
+    return true if row[6].downcase.include? 'total spend'
     # Data Sub Type must not contain 'Sub-Total'
     return true if row[7].downcase.include? 'sub-total'
     # Data Period  must be 'Actual'
