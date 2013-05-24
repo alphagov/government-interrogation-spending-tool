@@ -7,7 +7,7 @@ class TablePageNode
                 :total,
                 :children
 
-  def initialize slug, title, total, children
+  def initialize slug, title, total, children = []
       @slug = slug
       @title = title
       @total = total
