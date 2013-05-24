@@ -50,7 +50,12 @@ class TablePageGenerator
 
   def generate_content(table_page_node)
     rows = []
-    table_page_node.children.each { |node| rows << "<tr><td>#{node.title}</td><td>#{node.total}</td></tr>" }
+    table_page_node.children.each do |node|
+      row_title = node.has_children ? "<a href='#{node.slug}'>#{node.title}</a>" : node.title
+      row = "<tr><td>#{row_title}</td><td>#{node.total}</td></tr>"
+      rows << row
+    end
+
     table_rows = rows.join("\n")
 
     content = @table_page_template_content.clone
