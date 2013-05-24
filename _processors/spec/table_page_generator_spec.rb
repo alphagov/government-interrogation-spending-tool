@@ -144,10 +144,15 @@ describe "TablePageGenerator" do
       before :each do
         @content = @page_generator.generate_content(@root_node)
       end
-      it "should return a string containing a table with two rows" do
-        @content.should match /<table.*<tr.*<\/tr>.*<tr.*<\/tr>.*<\/table>/m
+      it "should return a string containing two rows" do
         @content.should match /<td.*>.*Toy.*<\/td><td.*>.*100.0.*<\/td>/m
         @content.should match /<td.*>.*Test.*<\/td><td.*>.*200.0.*<\/td>/m
+      end
+      it "should set the page variable 'header-title'" do
+        @content.should match /header-title: All Departments/
+      end
+      it "should set the page variable 'total'" do
+        @content.should match /total: £300.0/
       end
     end
   end
