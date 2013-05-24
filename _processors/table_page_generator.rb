@@ -48,7 +48,7 @@ class TablePageGenerator
 
   def generate_content(table_page_node)
     rows = []
-    table_page_node.children.each { |node| rows << "<tr><td>#{node.title}</td>td>#{node.total}</td></tr>" }
+    table_page_node.children.each { |node| rows << "<tr><td>#{node.title}</td><td>#{node.total}</td></tr>" }
     table_rows = rows.join("\n")
 
     @table_page_template_content.sub(TABLE_PAGE_TEMPLATE_REPLACE_TAG, table_rows)

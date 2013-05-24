@@ -146,8 +146,8 @@ describe "TablePageGenerator" do
       end
       it "should return a string containing a table with two rows" do
         @content.should match /<table.*<tr.*<\/tr>.*<tr.*<\/tr>.*<\/table>/m
-        @content.should match /Test/
-        @content.should match /Toy/
+        @content.should match /<td.*>.*Toy.*<\/td><td.*>.*100.0.*<\/td>/m
+        @content.should match /<td.*>.*Test.*<\/td><td.*>.*200.0.*<\/td>/m
       end
     end
   end
