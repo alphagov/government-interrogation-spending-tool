@@ -1,16 +1,22 @@
 # encoding: utf-8
-require_relative "../model/table_page_node.rb"
+require_relative "../../model/table_page_node.rb"
 
 describe "TablePageNode" do
   before :all do
-    @child_node1 = TablePageNode.new("toy", "Toy", 100.0, [])
-    @child_node2 = TablePageNode.new("test", "Test", 200.0, [])
-    @root_node = TablePageNode.new("", "All Departments", 300.0, [@child_node1, @child_node2])
+    @child_node1 = TablePageNode.new("Toy", 100.0)
+    @child_node2 = TablePageNode.new("Test", 200.0)
+    @root_node = TablePageNode.new("All Departments", 300.0, [@child_node1, @child_node2], "")
   end
 
   describe "#new" do
+    it "takes 2 parameters and returns a TablePageNode object" do
+      TablePageNode.new("Toy", 100.0).should be_an_instance_of TablePageNode
+    end
+    it "takes 3 parameters and returns a TablePageNode object" do
+      TablePageNode.new("Toy", 100.0, [@child_node1, @child_node2]).should be_an_instance_of TablePageNode
+    end
     it "takes 4 parameters and returns a TablePageNode object" do
-      @child_node1.should be_an_instance_of TablePageNode
+      @root_node.should be_an_instance_of TablePageNode
     end
   end
 

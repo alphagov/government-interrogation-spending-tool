@@ -47,20 +47,17 @@ class QdsProcessor < BaseProcessor
               data_headline_total += s.value
               data_headline_children << TablePageNode.new(
                 s.data_sub_type,
-                s.data_sub_type,
                 s.value)
             end
 
             section_total += data_headline_total
             section_children << TablePageNode.new(
               data_headline,
-              data_headline,
               data_headline_total,
               data_headline_children)
           end
 
           parent_department_children << TablePageNode.new(
-            section,
             section,
             section_total,
             section_children)
@@ -71,19 +68,17 @@ class QdsProcessor < BaseProcessor
         report_date_total += parent_department_total
         report_date_children << TablePageNode.new(
           parent_department,
-          parent_department,
           parent_department_total,
           parent_department_children)
       end
 
       root_children << TablePageNode.new(
-        report_date,
         "All Departments",
         report_date_total,
-        report_date_children
-      )
+        report_date_children,
+        report_date)
     end
 
-    root = TablePageNode.new("","All Departments", 0.0, root_children)
+    root = TablePageNode.new("All Departments", 0.0, root_children, "")
   end
 end

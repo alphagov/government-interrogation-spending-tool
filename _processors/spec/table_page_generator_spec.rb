@@ -7,17 +7,17 @@ describe "TablePageGenerator" do
     @root_directory_path = "_processors/spec/test_pages"
     @page_generator = TablePageGenerator.new(@root_directory_path)
 
-    @child_node1 = TablePageNode.new("toy", "Toy", 100.0, [])
-    @child_node2 = TablePageNode.new("test", "Test", 200.0, [])
-    @root_node = TablePageNode.new("", "All Departments", 300.0, [@child_node1, @child_node2])
+    @child_node1 = TablePageNode.new("Toy", 100.0)
+    @child_node2 = TablePageNode.new("Test", 200.0)
+    @root_node = TablePageNode.new("All Departments", 300.0, [@child_node1, @child_node2], "")
 
-    @empty_node = TablePageNode.new("empty", "Empty", 100.0, [])
+    @empty_node = TablePageNode.new("Empty", 100.0)
 
-    @leaf_node1 = TablePageNode.new("toy1", "Toy 1", 100.0, [])
-    @leaf_node2 = TablePageNode.new("toy2", "Toy 2", 200.0, [])
-    @child_node_not_empty = TablePageNode.new("toy", "Toy", 100.0, [@leaf_node1, @leaf_node2])
-    @child_node_empty = TablePageNode.new("empty", "Empty", 200.0, [])
-    @root_node_with_two_levels = TablePageNode.new("", "All Departments", 300.0, [@child_node_empty, @child_node_not_empty])
+    @leaf_node1 = TablePageNode.new("Toy 1", 100.0)
+    @leaf_node2 = TablePageNode.new("Toy 2", 200.0)
+    @child_node_not_empty = TablePageNode.new("Toy", 100.0, [@leaf_node1, @leaf_node2])
+    @child_node_empty = TablePageNode.new("Empty", 200.0)
+    @root_node_with_two_levels = TablePageNode.new("All Departments", 300.0, [@child_node_empty, @child_node_not_empty], "")
   end
 
   describe "#new" do
