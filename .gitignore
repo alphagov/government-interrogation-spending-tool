@@ -3,6 +3,7 @@
 Gemfile.lock
 
 _site
+.~lock*
 
 # OSX flob
 .DS_Store
