@@ -15,4 +15,11 @@ describe "QdsProcessor" do
       @processor.csv_parser.should be_an_instance_of QdsCsvParser
     end
   end
+
+  describe "page_generator" do
+    it "should return a TablePageGenerator with qds path" do
+      @processor.page_generator.should be_an_instance_of TablePageGenerator
+      @processor.page_generator.root_directory_path.should eq "qds"
+    end
+  end
 end

@@ -1,17 +1,22 @@
 # encoding: utf-8
-require_relative "csv_parser.rb"
 
 class BaseProcessor
 
-  def initialize
-    @csv_parser = CsvParser.new
-  end
-
   def csv_parser
-    @csv_parser
+    raise "this method should be overridden and return a csv parser"
   end
 
-	def process(filename)
-    puts "processing file: #{filename}"
+  def page_generator
+    raise "this method should be overridden and return a page generator"
+  end
+
+  def generate_root_node(data_objects)
+    raise "this method should be overridden and return the root node and children for the data objects"
+  end
+
+	def process(file_full_path)
+    data_objects = csv_parser.parse_file(file_full_path)
+    root_node = generate_root_node(data_objects)
+    page_generator.generate_from_root_node(root_node)
 	end
 end
