@@ -26,3 +26,16 @@ Or use files stored in _processor/data
 
 Run Jekyll to generate the static html for the site:
 > jekyll build
+
+## Deploying the application to Amazon S3
+
+This project includes scripts to automatically deploy to Amazon S3 using
+the [jekyll-s3 gem](https://github.com/laurilehmijoki/jekyll-s3).
+
+First generate the *\_jekyll\_s3.yml* config file:
+> jekyll-s3
+
+Fill in the details for your S3 bucket in the config file.
+
+To deploy run:
+> ./deploy_to_s3.sh

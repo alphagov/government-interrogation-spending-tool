@@ -4,6 +4,7 @@ Gemfile.lock
 
 _site
 .~lock*
+_jekyll_s3.yml
 
 # OSX flob
 .DS_Store
