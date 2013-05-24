@@ -24,6 +24,14 @@ describe "TablePageNode" do
     it "returns the slug" do
       @child_node1.slug.should eq "toy"
     end
+
+    it "should use slug if slug is provided" do
+      TablePageNode.new("Toy", 100.0, [], "Different String").slug.should eq "different-string"
+    end
+
+    it "should use title if slug is not provided" do
+      TablePageNode.new("Cost's Title 123", 100.0).slug.should eq "costs-title-123"
+    end
   end
   describe "#title" do
     it "returns the title" do
