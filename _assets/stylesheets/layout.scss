@@ -54,11 +54,15 @@ header {
 @media (max-width: 640px) {
   #content {
     padding: 1em;
-    
+
     .col-50 {
         width:100%;
         float:none;
         margin-left:0;
     }
   }
+}
+
+#data-table {
+  width: 100%;
 }

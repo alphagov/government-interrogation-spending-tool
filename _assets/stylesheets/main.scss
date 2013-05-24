@@ -10,12 +10,16 @@ $primary-colour-text: darken($primary-colour, 7%);
 
 /*layout overrides*/
 footer#footer div.footer-wrapper {
-    padding:0;
+  padding:0;
 }
 footer#footer div.footer-wrapper div.footer-meta {
-    border:none;
-    margin:0;
+  border:none;
+  margin:0;
 }
 footer#footer .footer-meta .copyright a {
-    background: transparent url(/static/govuk-crest.png) no-repeat 50% 0;
+  background: transparent url(/static/govuk-crest.png) no-repeat 50% 0;
+}
+article .form-download {
+  margin: 1em 1em 1.5em -1em;
+  background: url(/static/icon-file-download.png) no-repeat scroll 98% 1em #d5e8f3;
 }

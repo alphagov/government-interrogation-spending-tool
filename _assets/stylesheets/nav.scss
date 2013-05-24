@@ -1,16 +1,16 @@
 @import 'colours';
 
 nav {
-  
+
   &.performance-nav {
     max-width: 1020px;
     margin: auto;
     border-bottom: 5px solid black;
-    
+
     #menu-toggle {
         display: none;
         padding-bottom:6px;
-        
+
         &:after {
             display: inline-block;
             font-size: 8px;
@@ -21,20 +21,20 @@ nav {
             content: " \25BC";
         }
     }
-    
+
     a {
         color: #333;
         padding: 6px 8px 8px;
         text-decoration: none;
-        
+
         &:hover, &:focus {
           text-decoration: underline;
         }
     }
-    
+
     ul {
         padding: 0;
-        height: 30px;
+        height: 28px;
         margin-top:.7em;
         margin-bottom:0;
         margin-right:23px;
@@ -44,7 +44,7 @@ nav {
         padding: 0 0 0 5px;
         display: inline-block;
         float: right;
-        
+
         a.current {
             background-color: black;
             color: white;
@@ -55,17 +55,17 @@ nav {
         display: inline-block;
         padding: 0 33px 0 33px;
         float: left;
-        
+
         &:hover {
             text-decoration: none;
-            
+
             .top-level-link {
                 text-decoration: underline;
             }
         }
     }
   }
-  
+
   span.alpha-tag {
     text-transform: uppercase;
     color: white;
@@ -89,7 +89,7 @@ nav {
         height: auto;
         width: auto;
 
-        
+
         #menu-toggle {
             display: inline-block;
             float:right;
@@ -99,7 +99,7 @@ nav {
 
             width: auto;
         }
-        
+
         .inner-nav {
           min-height: 40px;
           ul {
@@ -107,7 +107,7 @@ nav {
               display:none;
           }
         }
-        
+
         .menu-wrapper:hover {
           #menu-toggle {
             background-color: $panel-colour;
@@ -115,15 +115,15 @@ nav {
                 content: " \25B2";
             }
           }
-          
+
           .inner-nav ul {
             display:block;
           }
         }
-        
+
         a {
             padding: 10px 8px 7px 8px;
-            
+
             &.top-level {
                 display: block;
                 float: left;
@@ -132,14 +132,14 @@ nav {
                 padding: 10px 8px 6px 15px;
             }
         }
-        
+
         .sub-level a {
             display: block;
             width: auto;
             padding-left: 8px;
             color: black;
         }
-        
+
         ul {
             display: block;
             height: auto;

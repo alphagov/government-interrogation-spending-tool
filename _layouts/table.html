@@ -1,0 +1,42 @@
+---
+layout: default
+---
+
+<header class="page-header group">
+  <hgroup>
+    <h2>{{ page.header-title }}</h2>
+  </hgroup>
+</header>
+
+<div class="group">
+  <article role="article" class="group">
+    <div id="chart">
+      <!--<img src="/chart" alt="">-->
+    </div>
+    <section class="content-group">
+      <table id="data-table">
+        <thead>
+          <tr>
+            <th scope="col">Department</th>
+            <th scope="col">Spend</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{ content }}
+        </tbody>
+        <thead>
+          <tr>
+            <th>Total</th>
+            <th>{{ page.total }}</th>
+          </tr>
+        </thead>
+      </table>
+
+      <div class="form-download">
+        <p>
+          <a href="/{{ page.url }}.csv">Download the full set of data (CSV)</a>
+        </p>
+      </div>
+    </section>
+  </article>
+</div>

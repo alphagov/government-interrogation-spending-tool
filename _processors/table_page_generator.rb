@@ -4,7 +4,9 @@ require "fileutils"
 class TablePageGenerator
 
   TABLE_PAGE_TEMPLATE_FILE_PATH = File.expand_path("#{File.dirname(__FILE__)}/templates/table_page.html")
-  TABLE_PAGE_TEMPLATE_REPLACE_TAG = "<!--TABLE_CONTENT-->"
+  TABLE_ROWS_REPLACE_TAG = "<!--TABLE_CONTENT-->"
+  TOTAL_REPLACE_TAG = "<!--TOTAL-->"
+  HEADER_TITLE_REPLACE_TAG = "<!--HEADER_TITLE-->"
   INDEX_FILE_NAME = "index.html"
 
   attr_accessor :root_directory_path
@@ -51,6 +53,11 @@ class TablePageGenerator
     table_page_node.children.each { |node| rows << "<tr><td>#{node.title}</td><td>#{node.total}</td></tr>" }
     table_rows = rows.join("\n")
 
-    @table_page_template_content.sub(TABLE_PAGE_TEMPLATE_REPLACE_TAG, table_rows)
+    content = @table_page_template_content.clone
+    content.sub!(TABLE_ROWS_REPLACE_TAG, table_rows)
+    content.sub!(TOTAL_REPLACE_TAG, "£#{table_page_node.total.to_s}")
+    content.sub!(HEADER_TITLE_REPLACE_TAG, table_page_node.title)
+
+    content
   end
 end
