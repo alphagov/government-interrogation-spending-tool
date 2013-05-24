@@ -9,4 +9,10 @@ describe "OscarProcessor" do
 	it "#new" do
 		@processor.should be_an_instance_of OscarProcessor
 	end
+
+  describe "csv_parser" do
+    it "should return a OscarCsvParser" do
+      @processor.csv_parser.should be_an_instance_of OscarCsvParser
+    end
+  end
 end
