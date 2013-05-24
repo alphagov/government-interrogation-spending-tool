@@ -12,4 +12,8 @@ class OscarData
         @month = month
         @amount = amount
     end
+
+    def to_s
+      "OSCAR - organisation = #{organisation}, control_budget_code = #{control_budget_code}, segment_department_long_name = #{segment_department_long_name}, economic_category_long_name = #{economic_category_long_name}, quarter = #{quarter}, month = #{month}, amount = #{amount}"
+    end
 end

@@ -53,4 +53,15 @@ describe "OscarData" do
         	@oscar_data1.amount.should eql 64
     	end
 	end
+  describe "to_s" do
+    it "return string version of object" do
+      @oscar_data1.to_s.include?(@oscar_data1.organisation).should be_true
+      @oscar_data1.to_s.include?(@oscar_data1.control_budget_code).should be_true
+      @oscar_data1.to_s.include?(@oscar_data1.segment_department_long_name).should be_true
+      @oscar_data1.to_s.include?(@oscar_data1.economic_category_long_name).should be_true
+      @oscar_data1.to_s.include?(@oscar_data1.quarter).should be_true
+      @oscar_data1.to_s.include?(@oscar_data1.month).should be_true
+      @oscar_data1.to_s.include?(@oscar_data1.amount.to_s).should be_true
+    end
+  end
 end

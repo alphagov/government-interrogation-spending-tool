@@ -5,8 +5,8 @@ describe QdsData do
 	before :all do
 		@qds_data1 = QdsData.new(
 			"FCO",
-			"Quarter 2 - 2012/13", 
-			"Spend by Budget Type", 
+			"Quarter 2 - 2012/13",
+			"Spend by Budget Type",
 			"Organisation's Own Budget (DEL)",
 			"Organisation's Own Budget (DEL), Sub-Total",
 			425.345)
@@ -47,4 +47,14 @@ describe QdsData do
         	@qds_data1.value.should eql 425.345
     	end
 	end
+  describe "to_s" do
+    it "return string version of object" do
+      @qds_data1.to_s.include?(@qds_data1.parent_department).should be_true
+      @qds_data1.to_s.include?(@qds_data1.report_date).should be_true
+      @qds_data1.to_s.include?(@qds_data1.section).should be_true
+      @qds_data1.to_s.include?(@qds_data1.data_headline).should be_true
+      @qds_data1.to_s.include?(@qds_data1.data_sub_type).should be_true
+      @qds_data1.to_s.include?(@qds_data1.value.to_s).should be_true
+    end
+  end
 end

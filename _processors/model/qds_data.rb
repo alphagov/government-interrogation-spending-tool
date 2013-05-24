@@ -11,4 +11,8 @@ class QdsData
         @data_sub_type = data_sub_type
         @value = value
     end
+
+    def to_s
+      "QDS - parent_department = #{parent_department}, report_date = #{report_date}, section = #{section}, data_headline = #{data_headline}, data_sub_type = #{data_sub_type}, value = #{value.to_s}"
+    end
 end
