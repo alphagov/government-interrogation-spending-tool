@@ -44,6 +44,36 @@ describe "QdsProcessor" do
     end
   end
 
+  describe "process" do
+    context "test_qds_sample.csv" do
+      it "should have generated the structure for the sample file" do
+        @processor.process("_processors/spec/test_data/test_qds_sample.csv")
+
+        File.exists?("qds/quarter-2-2012-13/index.html").should be_true
+        File.exists?("qds/quarter-2-2012-13/toy/index.html").should be_true
+        File.exists?("qds/quarter-2-2012-13/toy/spend-by-budget-type/index.html").should be_true
+        File.exists?("qds/quarter-2-2012-13/toy/spend-by-budget-type/organisations-own-budget-del/index.html").should be_true
+      end
+    end
+    context "test_qds.csv" do
+      it "should have generated the structure for the sample file" do
+        @processor.process("_processors/spec/test_data/test_qds.csv")
+
+        File.exists?("qds/quarter-2-2012-13/index.html").should be_true
+        File.exists?("qds/quarter-2-2012-13/toy/index.html").should be_true
+        File.exists?("qds/quarter-2-2012-13/yot/index.html").should be_true
+
+        File.exists?("qds/quarter-1-2012-13/index.html").should be_true
+        File.exists?("qds/quarter-1-2012-13/toy/index.html").should be_true
+        File.exists?("qds/quarter-1-2012-13/yot/index.html").should be_true
+      end
+    end
+
+    after(:each) do
+       FileUtils.rm_rf Dir.glob("qds/*"), :secure => true
+    end
+  end
+
   def get_qds_data_objects(report_date, num_of_parent_departments, num_of_sections, num_of_data_headlines, num_of_data_sub_types)
     data_objects = []
 
