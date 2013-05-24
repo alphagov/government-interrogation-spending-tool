@@ -58,4 +58,13 @@ describe "TablePageNode" do
       @root_node.has_children.should be_true
     end
   end
+
+  describe "to_s" do
+    it "returns a string version of node" do
+      s = @child_node1.to_s
+      s.include?(@child_node1.slug).should be_true
+      s.include?(@child_node1.title).should be_true
+      s.include?(@child_node1.total.to_s).should be_true
+    end
+  end
 end

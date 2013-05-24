@@ -29,4 +29,8 @@ class TablePageNode
   def has_children
     !children.nil? && !children.empty?
   end
+
+  def to_s
+    "TablePageNode: title = #{title}, total = #{total.to_s}, slug = #{slug}, children = #{children.to_s}"
+  end
 end
