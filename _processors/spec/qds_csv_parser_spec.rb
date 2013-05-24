@@ -7,7 +7,7 @@ describe "QdsCsvParser" do
     @csv_parser = QdsCsvParser.new
     @log_file_path = "_processors/logs/QdsCsvParser.log"
     @sample_file_full_path = "_processors/spec/test_data/test_qds_sample.csv"
-    @sample_row = ["TOY", "TOY - Core", "Quarter 2 - 2012/13", "Current Quarter", "Spending Data", "Spend by Budget Type", "Top Total", "Top Total", "Actual", "105", "A note 1"]
+    @sample_row = ["TOY", "TOY - Core", "Quarter 2 - 2012/13", "Current Quarter", "Spending Data", "Spend by Budget Type", "Organisation's Own Budget (DEL)", "Resource (excl. depreciation)", "Actual", "105", "A note 1"]
   end
 
   describe "#new" do
@@ -32,7 +32,7 @@ describe "QdsCsvParser" do
       no_value_row[9] = ""
       @csv_parser.filter_row(no_value_row).should be_true
     end
-    
+
     it "returns true for rows with zero value" do
       zero_value_row = @sample_row.clone
       zero_value_row[9] = "0"
@@ -63,6 +63,20 @@ describe "QdsCsvParser" do
       @csv_parser.filter_row(not_spending_data_row).should be_true
     end
 
+    it "return true for rows with Data Headline 'Top Total'" do
+      top_total_row = @sample_row.clone
+      top_total_row[6] = "Top Total"
+
+      @csv_parser.filter_row(top_total_row).should be_true
+    end
+
+    it "return true for rows with Data Sub Type containing 'Sub-Total'" do
+      sub_total_row = @sample_row.clone
+      sub_total_row[7] = "Organisation's Own Budget (DEL), Sub-Total"
+
+      @csv_parser.filter_row(sub_total_row).should be_true
+    end
+
     it "return true for rows with Data Period not 'Actual'" do
       not_actual_row = @sample_row.clone
       not_actual_row[8] = "Target"
@@ -76,9 +90,9 @@ describe "QdsCsvParser" do
     before(:all) do
       @parse_row_result = @csv_parser.parse_row(@sample_row)
     end
-    
+
     it "raises ArgumentError if row has less than 11 rows" do
-      expect { 
+      expect {
           @csv_parser.parse_row((1..10).to_a.collect{ |i| i.to_s })
       }.to raise_error(ArgumentError)
     end
@@ -91,8 +105,8 @@ describe "QdsCsvParser" do
       @parse_row_result.parent_department.should eq "TOY"
       @parse_row_result.report_date.should eq "Quarter 2 - 2012/13"
       @parse_row_result.section.should eq "Spend by Budget Type"
-      @parse_row_result.data_headline.should eq "Top Total"
-      @parse_row_result.data_sub_type.should eq "Top Total"
+      @parse_row_result.data_headline.should eq "Organisation's Own Budget (DEL)"
+      @parse_row_result.data_sub_type.should eq "Resource (excl. depreciation)"
       @parse_row_result.value.should eq 105
     end
   end
@@ -100,15 +114,15 @@ describe "QdsCsvParser" do
   describe "#parse_file" do
     before(:all) do
       @parse_file_results = @csv_parser.parse_file(@sample_file_full_path)
-    end 
-  
+    end
+
     it "creates a log file containing logging messages" do
       File.exist?(@log_file_path).should be_true
       File.readlines(@log_file_path).grep(/Finished parsing/).any?.should be_true
     end
-  
+
     it "returns an array of parsed rows" do
-      @parse_file_results.should have(4).items
+      @parse_file_results.should have(2).items
       @parse_file_results[0].should be_an_instance_of QdsData
     end
   end

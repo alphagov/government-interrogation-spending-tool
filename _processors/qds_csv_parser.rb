@@ -17,6 +17,10 @@ class QdsCsvParser < CsvParser
     return true if !row[3].downcase.include? 'current quarter'
     # Main Data Type  must be 'Spending Data'
     return true if !row[4].downcase.include? 'spending data'
+    # Data Headline must not be 'Top Total'
+    return true if row[6].downcase.include? 'top total'
+    # Data Sub Type must not contain 'Sub-Total'
+    return true if row[7].downcase.include? 'sub-total'
     # Data Period  must be 'Actual'
     return true if !row[8].downcase.include? 'actual'
 
