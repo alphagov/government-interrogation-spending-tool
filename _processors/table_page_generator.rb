@@ -50,7 +50,8 @@ class TablePageGenerator
 
   def generate_content(table_page_node)
     rows = []
-    table_page_node.children.each do |node|
+
+    table_page_node.children.sort { |a,b| b.total <=> a.total }.each do |node|
       row_title = node.has_children ? "<a href='#{node.slug}'>#{node.title}</a>" : node.title
       row = "<tr><td>#{row_title}</td><td>#{node.total}</td></tr>"
       rows << row

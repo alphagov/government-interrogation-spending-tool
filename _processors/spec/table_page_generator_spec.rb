@@ -155,6 +155,18 @@ describe "TablePageGenerator" do
         @content.should match /total: £300.0/
       end
     end
+
+    context "node with three children, all empty, not in order of value" do
+      it "should return rows in order of value" do
+        node1 = TablePageNode.new("Test1", -100.0)
+        node2 = TablePageNode.new("Test2", 100.0)
+        node3 = TablePageNode.new("Test3", 200.0)
+        root_node = TablePageNode.new("All", 200.0, [node1,node2,node3])
+
+        content = @page_generator.generate_content(root_node)
+        content.should match /Test3.*Test2.*Test1/m
+      end
+    end
   end
 
 end
