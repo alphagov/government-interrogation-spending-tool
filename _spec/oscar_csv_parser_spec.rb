@@ -1,12 +1,12 @@
 # encoding: utf-8
-require_relative "../oscar_csv_parser.rb"
-require_relative "../model/oscar_data.rb"
+require_relative "../_processors/oscar_csv_parser.rb"
+require_relative "../_processors/model/oscar_data.rb"
 
 describe "OscarCsvParser" do
   before(:all) do
     @csv_parser = OscarCsvParser.new
     @log_file_path = "_processors/logs/OscarCsvParser.log"
-    @sample_file_full_path = "_processors/spec/test_data/test_oscar_sample.csv"
+    @sample_file_full_path = "_spec/test_data/test_oscar_sample.csv"
     @sample_row = [
       "TST010",
       "TEST OFFICE",

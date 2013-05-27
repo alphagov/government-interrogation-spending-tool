@@ -1,5 +1,5 @@
 # encoding: utf-8
-require_relative "../../model/oscar_data.rb"
+require_relative "../../_processors/model/oscar_data.rb"
 
 describe "OscarData" do
 	before :all do

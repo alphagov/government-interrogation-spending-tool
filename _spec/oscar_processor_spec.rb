@@ -1,6 +1,6 @@
 # encoding: utf-8
-require_relative "../oscar_processor.rb"
-require_relative "../model/oscar_data.rb"
+require_relative "../_processors/oscar_processor.rb"
+require_relative "../_processors/model/oscar_data.rb"
 
 describe "OscarProcessor" do
 	before(:each) do
@@ -56,7 +56,7 @@ describe "OscarProcessor" do
   describe "process" do
     context "test_oscar_sample.csv" do
       it "should have generated the structure for the sample file" do
-        @processor.process("_processors/spec/test_data/test_oscar_sample.csv")
+        @processor.process("_spec/test_data/test_oscar_sample.csv")
 
         File.exists?("oscar/index.html").should be_true
         File.exists?("oscar/qtr2-12-13/index.html").should be_true
@@ -65,7 +65,7 @@ describe "OscarProcessor" do
 
     context "test_oscar.csv" do
       it "should have generated the structure for the sample file" do
-        @processor.process("_processors/spec/test_data/test_oscar.csv")
+        @processor.process("_spec/test_data/test_oscar.csv")
 
         File.exists?("oscar/index.html").should be_true
         File.exists?("oscar/qtr2-12-13/index.html").should be_true

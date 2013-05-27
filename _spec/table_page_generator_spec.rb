@@ -1,10 +1,10 @@
 # encoding: utf-8
-require_relative "../table_page_generator.rb"
-require_relative "../model/table_page_node.rb"
+require_relative "../_processors/table_page_generator.rb"
+require_relative "../_processors/model/table_page_node.rb"
 
 describe "TablePageGenerator" do
   before(:each) do
-    @root_directory_path = "_processors/spec/test_pages"
+    @root_directory_path = "_spec/test_pages"
     @page_generator = TablePageGenerator.new(@root_directory_path)
 
     @child_node1 = TablePageNode.new("Toy", 100.0)

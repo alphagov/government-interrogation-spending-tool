@@ -1,12 +1,12 @@
 # encoding: utf-8
-require_relative "../qds_csv_parser.rb"
-require_relative "../model/qds_data.rb"
+require_relative "../_processors/qds_csv_parser.rb"
+require_relative "../_processors/model/qds_data.rb"
 
 describe "QdsCsvParser" do
   before(:all) do
     @csv_parser = QdsCsvParser.new
     @log_file_path = "_processors/logs/QdsCsvParser.log"
-    @sample_file_full_path = "_processors/spec/test_data/test_qds_sample.csv"
+    @sample_file_full_path = "_spec/test_data/test_qds_sample.csv"
     @sample_row = ["TOY", "TOY - Core", "Quarter 2 - 2012/13", "Current Quarter", "Spending Data", "Spend by Budget Type", "Organisation's Own Budget (DEL)", "Resource (excl. depreciation)", "Actual", "105", "A note 1"]
   end
 

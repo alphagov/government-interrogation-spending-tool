@@ -1,5 +1,5 @@
 # encoding: utf-8
-require_relative "../../model/table_page_node.rb"
+require_relative "../../_processors/model/table_page_node.rb"
 
 describe "TablePageNode" do
   before :all do

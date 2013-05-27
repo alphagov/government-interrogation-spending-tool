@@ -1,5 +1,5 @@
 # encoding: utf-8
-require_relative "../../model/qds_data.rb"
+require_relative "../../_processors/model/qds_data.rb"
 
 describe QdsData do
 	before :all do

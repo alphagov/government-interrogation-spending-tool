@@ -1,5 +1,5 @@
 # encoding: utf-8
-require_relative "../base_processor.rb"
+require_relative "../_processors/base_processor.rb"
 
 describe "BaseProcessor" do
 	before(:each) do

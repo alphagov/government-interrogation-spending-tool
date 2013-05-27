@@ -1,5 +1,5 @@
 # encoding: utf-8
-require_relative "../qds_processor.rb"
+require_relative "../_processors/qds_processor.rb"
 
 describe "QdsProcessor" do
 
@@ -47,7 +47,7 @@ describe "QdsProcessor" do
   describe "process" do
     context "test_qds_sample.csv" do
       it "should have generated the structure for the sample file" do
-        @processor.process("_processors/spec/test_data/test_qds_sample.csv")
+        @processor.process("_spec/test_data/test_qds_sample.csv")
 
         File.exists?("qds/quarter-2-2012-13/index.html").should be_true
         File.exists?("qds/quarter-2-2012-13/toy/index.html").should be_true
@@ -57,7 +57,7 @@ describe "QdsProcessor" do
     end
     context "test_qds.csv" do
       it "should have generated the structure for the sample file" do
-        @processor.process("_processors/spec/test_data/test_qds.csv")
+        @processor.process("_spec/test_data/test_qds.csv")
 
         File.exists?("qds/quarter-2-2012-13/index.html").should be_true
         File.exists?("qds/quarter-2-2012-13/toy/index.html").should be_true
