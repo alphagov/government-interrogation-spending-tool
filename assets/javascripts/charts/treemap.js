@@ -5,6 +5,8 @@ gist.charts.treemap = gist.charts.treemap || (function() {
   var treemap_d3js = function treemap(_node, opts) {
     this.opts = $.extend({}, gist.charts.treemap.Widget.default_options, opts);
     this.node = _node;
+
+    this._init();
   };
 
   $.extend(treemap_d3js, {
