@@ -9,7 +9,6 @@ module Jekyll
         main_file_path = "./assets/stylesheets/main.css"
 
         # check that the file hasn't been generated recently to prevent chained auto regens
-        puts "check!:", (Time.now.to_i - File.mtime(main_file_path).to_i) < 3
         return nil if (Time.now.to_i - File.mtime(main_file_path).to_i) < 3
 
         t = Time.now.strftime("%Y-%m-%d %H:%M:%S");
