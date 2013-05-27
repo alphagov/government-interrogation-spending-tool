@@ -11,6 +11,9 @@
 #   - dist/**/*.js
 #
 src_files:
+    - static/libs/jquery/jquery-1.7.2.js
+    - assets/javascripts/d3.v3.min.js
+    - assets/javascripts/main.js
     - assets/javascripts/**/*.js
 
 # stylesheets
@@ -71,7 +74,7 @@ src_dir:
 #
 # spec_dir: spec/javascripts
 #
-spec_dir:
+spec_dir: '_spec/jasmine'
 
 # spec_helper
 #
@@ -83,6 +86,6 @@ spec_dir:
 #
 # spec_helper: spec/support/jasmine_helper.rb
 #
-spec_helper: assets/javascripts/_jasmine/support/jasmine_helper.rb
+spec_helper: _spec/jasmine/support/jasmine_helper.rb
 
 
