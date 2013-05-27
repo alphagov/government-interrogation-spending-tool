@@ -61,7 +61,7 @@ class TablePageGenerator
     content = @table_page_template_content.clone
     content.sub!(TABLE_ROWS_REPLACE_TAG, table_rows)
     content.sub!(TOTAL_REPLACE_TAG, "£#{table_page_node.total.to_s}")
-    content.sub!(HEADER_TITLE_REPLACE_TAG, table_page_node.title)
+    content.sub!(HEADER_TITLE_REPLACE_TAG, table_page_node.title.sub(':', ''))
 
     content
   end
