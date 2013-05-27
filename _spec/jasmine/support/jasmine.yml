@@ -41,7 +41,6 @@ stylesheets:
 #
 helpers:
   - 'helpers/jasmine-jquery.js'
-  - 'helpers/jasmine-jquery-config.js'
   - 'helpers/**/*.js'
 # spec_files
 #
