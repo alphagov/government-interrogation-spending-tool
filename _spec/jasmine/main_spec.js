@@ -21,6 +21,7 @@ describe("Util", function() {
         spyOn(util,'draw_tree_map');
         spyOn(util,'draw_barchart');
         spyOn(util,'draw_doughnut');
+        spyOn(util,'draw_chart_selector');
 
         util.load_visualisations();
       });
@@ -29,21 +30,25 @@ describe("Util", function() {
         expect(util.load_data_from_table).toHaveBeenCalled();
       });
 
-      it("should call draw against the treemap", function () {
+      it("should call draw for the treemap", function () {
         expect(util.draw_tree_map).toHaveBeenCalled();
       });
 
-      it("should call draw against the barchart", function () {
+      it("should call draw for the barchart", function () {
         expect(util.draw_barchart).toHaveBeenCalled();
       });
 
-      it("should call draw against the doughnut", function () {
+      it("should call draw for the doughnut", function () {
         expect(util.draw_doughnut).toHaveBeenCalled();
+      });
+
+      it("should call draw for the chart selector", function () {
+        expect(util.draw_chart_selector).toHaveBeenCalled();
       });
     });
   });
 
-  describe("load_visualisations", function () {
+  describe("load_from_table", function () {
 
     describe("when there is no data-table on page", function () {
       it("should return empty", function () {
@@ -68,6 +73,19 @@ describe("Util", function() {
         expect(table_data[1].total).toEqual("360")
         expect(table_data[1].url).toEqual("test-office")
       });
+    });
+  });
+
+  describe("draw_chart_selector", function () {
+    it("should insert a div into chart div above visualisation divs containing selector links", function () {
+      loadFixtures('visualisation-divs.html');
+      var selections = [
+        { id: "test1", label: "label1", title: "title1"},
+        { id: "test2", label: "label2", title: "title2"}];
+
+      util.draw_chart_selector("chart", selections);
+      expect($('div.chart-selector')).toExist();
+      expect($('a')).toExist();
     });
   });
 
