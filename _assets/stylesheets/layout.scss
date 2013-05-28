@@ -64,7 +64,12 @@ header.page-header {
   }
 }
 
-.dataset-selector a { text-decoration: none; }
+.dataset-selector a {
+  text-decoration: none;
+  h1 {
+    @include bold-48;
+  }
+}
 
 article {
   h2 {
