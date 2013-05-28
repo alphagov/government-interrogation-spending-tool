@@ -79,6 +79,6 @@ class QdsProcessor < BaseProcessor
         report_date)
     end
 
-    root = TablePageNode.new("All Departments", 0.0, root_children, "")
+    root = TablePageNode.new("All Quarters", 0.0, root_children, "")
   end
 end
