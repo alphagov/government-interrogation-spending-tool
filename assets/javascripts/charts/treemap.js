@@ -20,6 +20,28 @@ gist.charts.treemap = gist.charts.treemap || (function() {
   $.extend(treemap_d3js.prototype, {
     _init : function() {
       var that = this;
+
+      if (this.opts.auto_resize) {
+        $(window).on('resize', function() {
+          that._onWindowResize();
+        });
+      }
+    },
+
+    _onWindowResize : function() {
+      if ($(this.node).is(':visible') == false) {
+        return;
+      }
+
+      var that = this, jnode = $(this.node);
+
+      window.clearTimeout(this.timeout_id);
+      this.timeout_id = setTimeout(function() {
+        var width = jnode.innerWidth();
+        if (that.width != width) {
+          that.draw(width, that.height);
+        }
+      }, 50);
     },
 
     draw : function(w, h) {
@@ -29,7 +51,12 @@ gist.charts.treemap = gist.charts.treemap || (function() {
           width = w - margin.left - margin.right,
           height = h - margin.top - margin.bottom;
 
+      this.width = w;
+      this.height = h;
+
       if (this.opts.chart_data) {
+        $("#" + node_id).empty();
+
         var root = {
           name: "/",
           total: 0.0,
