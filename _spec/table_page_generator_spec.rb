@@ -155,7 +155,7 @@ describe "TablePageGenerator" do
         @content.should match /total: £300/
       end
       it "should set the page variable 'total-value'" do
-        @content.should match /total-value: 300.00/
+        @content.should match /total-value: 300/
       end
       it "should set the class for amounts" do
         @content.should match /class="amount"/
@@ -177,7 +177,7 @@ describe "TablePageGenerator" do
         @content.should match /-£1m/
       end
       it "should include a title tag in table cell with proper value to 2 decimal places" do
-        @content.should match /title="999100000.00"/
+        @content.should match /title="999100000"/
       end
     end
 
