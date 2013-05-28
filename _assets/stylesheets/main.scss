@@ -7,6 +7,7 @@ $primary-colour-text: darken($primary-colour, 7%);
 
 @import 'nav';
 @import 'layout';
+@import 'treemap';
 
 /*layout overrides*/
 footer#footer div.footer-wrapper {
@@ -19,7 +20,12 @@ footer#footer div.footer-wrapper div.footer-meta {
 footer#footer .footer-meta .copyright a {
   background: transparent url(/static/govuk-crest.png) no-repeat 50% 0;
 }
-article .form-download {
-  margin: 1em 1em 1.5em -1em;
+article {
+  table {
+    width: 100%;
+    margin: 1em 0em 2em 0em;
+  }
+  .form-download {
+  margin: 0;
   background: url(/static/icon-file-download.png) no-repeat scroll 98% 1em #d5e8f3;
 }
