@@ -148,6 +148,15 @@ describe "TablePageGenerator" do
         @content.should match /<td.*>.*Toy.*<\/td><td.*>.*100.*<\/td>/m
         @content.should match /<td.*>.*Test.*<\/td><td.*>.*200.*<\/td>/m
       end
+      it "should set the data attributes for the row" do
+        @content.should match /data-name="Toy"/
+        @content.should match /data-total="100"/
+
+        @content.should match /data-name="Test"/
+        @content.should match /data-total="200"/
+
+        @content.should_not match /data-url=/
+      end
       it "should set the page variable 'header-title'" do
         @content.should match /header-title: All Departments/
       end
@@ -159,6 +168,22 @@ describe "TablePageGenerator" do
       end
       it "should set the class for amounts" do
         @content.should match /class="amount"/
+      end
+    end
+
+    context "node with one child with a child" do
+      before :each do
+        node1 = TablePageNode.new("Test1", 100.0)
+        node2 = TablePageNode.new("Test2", 100.0, [node1])
+        root_node = TablePageNode.new("All", 0.0, [node2])
+
+        @content = @page_generator.generate_content(root_node)
+      end
+      it "should contain a data-url set" do
+        @content.should match /data-url="test2"/
+      end
+      it "should contain a link" do
+        @content.should match /<a href='test2'/
       end
     end
 

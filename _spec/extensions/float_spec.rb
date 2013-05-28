@@ -52,4 +52,16 @@ describe "Float" do
       -9049.0.to_sterling_magnitude_string.should eq "-£9k"
     end
   end
+
+  describe "to_attribute_format" do
+    it "should return 0 for 0.0" do
+      0.0.to_attribute_format.should eq "0"
+    end
+    it "should return 100 for 100.0" do
+      100.0.to_attribute_format.should eq "100"
+    end
+    it "should return 100 for 100.1" do
+      100.1.to_attribute_format.should eq "100"
+    end
+  end
 end

@@ -22,4 +22,8 @@ class Float < Numeric
     result = "£" + self.to_magnitude_string
     result.sub("£-", "-£")
   end
+
+  def to_attribute_format
+    sprintf('%.0f', self.to_f)
+  end
 end
