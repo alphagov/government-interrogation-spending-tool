@@ -39,15 +39,43 @@ header {
   }
 }
 
-.dataset-icon {
-  text-align: center;
-  text-decoration: none;
-  h2 {
-    @include bold-27;
+header.page-header {
+  hgroup {
+    h2 {
+      color: $grey-1;
+      @include core-24;
+    }
   }
-  img {
-    display: block;
-    margin: 0 auto;
+  hgroup.gist-image {
+    background: url(/assets/images/data_vis.png) no-repeat center right;
+
+    h1,h2 {
+      max-width: 70%;
+    }
+  }
+}
+@media (max-width: 800px){
+  header.page-header hgroup.gist-image h1,
+  header.page-header hgroup.gist-image h2 {
+     max-width: 100%;
+  }
+  header.page-header hgroup.gist-image {
+      background: none;
+  }
+}
+
+.dataset-selector a { text-decoration: none; }
+
+article {
+  h2 {
+    @include core-24;
+  }
+  section.content-group {
+    h2 {
+      border-bottom: 5px solid #108095;
+      padding: 16px 0 8px 0;
+      margin: 16px 0 16px 0;
+    }
   }
 }
 
