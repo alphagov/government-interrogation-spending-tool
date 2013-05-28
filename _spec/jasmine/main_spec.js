@@ -19,6 +19,8 @@ describe("Util", function() {
         loadFixtures('visualisation-divs.html');
         spyOn(util,'load_data_from_table').andReturn([]);
         spyOn(util,'draw_tree_map');
+        spyOn(util,'draw_barchart');
+        spyOn(util,'draw_doughnut');
 
         util.load_visualisations();
       });
@@ -29,6 +31,14 @@ describe("Util", function() {
 
       it("should call draw against the treemap", function () {
         expect(util.draw_tree_map).toHaveBeenCalled();
+      });
+
+      it("should call draw against the barchart", function () {
+        expect(util.draw_barchart).toHaveBeenCalled();
+      });
+
+      it("should call draw against the doughnut", function () {
+        expect(util.draw_doughnut).toHaveBeenCalled();
       });
     });
   });

@@ -16,6 +16,8 @@ gist.utils = gist.utils || (function() {
             table_data = this.load_data_from_table('data-table');
         $(".visualisation").each(function(index, node) {
           if ($(node).hasClass('treemap')) { that.draw_tree_map(node, table_data); }
+          if ($(node).hasClass('barchart')) { that.draw_barchart(node, table_data); }
+          if ($(node).hasClass('doughnut')) { that.draw_doughnut(node, table_data); }
         });
       }
     },
@@ -41,6 +43,14 @@ gist.utils = gist.utils || (function() {
 
     draw_tree_map : function(node, chart_data) {
       new gist.charts.treemap.Widget(node, { chart_data: chart_data }).draw(node.offsetWidth, 400);
+    },
+
+    draw_barchart : function(node, chart_data) {
+      new gist.charts.barchart.Widget(node, { chart_data: chart_data }).draw(node.offsetWidth, 400);
+    },
+
+    draw_doughnut : function(node, chart_data) {
+      new gist.charts.doughnut.Widget(node, { chart_data: chart_data }).draw(node.offsetWidth, 400);
     }
 
   });
