@@ -33,4 +33,32 @@ describe("Util", function() {
     });
   });
 
+  describe("load_visualisations", function () {
+
+    describe("when there is no data-table on page", function () {
+      it("should return empty", function () {
+        var table_data = util.load_data_from_table("does-not-exist")
+        expect(table_data).toEqual([])
+      });
+    });
+
+    describe("when there is a data-table on page", function () {
+      beforeEach(function () {
+        loadFixtures('data-table.html');
+      });
+      it("should return an array of object literals representing the table rows", function () {
+        var table_data = util.load_data_from_table("data-table")
+        expect(table_data.length).toEqual(2)
+
+        expect(table_data[0].name).toEqual("TEST COMMISSION")
+        expect(table_data[0].total).toEqual("40")
+        expect(table_data[0].url).toEqual("test-commission")
+
+        expect(table_data[1].name).toEqual("TEST OFFICE")
+        expect(table_data[1].total).toEqual("360")
+        expect(table_data[1].url).toEqual("test-office")
+      });
+    });
+  });
+
 });
