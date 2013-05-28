@@ -1,11 +1,13 @@
 # encoding: utf-8
 require "fileutils"
+require_relative "extensions/float"
 
 class TablePageGenerator
 
   TABLE_PAGE_TEMPLATE_FILE_PATH = File.expand_path("#{File.dirname(__FILE__)}/templates/table_page.html")
   TABLE_ROWS_REPLACE_TAG = "<!--TABLE_CONTENT-->"
   TOTAL_REPLACE_TAG = "<!--TOTAL-->"
+  TOTAL_VALUE_REPLACE_TAG = "<!--TOTAL_VALUE-->"
   HEADER_TITLE_REPLACE_TAG = "<!--HEADER_TITLE-->"
   INDEX_FILE_NAME = "index.html"
 
@@ -53,7 +55,7 @@ class TablePageGenerator
 
     table_page_node.children.sort { |a,b| b.total <=> a.total }.each do |node|
       row_title = node.has_children ? "<a href='#{node.slug}'>#{node.title}</a>" : node.title
-      row = "<tr><td>#{row_title}</td><td class=\"amount\">#{node.total}</td></tr>"
+      row = "<tr><td>#{row_title}</td><td class=\"amount\" title=\"#{sprintf('%.2f', node.total)}\">#{node.total.to_sterling_magnitude_string}</td></tr>"
       rows << row
     end
 
@@ -61,7 +63,8 @@ class TablePageGenerator
 
     content = @table_page_template_content.clone
     content.sub!(TABLE_ROWS_REPLACE_TAG, table_rows)
-    content.sub!(TOTAL_REPLACE_TAG, "£#{table_page_node.total.to_s}")
+    content.sub!(TOTAL_REPLACE_TAG, "#{table_page_node.total.to_sterling_magnitude_string}")
+    content.sub!(TOTAL_VALUE_REPLACE_TAG, sprintf('%.2f', table_page_node.total))
     content.sub!(HEADER_TITLE_REPLACE_TAG, table_page_node.title.sub(':', ''))
 
     content

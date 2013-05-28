@@ -145,17 +145,39 @@ describe "TablePageGenerator" do
         @content = @page_generator.generate_content(@root_node)
       end
       it "should return a string containing two rows" do
-        @content.should match /<td.*>.*Toy.*<\/td><td.*>.*100.0.*<\/td>/m
-        @content.should match /<td.*>.*Test.*<\/td><td.*>.*200.0.*<\/td>/m
+        @content.should match /<td.*>.*Toy.*<\/td><td.*>.*100.*<\/td>/m
+        @content.should match /<td.*>.*Test.*<\/td><td.*>.*200.*<\/td>/m
       end
       it "should set the page variable 'header-title'" do
         @content.should match /header-title: All Departments/
       end
       it "should set the page variable 'total'" do
-        @content.should match /total: £300.0/
+        @content.should match /total: £300/
+      end
+      it "should set the page variable 'total-value'" do
+        @content.should match /total-value: 300.00/
       end
       it "should set the class for amounts" do
         @content.should match /class="amount"/
+      end
+    end
+
+    context "node with very large and very small child values" do
+      before :each do
+        node1 = TablePageNode.new("Test1", 999100000.0)
+        node2 = TablePageNode.new("Test2", 1100.0)
+        node3 = TablePageNode.new("Test3", -1000000.0)
+        root_node = TablePageNode.new("All", 0.0, [node1,node2,node3])
+
+        @content = @page_generator.generate_content(root_node)
+      end
+      it "should display values formatted with magnitude" do
+        @content.should match /£999m/
+        @content.should match /£1.1k/
+        @content.should match /-£1m/
+      end
+      it "should include a title tag in table cell with proper value to 2 decimal places" do
+        @content.should match /title="999100000.00"/
       end
     end
 
