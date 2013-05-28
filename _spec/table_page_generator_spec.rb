@@ -154,6 +154,9 @@ describe "TablePageGenerator" do
       it "should set the page variable 'total'" do
         @content.should match /total: £300.0/
       end
+      it "should set the class for amounts" do
+        @content.should match /class="amount"/
+      end
     end
 
     context "node with three children, all empty, not in order of value" do
