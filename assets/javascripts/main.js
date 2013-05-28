@@ -40,7 +40,7 @@ gist.utils = gist.utils || (function() {
     },
 
     draw_tree_map : function(node, chart_data) {
-      new gist.charts.treemap.Widget(node, { chart_data: null }).draw(940, 400);
+      new gist.charts.treemap.Widget(node, { chart_data: chart_data }).draw(940, 400);
     }
 
   });
