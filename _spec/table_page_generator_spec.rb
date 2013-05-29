@@ -89,7 +89,7 @@ describe "TablePageGenerator" do
 
     context "node with children" do
       it "creates an index.html file for the node containing test content" do
-        @page_generator.should_receive(:generate_content).with(@root_node).once
+        @page_generator.should_receive(:generate_content).with(@root_node, [], []).once
         @page_generator.generate_for_node(@root_node)
         index_file = "#{@root_directory_path}/index.html"
 
@@ -134,12 +134,12 @@ describe "TablePageGenerator" do
         @page_generator.generate_from_root_node(@root_node_with_two_levels)
       end
 
-      it "calls generate_for_node for each node passing parent slug path" do
-        @page_generator.should_receive(:generate_for_node).with(@root_node_with_two_levels, []).once
-        @page_generator.should_receive(:generate_for_node).with(@child_node_empty, []).once
-        @page_generator.should_receive(:generate_for_node).with(@child_node_not_empty, []).once
-        @page_generator.should_receive(:generate_for_node).with(@leaf_node1, ["toy"]).once
-        @page_generator.should_receive(:generate_for_node).with(@leaf_node2, ["toy"]).once
+      it "calls generate_for_node for each node passing parent slug path and title" do
+        @page_generator.should_receive(:generate_for_node).with(@root_node_with_two_levels, [], []).once
+        @page_generator.should_receive(:generate_for_node).with(@child_node_empty, [], []).once
+        @page_generator.should_receive(:generate_for_node).with(@child_node_not_empty, [], []).once
+        @page_generator.should_receive(:generate_for_node).with(@leaf_node1, ["toy"], ["Toy"]).once
+        @page_generator.should_receive(:generate_for_node).with(@leaf_node2, ["toy"], ["Toy"]).once
 
         @page_generator.generate_from_root_node(@root_node_with_two_levels)
       end
@@ -149,7 +149,9 @@ describe "TablePageGenerator" do
   describe "generate_content" do
     context "node with two children, both empty" do
       before :each do
-        @content = @page_generator.generate_content(@root_node)
+        @parent_slug_list = ['qds','testing']
+        @parent_title_list = ['QDS','Testing']
+        @content = @page_generator.generate_content(@root_node, @parent_slug_list, @parent_title_list)
       end
       it "should return a string containing two rows" do
         @content.should match /<td.*>.*Toy.*<\/td><td.*>.*100.*<\/td>/m
@@ -175,6 +177,11 @@ describe "TablePageGenerator" do
       end
       it "should set the page variable 'total-value'" do
         @content.should match /total-value: 300/
+      end
+      it "should set the page variable list for breadcrumb links" do
+        @content.should match /breadcrumbs:/
+        @content.should include " - #{@parent_title_list[0]}: /#{@parent_slug_list[0]}"
+        @content.should include " - #{@parent_title_list[1]}: /#{@parent_slug_list[0]}/#{@parent_slug_list[1]}"
       end
       it "should set the class for amounts" do
         @content.should match /class="amount"/

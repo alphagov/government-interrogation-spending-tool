@@ -4,6 +4,13 @@ layout: default
 
 <header class="page-header group">
   <hgroup>
+    {% if page.breadcrumbs %}
+      {% for link_hash in page.breadcrumbs %}
+        {% for link in link_hash %}
+          <a href="{{ link[1] }}">{{ link[0] }}</a>&nbsp;
+        {% endfor %}
+      {% endfor %}
+    {% endif %}
     <h2>{{ page.header-title }}</h2>
   </hgroup>
 </header>
