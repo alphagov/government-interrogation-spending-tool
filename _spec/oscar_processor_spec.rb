@@ -34,9 +34,7 @@ describe "OscarProcessor" do
         @economic_category_long_names = ["PAY","RENTAL COSTS"]
 
         data_objects = get_oscar_data_objects([@quarter], [@segment_department_long_name], [@organisation], [@control_budget_code], @economic_category_long_names)
-        puts "data_objects: ", data_objects
         @root_node = @processor.generate_root_node(data_objects)
-        puts "root_node: ", @root_node
       end
 
       it "should be a TablePageNode" do
