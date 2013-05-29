@@ -11,7 +11,7 @@ class OscarProcessor < BaseProcessor
   end
 
   def page_generator
-    TablePageGenerator.new("oscar")
+    TablePageGenerator.new("oscar", "OSCAR 2012, date:15.01.12")
   end
 
   def generate_root_node(data_objects)

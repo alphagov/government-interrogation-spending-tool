@@ -16,6 +16,9 @@ layout: default
       <div id="barchart" class="visualisation barchart"></div>
       <div id="doughnut" class="visualisation doughnut"></div>
     </div>
+    {% if page.source-label != "" %}
+    <p class="source">Source: {{ page.source-label }}</p>
+    {% endif %}
     <section class="content-group">
       <table id="data-table">
         <thead>

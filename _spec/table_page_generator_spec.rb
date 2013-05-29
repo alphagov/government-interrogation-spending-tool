@@ -5,7 +5,8 @@ require_relative "../_processors/model/table_page_node.rb"
 describe "TablePageGenerator" do
   before(:each) do
     @root_directory_path = "_spec/test_pages"
-    @page_generator = TablePageGenerator.new(@root_directory_path)
+    @source_label = "PESA 2011, date:15.01.12"
+    @page_generator = TablePageGenerator.new(@root_directory_path, @source_label)
 
     @child_node1 = TablePageNode.new("Toy", 100.0)
     @child_node2 = TablePageNode.new("Test", 200.0)
@@ -21,7 +22,7 @@ describe "TablePageGenerator" do
   end
 
   describe "#new" do
-    it "takes one parameter and returns a TablePageGenerator object" do
+    it "takes two parameters and returns a TablePageGenerator object" do
       @page_generator.should be_an_instance_of TablePageGenerator
     end
   end
@@ -29,6 +30,12 @@ describe "TablePageGenerator" do
   describe "#root_directory_path" do
     it "returns the root directory path" do
       @page_generator.root_directory_path.should eq @root_directory_path
+    end
+  end
+
+  describe "#source_label" do
+    it "returns the source label" do
+      @page_generator.source_label.should eq @source_label
     end
   end
 
@@ -159,6 +166,9 @@ describe "TablePageGenerator" do
       end
       it "should set the page variable 'header-title'" do
         @content.should match /header-title: All Departments/
+      end
+      it "should set the page variable 'source-label'" do
+        @content.should match "source-label: #{@source_label}"
       end
       it "should set the page variable 'total'" do
         @content.should match /total: £300/

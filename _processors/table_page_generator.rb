@@ -9,11 +9,14 @@ class TablePageGenerator
   TOTAL_REPLACE_TAG = "<!--TOTAL-->"
   TOTAL_VALUE_REPLACE_TAG = "<!--TOTAL_VALUE-->"
   HEADER_TITLE_REPLACE_TAG = "<!--HEADER_TITLE-->"
+  SOURCE_LABEL_REPLACE_TAG = "<!--SOURCE_LABEL-->"
+
   INDEX_FILE_NAME = "index.html"
 
-  attr_accessor :root_directory_path
-  def initialize root_directory_path
+  attr_accessor :root_directory_path, :source_label
+  def initialize root_directory_path, source_label
     @root_directory_path = root_directory_path
+    @source_label = source_label
     @table_page_template_content = File.read(TABLE_PAGE_TEMPLATE_FILE_PATH)
   end
 
@@ -68,6 +71,7 @@ class TablePageGenerator
     content.sub!(TOTAL_REPLACE_TAG, "#{table_page_node.total.to_sterling_magnitude_string}")
     content.sub!(TOTAL_VALUE_REPLACE_TAG, table_page_node.total.to_attribute_format)
     content.sub!(HEADER_TITLE_REPLACE_TAG, table_page_node.title.sub(':', ''))
+    content.sub!(SOURCE_LABEL_REPLACE_TAG, @source_label)
 
     content
   end

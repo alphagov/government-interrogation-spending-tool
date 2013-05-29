@@ -82,6 +82,10 @@ article {
       margin: 16px 0 16px 0;
     }
   }
+  p.source {
+    color: $grey-1;
+    @include core-16;
+  }
 }
 
 @media (max-width: 640px) {
