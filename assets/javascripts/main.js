@@ -49,7 +49,7 @@ gist.utils = gist.utils || (function() {
     },
 
     draw_tree_map : function(node, chart_data) {
-      new gist.charts.treemap.Widget(node, { chart_data: chart_data }).draw(node.offsetWidth, 400);
+      new gist.charts.treemap.Widget(node, { chart_data: chart_data }).draw(node.offsetWidth, 407);
     },
 
     draw_barchart : function(node, chart_data) {
