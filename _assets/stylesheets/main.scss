@@ -8,6 +8,7 @@ $primary-colour-text: darken($primary-colour, 7%);
 @import 'nav';
 @import 'layout';
 @import 'treemap';
+@import 'barchart';
 
 /*layout overrides*/
 footer#footer div.footer-wrapper {
