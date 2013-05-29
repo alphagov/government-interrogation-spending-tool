@@ -57,4 +57,23 @@ describe QdsData do
       @qds_data1.to_s.include?(@qds_data1.value.to_s).should be_true
     end
   end
+
+  describe "quarter_short" do
+    it "returns a formatted short quarter string" do
+      QdsData.quarter_short("Quarter 4 - 2011/12").should eq "Q4 2011"
+      QdsData.quarter_short("Quarter 1 - 2012/13").should eq "Q1 2012"
+      QdsData.quarter_short("Quarter 2 - 2012/13").should eq "Q2 2012"
+      QdsData.quarter_short("Quarter 3 - 2012/13").should eq "Q3 2012"
+      QdsData.quarter_short("Quarter 4 - 2012/13").should eq "Q4 2012"
+    end
+  end
+  describe "quarter_long" do
+    it "returns a formatted long quarter string" do
+      QdsData.quarter_long("Quarter 4 - 2011/12").should eq "Quarter 4 2011"
+      QdsData.quarter_long("Quarter 1 - 2012/13").should eq "Quarter 1 2012"
+      QdsData.quarter_long("Quarter 2 - 2012/13").should eq "Quarter 2 2012"
+      QdsData.quarter_long("Quarter 3 - 2012/13").should eq "Quarter 3 2012"
+      QdsData.quarter_long("Quarter 4 - 2012/13").should eq "Quarter 4 2012"
+    end
+  end
 end
