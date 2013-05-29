@@ -79,7 +79,7 @@ class OscarProcessor < BaseProcessor
           "All Departments",
           quarter_total,
           quarter_children,
-          quarter)
+          OscarData.quarter_short(quarter))
     end
 
     root = TablePageNode.new("All Quarters", 0.0, root_children, "")

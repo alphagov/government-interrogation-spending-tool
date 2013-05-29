@@ -48,6 +48,9 @@ describe "OscarProcessor" do
         @root_node.children[0].children[0].children[0].children.should have(1).items
         @root_node.children[0].children[0].children[0].children[0].children.should have(2).items
       end
+      it "should have a child node for quarter with generic quarter slug" do
+        @root_node.children[0].slug.should eq "q2-2012"
+      end
     end
   end
 
@@ -57,7 +60,7 @@ describe "OscarProcessor" do
         @processor.process("_spec/test_data/test_oscar_sample.csv")
 
         File.exists?("oscar/index.html").should be_true
-        File.exists?("oscar/qtr2-12-13/index.html").should be_true
+        File.exists?("oscar/q2-2012/index.html").should be_true
       end
     end
 
@@ -66,7 +69,7 @@ describe "OscarProcessor" do
         @processor.process("_spec/test_data/test_oscar.csv")
 
         File.exists?("oscar/index.html").should be_true
-        File.exists?("oscar/qtr2-12-13/index.html").should be_true
+        File.exists?("oscar/q2-2012/index.html").should be_true
       end
     end
 

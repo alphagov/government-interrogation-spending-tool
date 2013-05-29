@@ -41,6 +41,9 @@ describe "QdsProcessor" do
         @root_node.children[0].children[0].children.should have(1).items
       end
 
+      it "should have a child node for quarter with generic quarter slug" do
+        @root_node.children[0].slug.should eq "q2-2012"
+      end
     end
   end
 
@@ -49,23 +52,23 @@ describe "QdsProcessor" do
       it "should have generated the structure for the sample file" do
         @processor.process("_spec/test_data/test_qds_sample.csv")
 
-        File.exists?("qds/quarter-2-2012-13/index.html").should be_true
-        File.exists?("qds/quarter-2-2012-13/toy/index.html").should be_true
-        File.exists?("qds/quarter-2-2012-13/toy/spend-by-budget-type/index.html").should be_true
-        File.exists?("qds/quarter-2-2012-13/toy/spend-by-budget-type/organisations-own-budget-del/index.html").should be_true
+        File.exists?("qds/q2-2012/index.html").should be_true
+        File.exists?("qds/q2-2012/toy/index.html").should be_true
+        File.exists?("qds/q2-2012/toy/spend-by-budget-type/index.html").should be_true
+        File.exists?("qds/q2-2012/toy/spend-by-budget-type/organisations-own-budget-del/index.html").should be_true
       end
     end
     context "test_qds.csv" do
       it "should have generated the structure for the sample file" do
         @processor.process("_spec/test_data/test_qds.csv")
 
-        File.exists?("qds/quarter-2-2012-13/index.html").should be_true
-        File.exists?("qds/quarter-2-2012-13/toy/index.html").should be_true
-        File.exists?("qds/quarter-2-2012-13/yot/index.html").should be_true
+        File.exists?("qds/q2-2012/index.html").should be_true
+        File.exists?("qds/q2-2012/toy/index.html").should be_true
+        File.exists?("qds/q2-2012/yot/index.html").should be_true
 
-        File.exists?("qds/quarter-1-2012-13/index.html").should be_true
-        File.exists?("qds/quarter-1-2012-13/toy/index.html").should be_true
-        File.exists?("qds/quarter-1-2012-13/yot/index.html").should be_true
+        File.exists?("qds/q1-2012/index.html").should be_true
+        File.exists?("qds/q1-2012/toy/index.html").should be_true
+        File.exists?("qds/q1-2012/yot/index.html").should be_true
       end
     end
 
