@@ -73,7 +73,7 @@ class QdsProcessor < BaseProcessor
       end
 
       root_children << TablePageNode.new(
-        "All Departments",
+        QdsData.quarter_long(report_date),
         report_date_total,
         report_date_children,
         QdsData.quarter_short(report_date))

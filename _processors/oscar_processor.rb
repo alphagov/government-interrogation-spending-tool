@@ -76,7 +76,7 @@ class OscarProcessor < BaseProcessor
       end
 
       root_children << TablePageNode.new(
-          "All Departments",
+          OscarData.quarter_long(quarter),
           quarter_total,
           quarter_children,
           OscarData.quarter_short(quarter))
