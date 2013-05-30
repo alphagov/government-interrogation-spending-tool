@@ -108,13 +108,16 @@ describe "QdsCsvParser" do
       @parse_row_result.should be_an_instance_of QdsData
     end
 
-    it "object populated with values" do
+    it "returns object populated with values" do
       @parse_row_result.parent_department.should eq "TOY"
       @parse_row_result.report_date.should eq "Quarter 2 - 2012/13"
       @parse_row_result.section.should eq "Spend by Budget Type"
       @parse_row_result.data_headline.should eq "Organisation's Own Budget (DEL)"
       @parse_row_result.data_sub_type.should eq "Resource (excl. depreciation)"
-      @parse_row_result.value.should eq 105
+    end
+
+    it "returns value scaled to millions" do
+      @parse_row_result.value.should eq 105 * 1000000.0
     end
   end
 

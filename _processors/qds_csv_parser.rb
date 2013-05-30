@@ -32,13 +32,16 @@ class QdsCsvParser < CsvParser
 	def parse_row(row)
     raise ArgumentError, "Too few rows", caller if row.length < 11
 
+    value = parse_value(row[9])
+    value_scaled_to_millions = value * 1000000.0
+
     QdsData.new(
       row[0],
       row[2],
       row[5],
       row[6],
       row[7],
-      parse_value(row[9]))
+      value_scaled_to_millions)
 	end
 
 end

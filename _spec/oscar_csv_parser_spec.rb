@@ -72,14 +72,16 @@ describe "OscarCsvParser" do
       @parse_row_result.should be_an_instance_of OscarData
     end
 
-    it "object populated with values" do
+    it "returns object populated with values" do
       @parse_row_result.organisation.should eq "TEST OFFICE"
       @parse_row_result.control_budget_code.should eq "DEL"
       @parse_row_result.segment_department_long_name.should eq "Test Office"
       @parse_row_result.economic_category_long_name.should eq "PAY"
       @parse_row_result.quarter.should eq "Qtr3 - 12-13"
       @parse_row_result.month.should eq "Dec-12"
-      @parse_row_result.amount.should eq 275
+    end
+    it "returns amount scaled to thousands" do
+      @parse_row_result.amount.should eq 275000.0
     end
   end
 
