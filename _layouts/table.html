@@ -2,15 +2,24 @@
 layout: default
 ---
 
-<header class="page-header group">
-  <hgroup>
-    {% if page.breadcrumbs %}
+{% if page.breadcrumbs %}
+<header id="global-breadcrumb">
+  <hgroup class="full-width">
+    <nav role="navigation">
+      <ol class="group">
       {% for link_hash in page.breadcrumbs %}
         {% for link in link_hash %}
-          <a href="{{ link[1] }}">{{ link[0] }}</a>&nbsp;
+        <li><a href="{{ link[1] }}">{{ link[0] }}</a></li>
         {% endfor %}
       {% endfor %}
-    {% endif %}
+      </ol>
+    </nav>
+  </hgroup>
+</header>
+{% endif %}
+
+<header class="page-header group">
+  <hgroup class="full-width">
     <h2>{{ page.header-title }}</h2>
   </hgroup>
 </header>

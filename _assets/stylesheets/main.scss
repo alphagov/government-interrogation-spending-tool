@@ -31,3 +31,13 @@ article {
     background: url(/static/icon-file-download.png) no-repeat scroll 98% 1em #d5e8f3;
   }
 }
+header#global-breadcrumb {
+  border-bottom: none;
+  padding: 0;
+  nav ol li {
+    background-image: url(/static/separator.png);
+  }
+  nav ol li:last-child {
+    background-image: none;
+  }
+}
