@@ -26,4 +26,9 @@ class Float < Numeric
   def to_attribute_format
     sprintf('%.0f', self.to_f)
   end
+
+  def to_uk_formatted_currency_string
+    result = "£" + self.to_attribute_format.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
+    result.sub("£-", "-£")
+  end
 end

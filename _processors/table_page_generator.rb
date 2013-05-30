@@ -61,7 +61,7 @@ class TablePageGenerator
     table_page_node.children.sort { |a,b| b.total <=> a.total }.each do |node|
       row_title = node.has_children ? "<a href='#{node.slug}'>#{node.title}</a>" : node.title
       row = "<tr data-name=\"#{node.title}\" data-total=\"#{node.total.to_attribute_format}\" #{node.has_children ? "data-url=\"" + node.slug + "\"" : ""}>
-  <td>#{row_title}</td><td class=\"amount\" title=\"#{node.total.to_attribute_format}\">#{node.total.to_sterling_magnitude_string}</td>
+  <td>#{row_title}</td><td class=\"amount\" title=\"#{node.total.to_attribute_format}\">#{node.total.to_uk_formatted_currency_string}</td>
 </tr>"
       rows << row
     end

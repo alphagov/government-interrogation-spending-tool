@@ -64,4 +64,16 @@ describe "Float" do
       100.1.to_attribute_format.should eq "100"
     end
   end
+
+  describe "to_uk_formatted_currency_string" do
+    it "should return £0 for 0.0" do
+      0.0.to_uk_formatted_currency_string.should eq "£0"
+    end
+    it "should return £1,100,000 for 1100000.0" do
+      1100000.0.to_uk_formatted_currency_string.should eq "£1,100,000"
+    end
+    it "should return -£9,049 for -9049.0" do
+      -9049.0.to_uk_formatted_currency_string.should eq "-£9,049"
+    end
+  end
 end

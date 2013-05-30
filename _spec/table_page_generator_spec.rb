@@ -213,10 +213,10 @@ describe "TablePageGenerator" do
 
         @content = @page_generator.generate_content(root_node)
       end
-      it "should display values formatted with magnitude" do
-        @content.should match /£999m/
-        @content.should match /£1.1k/
-        @content.should match /-£1m/
+      it "should display values formatted with uk currency format" do
+        @content.should match /£999,100,000/
+        @content.should match /£1,100/
+        @content.should match /-£1,000,000/
       end
       it "should include a title tag in table cell with proper value to 2 decimal places" do
         @content.should match /title="999100000"/
