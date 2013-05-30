@@ -27,7 +27,7 @@ class TablePageGenerator
 
   def generate_from_root_node(root_table_page_node)
     delete_existing_files
-    generate_for_nodes(root_table_page_node)
+    generate_for_nodes(root_table_page_node, [@root_directory_path], [@root_directory_path.upcase])
   end
 
   def generate_for_nodes(table_page_node, parent_slug_list=[], parent_title_list=[])
@@ -43,7 +43,7 @@ class TablePageGenerator
   def generate_for_node(table_page_node, parent_slug_list=[], parent_title_list=[])
     return if table_page_node.children.empty?
 
-    parent_dir_path = parent_slug_list.empty? ? @root_directory_path : "#{@root_directory_path}/#{parent_slug_list.join('/')}"
+    parent_dir_path = parent_slug_list.empty? ? @root_directory_path : "#{parent_slug_list.join('/')}"
     node_dir_path = table_page_node.slug.empty? ? parent_dir_path : "#{parent_dir_path}/#{table_page_node.slug}"
     file_path = "#{node_dir_path}/#{INDEX_FILE_NAME}"
 
@@ -78,7 +78,7 @@ class TablePageGenerator
     if !parent_slug_list.empty? && !parent_title_list.empty?
       breadcrumbs_list = ""
       for i in 0..parent_slug_list.length-1
-        breadcrumbs_list += " - #{parent_title_list[i]}: /#{@root_directory_path}/#{parent_slug_list.slice(0..i).join('/')}\n"
+        breadcrumbs_list += " - #{parent_title_list[i]}: /#{parent_slug_list.slice(0..i).join('/')}\n"
       end
       breadcrumbs_list += " - #{table_page_node.title}:  "
 

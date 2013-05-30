@@ -107,11 +107,11 @@ describe "TablePageGenerator" do
 
     context "node under parent slug" do
       it "creates an index.html file under the parent slug directory" do
-        @page_generator.generate_for_node(@root_node, ['toy'])
+        @page_generator.generate_for_node(@root_node, [@root_directory_path, 'toy'])
         File.exists?("#{@root_directory_path}/toy/index.html").should be_true
       end
       it "creates an index.html file under the parent slug directory and own slug" do
-        @page_generator.generate_for_node(@child_node_not_empty, ['test'])
+        @page_generator.generate_for_node(@child_node_not_empty, [@root_directory_path, 'test'])
         File.exists?("#{@root_directory_path}/test/toy/index.html").should be_true
       end
     end
@@ -135,11 +135,11 @@ describe "TablePageGenerator" do
       end
 
       it "calls generate_for_node for each node passing parent slug path and title" do
-        @page_generator.should_receive(:generate_for_node).with(@root_node_with_two_levels, [], []).once
-        @page_generator.should_receive(:generate_for_node).with(@child_node_empty, [], []).once
-        @page_generator.should_receive(:generate_for_node).with(@child_node_not_empty, [], []).once
-        @page_generator.should_receive(:generate_for_node).with(@leaf_node1, ["toy"], ["Toy"]).once
-        @page_generator.should_receive(:generate_for_node).with(@leaf_node2, ["toy"], ["Toy"]).once
+        @page_generator.should_receive(:generate_for_node).with(@root_node_with_two_levels, [@root_directory_path], [@root_directory_path.upcase]).once
+        @page_generator.should_receive(:generate_for_node).with(@child_node_empty, [@root_directory_path], [@root_directory_path.upcase]).once
+        @page_generator.should_receive(:generate_for_node).with(@child_node_not_empty, [@root_directory_path], [@root_directory_path.upcase]).once
+        @page_generator.should_receive(:generate_for_node).with(@leaf_node1, [@root_directory_path, "toy"], [@root_directory_path.upcase, "Toy"]).once
+        @page_generator.should_receive(:generate_for_node).with(@leaf_node2, [@root_directory_path, "toy"], [@root_directory_path.upcase, "Toy"]).once
 
         @page_generator.generate_from_root_node(@root_node_with_two_levels)
       end
@@ -180,8 +180,8 @@ describe "TablePageGenerator" do
       end
       it "should set the page variable list for breadcrumb links" do
         @content.should match /breadcrumbs:/
-        @content.should include " - #{@parent_title_list[0]}: /#{@root_directory_path}/#{@parent_slug_list[0]}"
-        @content.should include " - #{@parent_title_list[1]}: /#{@root_directory_path}/#{@parent_slug_list[0]}/#{@parent_slug_list[1]}"
+        @content.should include " - #{@parent_title_list[0]}: /#{@parent_slug_list[0]}"
+        @content.should include " - #{@parent_title_list[1]}: /#{@parent_slug_list[0]}/#{@parent_slug_list[1]}"
       end
       it "should set the class for amounts" do
         @content.should match /class="amount"/
