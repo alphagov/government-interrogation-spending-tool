@@ -18,6 +18,9 @@ class OscarCsvParser < CsvParser
   def parse_row(row)
     raise ArgumentError, "Too few rows", caller if row.length < 17
 
+    value = parse_value(row[16])
+    value_scaled_to_thousands = value * 1000.0
+
     OscarData.new(
       row[1],
       row[2],
@@ -25,7 +28,7 @@ class OscarCsvParser < CsvParser
       row[8],
       row[14],
       row[15],
-      parse_value(row[16]))
+      value_scaled_to_thousands)
   end
 
 end
