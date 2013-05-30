@@ -1,0 +1,20 @@
+table thead tr .header {
+	cursor: pointer;
+}
+table thead tr .header:hover {
+	text-decoration: underline;
+}
+
+table thead tr .sorter-false {
+cursor: default;
+}
+table thead tr .sorter-false:hover {
+	text-decoration: none;
+}
+table .sort-ind {
+	display: inline-block;
+	font-size: 8px;
+	height: 8px;
+	padding-left: 5px;
+	vertical-align: top;
+}
