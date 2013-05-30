@@ -11,7 +11,7 @@ class CsvParser
   end
 
   def parse_value(numeric_string)
-    numeric_string.to_f
+    Float(numeric_string.gsub(',',''))
   end
 
   def filter_row(row)
