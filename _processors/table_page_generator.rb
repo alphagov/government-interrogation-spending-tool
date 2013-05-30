@@ -78,9 +78,9 @@ class TablePageGenerator
     if !parent_slug_list.empty? && !parent_title_list.empty?
       breadcrumbs_list = ""
       for i in 0..parent_slug_list.length-1
-        breadcrumbs_list += " - #{parent_title_list[i]}: /#{parent_slug_list.slice(0..i).join('/')}\n"
+        breadcrumbs_list += " - \"#{parent_title_list[i]}\": /#{parent_slug_list.slice(0..i).join('/')}\n"
       end
-      breadcrumbs_list += " - #{table_page_node.title}:  "
+      breadcrumbs_list += " - \"#{table_page_node.title}\":  "
 
       content.sub!(BREADCRUMBS_LIST_REPLACE_TAG, breadcrumbs_list)
     else

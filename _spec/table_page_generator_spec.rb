@@ -180,8 +180,8 @@ describe "TablePageGenerator" do
       end
       it "should set the page variable list for breadcrumb links" do
         @content.should match /breadcrumbs:/
-        @content.should include " - #{@parent_title_list[0]}: /#{@parent_slug_list[0]}"
-        @content.should include " - #{@parent_title_list[1]}: /#{@parent_slug_list[0]}/#{@parent_slug_list[1]}"
+        @content.should include " - \"#{@parent_title_list[0]}\": /#{@parent_slug_list[0]}"
+        @content.should include " - \"#{@parent_title_list[1]}\": /#{@parent_slug_list[0]}/#{@parent_slug_list[1]}"
       end
       it "should set the class for amounts" do
         @content.should match /class="amount"/
