@@ -5,12 +5,14 @@ require_relative "extensions/float"
 class TablePageGenerator
 
   TABLE_PAGE_TEMPLATE_FILE_PATH = File.expand_path("#{File.dirname(__FILE__)}/templates/table_page.html")
+
   TABLE_ROWS_REPLACE_TAG = "<!--TABLE_CONTENT-->"
   TOTAL_REPLACE_TAG = "<!--TOTAL-->"
   TOTAL_VALUE_REPLACE_TAG = "<!--TOTAL_VALUE-->"
   HEADER_TITLE_REPLACE_TAG = "<!--HEADER_TITLE-->"
   SOURCE_LABEL_REPLACE_TAG = "<!--SOURCE_LABEL-->"
   BREADCRUMBS_LIST_REPLACE_TAG = "<!--BREADCRUMB_LIST-->"
+  QUARTER_REPLACE_TAG = "<!--QUARTER-->"
 
   INDEX_FILE_NAME = "index.html"
 
@@ -55,7 +57,7 @@ class TablePageGenerator
     File.open(file_path, 'w') {|f| f.write(content) }
   end
 
-  def generate_content(table_page_node, parent_slug_list=[], parent_title_list=[])
+  def generate_content(table_page_node, parent_slug_list=[], parent_title_list=[], quarter=nil)
     rows = []
 
     table_page_node.children.sort { |a,b| b.total <=> a.total }.each do |node|
@@ -85,6 +87,10 @@ class TablePageGenerator
       content.sub!(BREADCRUMBS_LIST_REPLACE_TAG, breadcrumbs_list)
     else
       content.sub!(BREADCRUMBS_LIST_REPLACE_TAG, "")
+    end
+
+    if quarter
+      content.sub!(QUARTER_REPLACE_TAG, quarter)
     end
 
     content

@@ -151,7 +151,8 @@ describe "TablePageGenerator" do
       before :each do
         @parent_slug_list = ['qds','testing']
         @parent_title_list = ['QDS','Testing']
-        @content = @page_generator.generate_content(@root_node, @parent_slug_list, @parent_title_list)
+        @quarter = "Quarter 1 2012"
+        @content = @page_generator.generate_content(@root_node, @parent_slug_list, @parent_title_list, @quarter)
       end
       it "should return a string containing two rows" do
         @content.should match /<td.*>.*Toy.*<\/td><td.*>.*100.*<\/td>/m
@@ -182,6 +183,9 @@ describe "TablePageGenerator" do
         @content.should match /breadcrumbs:/
         @content.should include " - \"#{@parent_title_list[0]}\": /#{@parent_slug_list[0]}"
         @content.should include " - \"#{@parent_title_list[1]}\": /#{@parent_slug_list[0]}/#{@parent_slug_list[1]}"
+      end
+      it "should set the page variable 'quarter'" do
+        @content.should include "quarter: #{@quarter}"
       end
       it "should set the class for amounts" do
         @content.should match /class="amount"/
