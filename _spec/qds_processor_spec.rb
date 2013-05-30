@@ -49,32 +49,45 @@ describe "QdsProcessor" do
   end
 
   describe "process" do
+
+    TEST_QDS_PAGE_PATH = "_spec/test_pages"
+
+    class TestQdsProcessor < QdsProcessor
+      def page_generator
+        TablePageGenerator.new(TEST_QDS_PAGE_PATH, "QDS 2012, date:15.01.12")
+      end
+    end
+
+    before(:each) do
+      @test_processor = TestQdsProcessor.new
+    end
+
     context "test_qds_sample.csv" do
       it "should have generated the structure for the sample file" do
-        @processor.process("_spec/test_data/test_qds_sample.csv")
+        @test_processor.process("_spec/test_data/test_qds_sample.csv")
 
-        File.exists?("qds/q2-2012/index.html").should be_true
-        File.exists?("qds/q2-2012/toy/index.html").should be_true
-        File.exists?("qds/q2-2012/toy/spend-by-budget-type/index.html").should be_true
-        File.exists?("qds/q2-2012/toy/spend-by-budget-type/organisations-own-budget-del/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/toy/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/toy/spend-by-budget-type/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/toy/spend-by-budget-type/organisations-own-budget-del/index.html").should be_true
       end
     end
     context "test_qds.csv" do
       it "should have generated the structure for the sample file" do
-        @processor.process("_spec/test_data/test_qds.csv")
+        @test_processor.process("_spec/test_data/test_qds.csv")
 
-        File.exists?("qds/q2-2012/index.html").should be_true
-        File.exists?("qds/q2-2012/toy/index.html").should be_true
-        File.exists?("qds/q2-2012/yot/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/toy/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/yot/index.html").should be_true
 
-        File.exists?("qds/q1-2012/index.html").should be_true
-        File.exists?("qds/q1-2012/toy/index.html").should be_true
-        File.exists?("qds/q1-2012/yot/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q1-2012/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q1-2012/toy/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q1-2012/yot/index.html").should be_true
       end
     end
 
     after(:each) do
-       FileUtils.rm_rf Dir.glob("qds/*"), :secure => true
+       FileUtils.rm_rf Dir.glob("#{TEST_QDS_PAGE_PATH}/*"), :secure => true
     end
   end
 

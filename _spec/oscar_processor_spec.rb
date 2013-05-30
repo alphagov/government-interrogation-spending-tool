@@ -56,26 +56,38 @@ describe "OscarProcessor" do
   end
 
   describe "process" do
+
+    TEST_PAGE_PATH = "_spec/test_pages"
+
+    class TestOscarProcessor < OscarProcessor
+      def page_generator
+        TablePageGenerator.new(TEST_PAGE_PATH, "OSCAR 2012, date:15.01.12")
+      end
+    end
+
+    before(:each) do
+      @test_processor = TestOscarProcessor.new
+    end
     context "test_oscar_sample.csv" do
       it "should have generated the structure for the sample file" do
-        @processor.process("_spec/test_data/test_oscar_sample.csv")
+        @test_processor.process("_spec/test_data/test_oscar_sample.csv")
 
-        File.exists?("oscar/index.html").should be_true
-        File.exists?("oscar/q2-2012/index.html").should be_true
+        File.exists?("#{TEST_PAGE_PATH}/index.html").should be_true
+        File.exists?("#{TEST_PAGE_PATH}/q2-2012/index.html").should be_true
       end
     end
 
     context "test_oscar.csv" do
       it "should have generated the structure for the sample file" do
-        @processor.process("_spec/test_data/test_oscar.csv")
+        @test_processor.process("_spec/test_data/test_oscar.csv")
 
-        File.exists?("oscar/index.html").should be_true
-        File.exists?("oscar/q2-2012/index.html").should be_true
+        File.exists?("#{TEST_PAGE_PATH}/index.html").should be_true
+        File.exists?("#{TEST_PAGE_PATH}/q2-2012/index.html").should be_true
       end
     end
 
     after(:each) do
-      FileUtils.rm_rf Dir.glob("oscar/*"), :secure => true
+      FileUtils.rm_rf Dir.glob("#{TEST_PAGE_PATH}/*"), :secure => true
     end
   end
 
