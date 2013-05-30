@@ -26,9 +26,31 @@
   padding: 1em 2em;
 
   .col-50 {
-    width:49.99%;
-    float:left;
+      width:49.99%;
+      float:left;
   }
+  .col-65 {
+      width:64.99%;
+      float:left;
+  }
+  .col-35 {
+      width:34.99%;
+      float:left;
+  }
+  @media (max-width: 700px){
+    .col-50 , .col-65, .col-35 {
+        width:100%;
+        float:none;
+        margin-left:0;
+    }
+    .col-text-right {
+      text-align: left;
+    }
+  }
+}
+
+.col-text-right {
+  text-align: right;
 }
 
 header {
@@ -36,6 +58,16 @@ header {
     padding-left: 0;
     padding-right: 0;
     margin-right: 1em;
+  }
+}
+header.table-page-header {
+  hgroup {
+    margin: 0;
+    padding: 0;
+
+    h1 {
+      @include bold-48;
+    }
   }
 }
 
