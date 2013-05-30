@@ -23,6 +23,12 @@ describe "CsvParser" do
   describe "#parse_value" do
     it "takes a numeric_string and returns a float" do
       @csv_parser.parse_value("100.5").should eq 100.5
+      @csv_parser.parse_value("9,999,999.9").should eq 9999999.9
+    end
+    it "should raise error on invalid numeric string" do
+      expect { @csv_parser.parse_value("£100.5") }.to raise_error
+      expect { @csv_parser.parse_value("NOT APPLICABLE") }.to raise_error
+      expect { @csv_parser.parse_value("100.5 TOTAL") }.to raise_error
     end
   end
 
