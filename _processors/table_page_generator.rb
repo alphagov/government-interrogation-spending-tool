@@ -57,7 +57,7 @@ class TablePageGenerator
 
   def generate_content(table_page_node, parent_slug_list=[], parent_title_list=[])
     rows = []
-puts "generate_content: #{table_page_node.title}, slug=[#{parent_slug_list.join('|')}], titles=[#{parent_title_list.join('|')}]"
+
     table_page_node.children.sort { |a,b| b.total <=> a.total }.each do |node|
       row_title = node.has_children ? "<a href='#{node.slug}'>#{node.title}</a>" : node.title
       row = "<tr data-name=\"#{node.title}\" data-total=\"#{node.total.to_attribute_format}\" #{node.has_children ? "data-url=\"" + node.slug + "\"" : ""}>
