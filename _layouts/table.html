@@ -36,22 +36,29 @@ layout: default
     <p class="source">Source: {{ page.source-label }}</p>
     {% endif %}
     <section class="content-group">
+
+      <script src="/assets/javascripts/TableSorting/jquery.tablesorter.min.js" type="text/javascript"></script>
+      <script src="/assets/javascripts/TableSorting/SortTable.js" type="text/javascript"></script>
+      <link rel="stylesheet" type="text/css" href="/assets/stylesheets/tableSorter.css">      
+
       <table id="data-table">
         <thead>
           <tr>
             <th scope="col">Department</th>
-            <th scope="col" class="amount">Spend</th>
+            <th scope="col" class="amount">Spend
+              <span class="sort-ind">▼</span>
+            </th>
           </tr>
         </thead>
         <tbody>
           {{ content }}
         </tbody>
-        <thead>
+        <tfoot>
           <tr>
-            <th>Total</th>
-            <th class="amount" title="{{ page.total-value }}">{{ page.total }}</th>
+            <th class="sorter-false">Total</th>
+            <th class="amount sorter-false" title="{{ page.total-value }}">{{ page.total }}</th>
           </tr>
-        </thead>
+        </tfoot>
       </table>
 
       <div class="form-download">
