@@ -89,7 +89,7 @@ describe "TablePageGenerator" do
 
     context "node with children" do
       it "creates an index.html file for the node containing test content" do
-        @page_generator.should_receive(:generate_content).with(@root_node, [], []).once
+        @page_generator.should_receive(:generate_content).with(@root_node, {}).once
         @page_generator.generate_for_node(@root_node)
         index_file = "#{@root_directory_path}/index.html"
 
@@ -107,11 +107,11 @@ describe "TablePageGenerator" do
 
     context "node under parent slug" do
       it "creates an index.html file under the parent slug directory" do
-        @page_generator.generate_for_node(@root_node, [@root_directory_path, 'toy'])
+        @page_generator.generate_for_node(@root_node, { :parent_slug_list => [@root_directory_path, 'toy'] })
         File.exists?("#{@root_directory_path}/toy/index.html").should be_true
       end
       it "creates an index.html file under the parent slug directory and own slug" do
-        @page_generator.generate_for_node(@child_node_not_empty, [@root_directory_path, 'test'])
+        @page_generator.generate_for_node(@child_node_not_empty, { :parent_slug_list => [@root_directory_path, 'test'] })
         File.exists?("#{@root_directory_path}/test/toy/index.html").should be_true
       end
     end
@@ -135,11 +135,11 @@ describe "TablePageGenerator" do
       end
 
       it "calls generate_for_node for each node passing parent slug path and title" do
-        @page_generator.should_receive(:generate_for_node).with(@root_node_with_two_levels, [@root_directory_path], [@root_directory_path.upcase]).once
-        @page_generator.should_receive(:generate_for_node).with(@child_node_empty, [@root_directory_path], [@root_directory_path.upcase]).once
-        @page_generator.should_receive(:generate_for_node).with(@child_node_not_empty, [@root_directory_path], [@root_directory_path.upcase]).once
-        @page_generator.should_receive(:generate_for_node).with(@leaf_node1, [@root_directory_path, "toy"], [@root_directory_path.upcase, "Toy"]).once
-        @page_generator.should_receive(:generate_for_node).with(@leaf_node2, [@root_directory_path, "toy"], [@root_directory_path.upcase, "Toy"]).once
+        @page_generator.should_receive(:generate_for_node).with(@root_node_with_two_levels, { :parent_slug_list => [@root_directory_path],        :parent_title_list => [@root_directory_path.upcase] }).once
+        @page_generator.should_receive(:generate_for_node).with(@child_node_empty, {          :parent_slug_list => [@root_directory_path],        :parent_title_list => [@root_directory_path.upcase] }).once
+        @page_generator.should_receive(:generate_for_node).with(@child_node_not_empty, {      :parent_slug_list => [@root_directory_path],        :parent_title_list => [@root_directory_path.upcase] }).once
+        @page_generator.should_receive(:generate_for_node).with(@leaf_node1, {                :parent_slug_list => [@root_directory_path, "toy"], :parent_title_list => [@root_directory_path.upcase, "Toy"] }).once
+        @page_generator.should_receive(:generate_for_node).with(@leaf_node2, {                :parent_slug_list => [@root_directory_path, "toy"], :parent_title_list => [@root_directory_path.upcase, "Toy"] }).once
 
         @page_generator.generate_from_root_node(@root_node_with_two_levels)
       end
@@ -151,7 +151,12 @@ describe "TablePageGenerator" do
       before :each do
         @parent_slug_list = ['qds','testing']
         @parent_title_list = ['QDS','Testing']
-        @content = @page_generator.generate_content(@root_node, @parent_slug_list, @parent_title_list)
+        @quarter = "Quarter 1 2012"
+        @content = @page_generator.generate_content(@root_node, {
+          :parent_slug_list => @parent_slug_list,
+          :parent_title_list => @parent_title_list,
+          :quarter => @quarter,
+          :available_quarters => [{:title => "Quarter 1 2012", :slug => "q1-2012"}, {:title => "Quarter 2 2012", :slug => "q2-2012"}] })
       end
       it "should return a string containing two rows" do
         @content.should match /<td.*>.*Toy.*<\/td><td.*>.*100.*<\/td>/m
@@ -183,6 +188,14 @@ describe "TablePageGenerator" do
         @content.should include " - \"#{@parent_title_list[0]}\": /#{@parent_slug_list[0]}"
         @content.should include " - \"#{@parent_title_list[1]}\": /#{@parent_slug_list[0]}/#{@parent_slug_list[1]}"
       end
+      it "should set the page variable 'quarter'" do
+        @content.should include "quarter: #{@quarter}"
+      end
+      it "should set the page variable list for available quarters links" do
+        @content.should match /available-quarters:/
+        @content.should include " - \"Quarter 1 2012\": /#{@root_directory_path}/q1-2012"
+        @content.should include " - \"Quarter 2 2012\": /#{@root_directory_path}/q2-2012"
+      end
       it "should set the class for amounts" do
         @content.should match /class="amount"/
       end
@@ -213,10 +226,10 @@ describe "TablePageGenerator" do
 
         @content = @page_generator.generate_content(root_node)
       end
-      it "should display values formatted with magnitude" do
-        @content.should match /£999m/
-        @content.should match /£1.1k/
-        @content.should match /-£1m/
+      it "should display values formatted with uk currency format" do
+        @content.should match /£999,100,000/
+        @content.should match /£1,100/
+        @content.should match /-£1,000,000/
       end
       it "should include a title tag in table cell with proper value to 2 decimal places" do
         @content.should match /title="999100000"/
@@ -232,6 +245,17 @@ describe "TablePageGenerator" do
 
         content = @page_generator.generate_content(root_node)
         content.should match /Test3.*Test2.*Test1/m
+      end
+    end
+
+    context "node with alternative title" do
+      it "should return with title using alternative title" do
+        node2 = TablePageNode.new("Test2", 100.0)
+        root_node = TablePageNode.new(
+          "All", 200.0, [node2], "all", { :alternative_title => "Everything" })
+
+        content = @page_generator.generate_content(root_node)
+        content.should match /header-title: Everything/
       end
     end
   end

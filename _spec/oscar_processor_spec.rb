@@ -18,9 +18,37 @@ describe "OscarProcessor" do
   end
 
   describe "page_generator" do
-    it "should return a TablePageGenerator with oscar path" do
+    it "should return a TablePageGenerator with oscar path and source label" do
       @processor.page_generator.should be_an_instance_of TablePageGenerator
       @processor.page_generator.root_directory_path.should eq "oscar"
+      @processor.page_generator.source_label.should eq "OSCAR"
+    end
+  end
+
+  describe "root_node_options" do
+    context "oscar data for a single quarter" do
+      it "should return options with the quarter in quarters_list" do
+        quarter = "Qtr2 - 12-13"
+        data_objects = get_oscar_data_objects([quarter], ["1"], ["2"], ["3"], ["4"])
+
+        options = @processor.root_node_options(data_objects)
+        options.has_key?(:available_quarters).should be_true
+        options[:available_quarters].length.should eq 1
+        options[:available_quarters][0].should eq({ :title => "Quarter 2 2012", :slug => "q2-2012" })
+      end
+    end
+    context "oscar data for a two quarters" do
+      it "should return options with the quarter in quarters_list" do
+        quarter1 = "Qtr1 - 12-13"
+        quarter2 = "Qtr2 - 12-13"
+        data_objects = get_oscar_data_objects([quarter1, quarter2], ["1"], ["2"], ["3"], ["4"])
+
+        options = @processor.root_node_options(data_objects)
+        options.has_key?(:available_quarters).should be_true
+        options[:available_quarters].length.should eq 2
+        options[:available_quarters][0].should eq({ :title => "Quarter 1 2012", :slug => "q1-2012" })
+        options[:available_quarters][1].should eq({ :title => "Quarter 2 2012", :slug => "q2-2012" })
+      end
     end
   end
 
@@ -48,9 +76,11 @@ describe "OscarProcessor" do
         @root_node.children[0].children[0].children[0].children.should have(1).items
         @root_node.children[0].children[0].children[0].children[0].children.should have(2).items
       end
-      it "should have a child node for quarter with generic quarter slug and title" do
+      it "should have a child node for quarter with generic quarter slug and title, alternative title" do
+        @root_node.children[0].is_quarter.should be_true
         @root_node.children[0].slug.should eq "q2-2012"
         @root_node.children[0].title.should eq "Quarter 2 2012"
+        @root_node.children[0].alternative_title_or_title.should eq "All Departments"
       end
     end
   end

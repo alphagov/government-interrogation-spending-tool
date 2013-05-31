@@ -49,6 +49,14 @@ describe "TablePageNode" do
       @root_node.children.should eq [@child_node1, @child_node2]
     end
   end
+  describe "#options" do
+    it "returns the options" do
+      options = { :is_quarter => true }
+      node = TablePageNode.new("Toy", 100.0, [], "Different String", options)
+
+      node.options.should eq options
+    end
+  end
 
   describe "has_children" do
     it "returns false if children is empty" do
@@ -56,6 +64,26 @@ describe "TablePageNode" do
     end
     it "returns true if children is not empty" do
       @root_node.has_children.should be_true
+    end
+  end
+
+  describe "is_quarter" do
+    it "returns if node is quarter node" do
+      node1 = TablePageNode.new("Toy", 100.0, [], "Different String", { :is_quarter => true })
+      node2 = TablePageNode.new("Toy", 100.0)
+
+      node1.is_quarter.should be_true
+      node2.is_quarter.should be_false
+    end
+  end
+
+  describe "alternative_title_or_title" do
+    it "returns the alternative_title or the normal title if an alternative is set" do
+      node1 = TablePageNode.new("Quarter 1 2012", 100.0, [], "Different String", { :alternative_title => "All Departments" })
+      node2 = TablePageNode.new("Toy", 100.0)
+
+      node1.alternative_title_or_title.should eq "All Departments"
+      node2.alternative_title_or_title.should eq "Toy"
     end
   end
 

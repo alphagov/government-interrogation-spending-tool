@@ -2,6 +2,7 @@
 require_relative "base_processor.rb"
 require_relative "qds_csv_parser.rb"
 require_relative "table_page_generator.rb"
+require_relative "model/qds_data.rb"
 require_relative "model/table_page_node.rb"
 
 class QdsProcessor < BaseProcessor
@@ -11,7 +12,22 @@ class QdsProcessor < BaseProcessor
   end
 
   def page_generator
-    TablePageGenerator.new("qds", "QDS 2012, date:15.01.12")
+    TablePageGenerator.new("qds", "QDS")
+  end
+
+  def root_node_options(data_objects)
+    options = super
+
+    report_date_hash = data_objects.group_by{ |qds_data| qds_data.report_date }
+    available_quarters = []
+    report_date_hash.keys.each do |report_date|
+      available_quarters << {
+        :title => QdsData.quarter_long(report_date),
+        :slug => TablePageNode.slugify(QdsData.quarter_short(report_date)) }
+    end
+    options[:available_quarters] = available_quarters
+
+    options
   end
 
   def generate_root_node(data_objects)
@@ -76,7 +92,8 @@ class QdsProcessor < BaseProcessor
         QdsData.quarter_long(report_date),
         report_date_total,
         report_date_children,
-        QdsData.quarter_short(report_date))
+        QdsData.quarter_short(report_date),
+        { :is_quarter => true, :alternative_title => "All Departments" })
     end
 
     root = TablePageNode.new("All Quarters", 0.0, root_children, "")

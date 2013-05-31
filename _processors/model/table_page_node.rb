@@ -5,16 +5,22 @@ class TablePageNode
   attr_accessor :slug,
                 :title,
                 :total,
-                :children
+                :children,
+                :options
 
-  def initialize title, total, children = [], slug = nil
+  def initialize title, total, children = [], slug = nil, options = {}
       @title = title
       @total = total
       @children = children
       @slug = slug.nil? ? slugify(title) : slugify(slug)
+      @options = options
   end
 
   def slugify(s)
+    TablePageNode.slugify(s)
+  end
+
+  def self.slugify(s)
     slug = s.strip.downcase
     slug.gsub! /['`]/,""
     slug.gsub! /\s*@\s*/, " at "
@@ -28,6 +34,14 @@ class TablePageNode
 
   def has_children
     !children.nil? && !children.empty?
+  end
+
+  def is_quarter
+    @options.has_key?(:is_quarter) ? @options[:is_quarter] : false
+  end
+
+  def alternative_title_or_title
+    @options.has_key?(:alternative_title) ? @options[:alternative_title] : @title
   end
 
   def to_s
