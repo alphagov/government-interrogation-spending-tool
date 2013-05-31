@@ -20,7 +20,12 @@ layout: default
 
 <header class="page-header table-page-header group">
   <hgroup class="col-65">
+
+{% include department_name_logo.html %}
+
+    {% if page.header-title %}
     <h2>{{ page.header-title }}</h2>
+    {% endif %}
   </hgroup>
   <hgroup class="col-35 col-text-right">
     <h1>{{ page.total }}</h1>

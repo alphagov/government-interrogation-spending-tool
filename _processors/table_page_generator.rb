@@ -14,6 +14,9 @@ class TablePageGenerator
   BREADCRUMBS_LIST_REPLACE_TAG = "<!--BREADCRUMB_LIST-->"
   QUARTER_REPLACE_TAG = "<!--QUARTER-->"
   AVAILABLE_QUARTERS_REPLACE_TAG = "<!--AVAILABLE_QUARTERS-->"
+  DEPARTMENT_NAME_REPLACE_TAG = "<!--DEPARTMENT_NAME-->"
+  DEPARTMENT_CSS_CLASS_REPLACE_TAG = "<!--DEPARTMENT_CSS_CLASS-->"
+  DEPARTMENT_CSS_SUFFIX_REPLACE_TAG = "<!--DEPARTMENT_CSS_SUFFIX-->"
 
   INDEX_FILE_NAME = "index.html"
 
@@ -115,6 +118,10 @@ class TablePageGenerator
     else
       content.sub!(QUARTER_REPLACE_TAG, "")
     end
+
+    content.sub!(DEPARTMENT_NAME_REPLACE_TAG, "")
+    content.sub!(DEPARTMENT_CSS_CLASS_REPLACE_TAG, "")
+    content.sub!(DEPARTMENT_CSS_SUFFIX_REPLACE_TAG, "")
 
     available_quarters_list = ""
     if available_quarters
