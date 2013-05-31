@@ -18,9 +18,10 @@ describe "OscarProcessor" do
   end
 
   describe "page_generator" do
-    it "should return a TablePageGenerator with oscar path" do
+    it "should return a TablePageGenerator with oscar path and source label" do
       @processor.page_generator.should be_an_instance_of TablePageGenerator
       @processor.page_generator.root_directory_path.should eq "oscar"
+      @processor.page_generator.source_label.should eq "OSCAR"
     end
   end
 

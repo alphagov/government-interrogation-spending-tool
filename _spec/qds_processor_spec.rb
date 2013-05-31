@@ -18,9 +18,10 @@ describe "QdsProcessor" do
   end
 
   describe "page_generator" do
-    it "should return a TablePageGenerator with qds path" do
+    it "should return a TablePageGenerator with qds path and source label" do
       @processor.page_generator.should be_an_instance_of TablePageGenerator
       @processor.page_generator.root_directory_path.should eq "qds"
+      @processor.page_generator.source_label.should eq "QDS"
     end
   end
 

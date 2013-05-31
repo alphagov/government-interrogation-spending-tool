@@ -112,6 +112,8 @@ class TablePageGenerator
 
     if quarter
       content.sub!(QUARTER_REPLACE_TAG, quarter)
+    else
+      content.sub!(QUARTER_REPLACE_TAG, "")
     end
 
     available_quarters_list = ""

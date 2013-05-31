@@ -12,7 +12,7 @@ class QdsProcessor < BaseProcessor
   end
 
   def page_generator
-    TablePageGenerator.new("qds", "QDS 2012, date:15.01.12")
+    TablePageGenerator.new("qds", "QDS")
   end
 
   def root_node_options(data_objects)
