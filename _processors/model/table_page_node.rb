@@ -36,6 +36,10 @@ class TablePageNode
     @options.has_key?(:is_quarter) ? @options[:is_quarter] : false
   end
 
+  def alternative_title_or_title
+    @options.has_key?(:alternative_title) ? @options[:alternative_title] : @title
+  end
+
   def to_s
     "TablePageNode: title = #{title}, total = #{total.to_s}, slug = #{slug}, children = #{children.to_s}"
   end

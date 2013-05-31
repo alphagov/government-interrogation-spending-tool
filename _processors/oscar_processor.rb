@@ -80,7 +80,7 @@ class OscarProcessor < BaseProcessor
           quarter_total,
           quarter_children,
           OscarData.quarter_short(quarter),
-          {:is_quarter => true})
+          { :is_quarter => true, :alternative_title => "All Departments" })
     end
 
     root = TablePageNode.new("All Quarters", 0.0, root_children, "")

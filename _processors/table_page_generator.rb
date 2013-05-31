@@ -88,7 +88,7 @@ class TablePageGenerator
     content.sub!(TABLE_ROWS_REPLACE_TAG, table_rows)
     content.sub!(TOTAL_REPLACE_TAG, "#{table_page_node.total.to_sterling_magnitude_string}")
     content.sub!(TOTAL_VALUE_REPLACE_TAG, table_page_node.total.to_attribute_format)
-    content.sub!(HEADER_TITLE_REPLACE_TAG, table_page_node.title.sub(':', ''))
+    content.sub!(HEADER_TITLE_REPLACE_TAG, table_page_node.alternative_title_or_title.sub(':', ''))
     content.sub!(SOURCE_LABEL_REPLACE_TAG, @source_label)
 
     if !parent_slug_list.empty? && !parent_title_list.empty?

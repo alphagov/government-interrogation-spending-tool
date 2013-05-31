@@ -77,6 +77,16 @@ describe "TablePageNode" do
     end
   end
 
+  describe "alternative_title_or_title" do
+    it "returns the alternative_title or the normal title if an alternative is set" do
+      node1 = TablePageNode.new("Quarter 1 2012", 100.0, [], "Different String", { :alternative_title => "All Departments" })
+      node2 = TablePageNode.new("Toy", 100.0)
+
+      node1.alternative_title_or_title.should eq "All Departments"
+      node2.alternative_title_or_title.should eq "Toy"
+    end
+  end
+
   describe "to_s" do
     it "returns a string version of node" do
       s = @child_node1.to_s

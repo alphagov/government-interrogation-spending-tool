@@ -238,6 +238,17 @@ describe "TablePageGenerator" do
         content.should match /Test3.*Test2.*Test1/m
       end
     end
+
+    context "node with alternative title" do
+      it "should return with title using alternative title" do
+        node2 = TablePageNode.new("Test2", 100.0)
+        root_node = TablePageNode.new(
+          "All", 200.0, [node2], "all", { :alternative_title => "Everything" })
+
+        content = @page_generator.generate_content(root_node)
+        content.should match /header-title: Everything/
+      end
+    end
   end
 
 end

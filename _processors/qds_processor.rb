@@ -77,7 +77,7 @@ class QdsProcessor < BaseProcessor
         report_date_total,
         report_date_children,
         QdsData.quarter_short(report_date),
-        {:is_quarter => true})
+        { :is_quarter => true, :alternative_title => "All Departments" })
     end
 
     root = TablePageNode.new("All Quarters", 0.0, root_children, "")
