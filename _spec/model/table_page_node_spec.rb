@@ -77,6 +77,16 @@ describe "TablePageNode" do
     end
   end
 
+  describe "is_department" do
+    it "returns if node is department" do
+      node1 = TablePageNode.new("Toy", 100.0, [], "Different String", { :is_department => true })
+      node2 = TablePageNode.new("Toy", 100.0)
+
+      node1.is_department.should be_true
+      node2.is_department.should be_false
+    end
+  end
+
   describe "alternative_title_or_title" do
     it "returns the alternative_title or the normal title if an alternative is set" do
       node1 = TablePageNode.new("Quarter 1 2012", 100.0, [], "Different String", { :alternative_title => "All Departments" })

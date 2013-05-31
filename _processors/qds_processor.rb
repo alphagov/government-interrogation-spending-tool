@@ -85,7 +85,9 @@ class QdsProcessor < BaseProcessor
         report_date_children << TablePageNode.new(
           parent_department,
           parent_department_total,
-          parent_department_children)
+          parent_department_children,
+          parent_department,
+          { :is_department => true })
       end
 
       root_children << TablePageNode.new(

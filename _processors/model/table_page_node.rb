@@ -40,6 +40,10 @@ class TablePageNode
     @options.has_key?(:is_quarter) ? @options[:is_quarter] : false
   end
 
+  def is_department
+    @options.has_key?(:is_department) ? @options[:is_department] : false
+  end
+
   def alternative_title_or_title
     @options.has_key?(:alternative_title) ? @options[:alternative_title] : @title
   end
