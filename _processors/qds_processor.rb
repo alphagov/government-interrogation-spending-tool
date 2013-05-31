@@ -76,7 +76,8 @@ class QdsProcessor < BaseProcessor
         QdsData.quarter_long(report_date),
         report_date_total,
         report_date_children,
-        QdsData.quarter_short(report_date))
+        QdsData.quarter_short(report_date),
+        {:is_quarter => true})
     end
 
     root = TablePageNode.new("All Quarters", 0.0, root_children, "")

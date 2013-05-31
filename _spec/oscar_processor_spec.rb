@@ -49,6 +49,7 @@ describe "OscarProcessor" do
         @root_node.children[0].children[0].children[0].children[0].children.should have(2).items
       end
       it "should have a child node for quarter with generic quarter slug and title" do
+        @root_node.children[0].is_quarter.should be_true
         @root_node.children[0].slug.should eq "q2-2012"
         @root_node.children[0].title.should eq "Quarter 2 2012"
       end

@@ -5,13 +5,15 @@ class TablePageNode
   attr_accessor :slug,
                 :title,
                 :total,
-                :children
+                :children,
+                :options
 
-  def initialize title, total, children = [], slug = nil
+  def initialize title, total, children = [], slug = nil, options = {}
       @title = title
       @total = total
       @children = children
       @slug = slug.nil? ? slugify(title) : slugify(slug)
+      @options = options
   end
 
   def slugify(s)
@@ -28,6 +30,10 @@ class TablePageNode
 
   def has_children
     !children.nil? && !children.empty?
+  end
+
+  def is_quarter
+    @options.has_key?(:is_quarter) ? @options[:is_quarter] : false
   end
 
   def to_s

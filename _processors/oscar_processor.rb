@@ -79,7 +79,8 @@ class OscarProcessor < BaseProcessor
           OscarData.quarter_long(quarter),
           quarter_total,
           quarter_children,
-          OscarData.quarter_short(quarter))
+          OscarData.quarter_short(quarter),
+          {:is_quarter => true})
     end
 
     root = TablePageNode.new("All Quarters", 0.0, root_children, "")

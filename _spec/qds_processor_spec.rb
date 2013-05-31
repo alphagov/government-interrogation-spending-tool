@@ -42,6 +42,7 @@ describe "QdsProcessor" do
       end
 
       it "should have a child node for quarter with generic quarter title and slug" do
+        @root_node.children[0].is_quarter.should be_true
         @root_node.children[0].slug.should eq "q2-2012"
         @root_node.children[0].title.should eq "Quarter 2 2012"
       end
