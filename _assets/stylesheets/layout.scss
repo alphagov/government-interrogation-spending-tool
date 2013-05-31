@@ -68,6 +68,9 @@ header.table-page-header {
     h1 {
       @include bold-48;
     }
+    h2 {
+      margin: 0;
+    }
   }
 }
 
