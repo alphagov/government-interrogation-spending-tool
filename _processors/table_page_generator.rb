@@ -29,21 +29,31 @@ class TablePageGenerator
 
   def generate_from_root_node(root_table_page_node)
     delete_existing_files
-    generate_for_nodes(root_table_page_node, [@root_directory_path], [@root_directory_path.upcase])
+    generate_for_nodes(root_table_page_node, { :parent_slug_list => [@root_directory_path], :parent_title_list => [@root_directory_path.upcase] })
   end
 
-  def generate_for_nodes(table_page_node, parent_slug_list=[], parent_title_list=[])
-    generate_for_node(table_page_node, parent_slug_list, parent_title_list)
+  def generate_for_nodes(table_page_node, options = {})
+    options[:quarter] = table_page_node.title if table_page_node.is_quarter
+
+    generate_for_node(table_page_node, options)
 
     if !table_page_node.children.nil?
-      slug_list  = table_page_node.slug.empty? ? parent_slug_list  : parent_slug_list + [table_page_node.slug]
-      title_list = table_page_node.slug.empty? ? parent_title_list : parent_title_list + [table_page_node.title]
-      table_page_node.children.each { |node| generate_for_nodes(node, slug_list, title_list) }
+      parent_slug_list  = options.has_key?(:parent_slug_list) ? options[:parent_slug_list] : []
+      parent_title_list = options.has_key?(:parent_title_list) ? options[:parent_title_list] : []
+
+      child_options = options.clone
+      child_options[:parent_slug_list]  = table_page_node.slug.empty? ? parent_slug_list  : parent_slug_list + [table_page_node.slug]
+      child_options[:parent_title_list] = table_page_node.slug.empty? ? parent_title_list : parent_title_list + [table_page_node.title]
+
+      table_page_node.children.each { |node| generate_for_nodes(node, child_options) }
     end
   end
 
-  def generate_for_node(table_page_node, parent_slug_list=[], parent_title_list=[])
+  def generate_for_node(table_page_node, options = {})
     return if table_page_node.children.empty?
+
+    parent_slug_list  = options.has_key?(:parent_slug_list) ? options[:parent_slug_list] : []
+    parent_title_list = options.has_key?(:parent_title_list) ? options[:parent_title_list] : []
 
     parent_dir_path = parent_slug_list.empty? ? @root_directory_path : "#{parent_slug_list.join('/')}"
     node_dir_path = table_page_node.slug.empty? ? parent_dir_path : "#{parent_dir_path}/#{table_page_node.slug}"
@@ -52,13 +62,17 @@ class TablePageGenerator
     Dir::mkdir(parent_dir_path) unless File.exists?(parent_dir_path)
     Dir::mkdir(node_dir_path) unless File.exists?(node_dir_path)
 
-    content = generate_content(table_page_node, parent_slug_list, parent_title_list)
+    content = generate_content(table_page_node, options)
 
     File.open(file_path, 'w') {|f| f.write(content) }
   end
 
-  def generate_content(table_page_node, parent_slug_list=[], parent_title_list=[], quarter=nil)
+  def generate_content(table_page_node, options = {})
     rows = []
+
+    parent_slug_list  = options.has_key?(:parent_slug_list) ? options[:parent_slug_list] : []
+    parent_title_list = options.has_key?(:parent_title_list) ? options[:parent_title_list] : []
+    quarter           = options.has_key?(:quarter) ? options[:quarter] : nil
 
     table_page_node.children.sort { |a,b| b.total <=> a.total }.each do |node|
       row_title = node.has_children ? "<a href='#{node.slug}'>#{node.title}</a>" : node.title

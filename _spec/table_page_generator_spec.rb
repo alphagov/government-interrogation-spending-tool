@@ -89,7 +89,7 @@ describe "TablePageGenerator" do
 
     context "node with children" do
       it "creates an index.html file for the node containing test content" do
-        @page_generator.should_receive(:generate_content).with(@root_node, [], []).once
+        @page_generator.should_receive(:generate_content).with(@root_node, {}).once
         @page_generator.generate_for_node(@root_node)
         index_file = "#{@root_directory_path}/index.html"
 
@@ -107,11 +107,11 @@ describe "TablePageGenerator" do
 
     context "node under parent slug" do
       it "creates an index.html file under the parent slug directory" do
-        @page_generator.generate_for_node(@root_node, [@root_directory_path, 'toy'])
+        @page_generator.generate_for_node(@root_node, { :parent_slug_list => [@root_directory_path, 'toy'] })
         File.exists?("#{@root_directory_path}/toy/index.html").should be_true
       end
       it "creates an index.html file under the parent slug directory and own slug" do
-        @page_generator.generate_for_node(@child_node_not_empty, [@root_directory_path, 'test'])
+        @page_generator.generate_for_node(@child_node_not_empty, { :parent_slug_list => [@root_directory_path, 'test'] })
         File.exists?("#{@root_directory_path}/test/toy/index.html").should be_true
       end
     end
@@ -135,11 +135,11 @@ describe "TablePageGenerator" do
       end
 
       it "calls generate_for_node for each node passing parent slug path and title" do
-        @page_generator.should_receive(:generate_for_node).with(@root_node_with_two_levels, [@root_directory_path], [@root_directory_path.upcase]).once
-        @page_generator.should_receive(:generate_for_node).with(@child_node_empty, [@root_directory_path], [@root_directory_path.upcase]).once
-        @page_generator.should_receive(:generate_for_node).with(@child_node_not_empty, [@root_directory_path], [@root_directory_path.upcase]).once
-        @page_generator.should_receive(:generate_for_node).with(@leaf_node1, [@root_directory_path, "toy"], [@root_directory_path.upcase, "Toy"]).once
-        @page_generator.should_receive(:generate_for_node).with(@leaf_node2, [@root_directory_path, "toy"], [@root_directory_path.upcase, "Toy"]).once
+        @page_generator.should_receive(:generate_for_node).with(@root_node_with_two_levels, { :parent_slug_list => [@root_directory_path],        :parent_title_list => [@root_directory_path.upcase] }).once
+        @page_generator.should_receive(:generate_for_node).with(@child_node_empty, {          :parent_slug_list => [@root_directory_path],        :parent_title_list => [@root_directory_path.upcase] }).once
+        @page_generator.should_receive(:generate_for_node).with(@child_node_not_empty, {      :parent_slug_list => [@root_directory_path],        :parent_title_list => [@root_directory_path.upcase] }).once
+        @page_generator.should_receive(:generate_for_node).with(@leaf_node1, {                :parent_slug_list => [@root_directory_path, "toy"], :parent_title_list => [@root_directory_path.upcase, "Toy"] }).once
+        @page_generator.should_receive(:generate_for_node).with(@leaf_node2, {                :parent_slug_list => [@root_directory_path, "toy"], :parent_title_list => [@root_directory_path.upcase, "Toy"] }).once
 
         @page_generator.generate_from_root_node(@root_node_with_two_levels)
       end
@@ -152,7 +152,7 @@ describe "TablePageGenerator" do
         @parent_slug_list = ['qds','testing']
         @parent_title_list = ['QDS','Testing']
         @quarter = "Quarter 1 2012"
-        @content = @page_generator.generate_content(@root_node, @parent_slug_list, @parent_title_list, @quarter)
+        @content = @page_generator.generate_content(@root_node, { :parent_slug_list => @parent_slug_list, :parent_title_list => @parent_title_list, :quarter => @quarter })
       end
       it "should return a string containing two rows" do
         @content.should match /<td.*>.*Toy.*<\/td><td.*>.*100.*<\/td>/m
