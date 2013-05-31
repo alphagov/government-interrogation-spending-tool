@@ -24,6 +24,32 @@ describe "QdsProcessor" do
     end
   end
 
+  describe "root_node_options" do
+    context "qds data for a single quarter, one department" do
+      it "should return options with the quarter in quarters_list" do
+        data_objects = get_qds_data_objects("Quarter 2 - 2012/13", 1, 1, 1, 1)
+
+        options = @processor.root_node_options(data_objects)
+        options.has_key?(:available_quarters).should be_true
+        options[:available_quarters].length.should eq 1
+        options[:available_quarters][0].should eq({ :title => "Quarter 2 2012", :slug => "q2-2012" })
+      end
+    end
+    context "qds data for a two quarters, one department" do
+      it "should return options with the quarter in quarters_list" do
+
+        data_objects = get_qds_data_objects("Quarter 1 - 2012/13", 1, 1, 2, 2)
+        data_objects = data_objects + get_qds_data_objects("Quarter 2 - 2012/13", 1, 1, 2, 2)
+
+        options = @processor.root_node_options(data_objects)
+        options.has_key?(:available_quarters).should be_true
+        options[:available_quarters].length.should eq 2
+        options[:available_quarters][0].should eq({ :title => "Quarter 1 2012", :slug => "q1-2012" })
+        options[:available_quarters][1].should eq({ :title => "Quarter 2 2012", :slug => "q2-2012" })
+      end
+    end
+  end
+
   describe "generate_root_node" do
     context "qds data for a single quarter, one department, one section, one headline" do
       before(:all) do

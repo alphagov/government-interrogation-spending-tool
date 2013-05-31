@@ -2,6 +2,7 @@
 require_relative "base_processor.rb"
 require_relative "oscar_csv_parser.rb"
 require_relative "table_page_generator.rb"
+require_relative "model/oscar_data.rb"
 require_relative "model/table_page_node.rb"
 
 class OscarProcessor < BaseProcessor
@@ -12,6 +13,21 @@ class OscarProcessor < BaseProcessor
 
   def page_generator
     TablePageGenerator.new("oscar", "OSCAR 2012, date:15.01.12")
+  end
+
+  def root_node_options(data_objects)
+    options = super
+
+    quarters_hash = data_objects.group_by{ |oscar_data| oscar_data.quarter }
+    available_quarters = []
+    quarters_hash.keys.each do |quarter|
+      available_quarters << {
+        :title => OscarData.quarter_long(quarter),
+        :slug => TablePageNode.slugify(OscarData.quarter_short(quarter)) }
+    end
+    options[:available_quarters] = available_quarters
+
+    options
   end
 
   def generate_root_node(data_objects)

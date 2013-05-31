@@ -9,6 +9,10 @@
   clear: both;
 }
 
+.tabular {
+  font-family: ntatabularnumbers, nta, arial, sans-serif;
+}
+
 #wrapper {
   max-width: 1020px;
   margin: 0 auto;
@@ -70,6 +74,26 @@ header.table-page-header {
     }
     h2 {
       margin: 0;
+    }
+    summary {
+        cursor: pointer;
+        text-decoration:underline;
+        color: #2e3191;
+    }
+    summary:hover {
+        text-decoration:underline;
+        color: #2E8ACA;
+    }
+    summary:focus {
+    outline: none;
+    }
+    summary::-webkit-details-marker {
+        text-decoration:none;
+    }
+    ol.historical-data {
+      list-style: none;
+      margin:0;
+      padding:0;
     }
   }
 }

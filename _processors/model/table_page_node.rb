@@ -17,6 +17,10 @@ class TablePageNode
   end
 
   def slugify(s)
+    TablePageNode.slugify(s)
+  end
+
+  def self.slugify(s)
     slug = s.strip.downcase
     slug.gsub! /['`]/,""
     slug.gsub! /\s*@\s*/, " at "

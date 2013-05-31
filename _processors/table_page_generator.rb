@@ -13,6 +13,7 @@ class TablePageGenerator
   SOURCE_LABEL_REPLACE_TAG = "<!--SOURCE_LABEL-->"
   BREADCRUMBS_LIST_REPLACE_TAG = "<!--BREADCRUMB_LIST-->"
   QUARTER_REPLACE_TAG = "<!--QUARTER-->"
+  AVAILABLE_QUARTERS_REPLACE_TAG = "<!--AVAILABLE_QUARTERS-->"
 
   INDEX_FILE_NAME = "index.html"
 
@@ -75,9 +76,10 @@ class TablePageGenerator
   def generate_content(table_page_node, options = {})
     rows = []
 
-    parent_slug_list  = options.has_key?(:parent_slug_list) ? options[:parent_slug_list] : []
-    parent_title_list = options.has_key?(:parent_title_list) ? options[:parent_title_list] : []
-    quarter           = options.has_key?(:quarter) ? options[:quarter] : nil
+    parent_slug_list   = options.has_key?(:parent_slug_list) ? options[:parent_slug_list] : []
+    parent_title_list  = options.has_key?(:parent_title_list) ? options[:parent_title_list] : []
+    quarter            = options.has_key?(:quarter) ? options[:quarter] : nil
+    available_quarters = options.has_key?(:available_quarters) ? options[:available_quarters] : nil
 
     table_page_node.children.sort { |a,b| b.total <=> a.total }.each do |node|
       row_title = node.has_children ? "<a href='#{node.slug}'>#{node.title}</a>" : node.title
@@ -111,6 +113,14 @@ class TablePageGenerator
     if quarter
       content.sub!(QUARTER_REPLACE_TAG, quarter)
     end
+
+    available_quarters_list = ""
+    if available_quarters
+      available_quarters.each do |available_quarter|
+        available_quarters_list += "\n - \"#{available_quarter[:title]}\": /#{@root_directory_path}/#{available_quarter[:slug]}"
+      end
+    end
+    content.sub!(AVAILABLE_QUARTERS_REPLACE_TAG, available_quarters_list)
 
     content
   end

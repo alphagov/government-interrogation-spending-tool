@@ -10,7 +10,7 @@ class BaseProcessor
     raise "this method should be overridden and return a page generator"
   end
 
-  def root_node_options(data_objects=[])
+  def root_node_options(data_objects)
     {}
   end
 

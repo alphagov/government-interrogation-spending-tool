@@ -12,7 +12,7 @@ describe "BaseProcessor" do
 
   describe "root_node_options" do
     it "should return an empty hash" do
-      @processor.root_node_options.should eq({})
+      @processor.root_node_options([]).should eq({})
     end
   end
 

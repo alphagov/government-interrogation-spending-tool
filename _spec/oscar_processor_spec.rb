@@ -24,6 +24,33 @@ describe "OscarProcessor" do
     end
   end
 
+  describe "root_node_options" do
+    context "oscar data for a single quarter" do
+      it "should return options with the quarter in quarters_list" do
+        quarter = "Qtr2 - 12-13"
+        data_objects = get_oscar_data_objects([quarter], ["1"], ["2"], ["3"], ["4"])
+
+        options = @processor.root_node_options(data_objects)
+        options.has_key?(:available_quarters).should be_true
+        options[:available_quarters].length.should eq 1
+        options[:available_quarters][0].should eq({ :title => "Quarter 2 2012", :slug => "q2-2012" })
+      end
+    end
+    context "oscar data for a two quarters" do
+      it "should return options with the quarter in quarters_list" do
+        quarter1 = "Qtr1 - 12-13"
+        quarter2 = "Qtr2 - 12-13"
+        data_objects = get_oscar_data_objects([quarter1, quarter2], ["1"], ["2"], ["3"], ["4"])
+
+        options = @processor.root_node_options(data_objects)
+        options.has_key?(:available_quarters).should be_true
+        options[:available_quarters].length.should eq 2
+        options[:available_quarters][0].should eq({ :title => "Quarter 1 2012", :slug => "q1-2012" })
+        options[:available_quarters][1].should eq({ :title => "Quarter 2 2012", :slug => "q2-2012" })
+      end
+    end
+  end
+
   describe "generate_root_node" do
     context "oscar data for a single quarter, one department, one organisation, one control code, 2 Economic Category Long Names with 3 months data each" do
       before(:each) do

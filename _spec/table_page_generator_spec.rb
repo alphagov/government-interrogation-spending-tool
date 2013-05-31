@@ -152,7 +152,11 @@ describe "TablePageGenerator" do
         @parent_slug_list = ['qds','testing']
         @parent_title_list = ['QDS','Testing']
         @quarter = "Quarter 1 2012"
-        @content = @page_generator.generate_content(@root_node, { :parent_slug_list => @parent_slug_list, :parent_title_list => @parent_title_list, :quarter => @quarter })
+        @content = @page_generator.generate_content(@root_node, {
+          :parent_slug_list => @parent_slug_list,
+          :parent_title_list => @parent_title_list,
+          :quarter => @quarter,
+          :available_quarters => [{:title => "Quarter 1 2012", :slug => "q1-2012"}, {:title => "Quarter 2 2012", :slug => "q2-2012"}] })
       end
       it "should return a string containing two rows" do
         @content.should match /<td.*>.*Toy.*<\/td><td.*>.*100.*<\/td>/m
@@ -186,6 +190,11 @@ describe "TablePageGenerator" do
       end
       it "should set the page variable 'quarter'" do
         @content.should include "quarter: #{@quarter}"
+      end
+      it "should set the page variable list for available quarters links" do
+        @content.should match /available-quarters:/
+        @content.should include " - \"Quarter 1 2012\": /#{@root_directory_path}/q1-2012"
+        @content.should include " - \"Quarter 2 2012\": /#{@root_directory_path}/q2-2012"
       end
       it "should set the class for amounts" do
         @content.should match /class="amount"/
