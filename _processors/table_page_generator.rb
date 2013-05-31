@@ -27,9 +27,14 @@ class TablePageGenerator
     FileUtils.rm_rf Dir.glob("#{@root_directory_path}/*"), :secure => true
   end
 
-  def generate_from_root_node(root_table_page_node)
+  def generate_from_root_node(root_table_page_node, options = {})
+    options = {
+        :parent_slug_list => [@root_directory_path],
+        :parent_title_list => [@root_directory_path.upcase]
+      }.merge(options)
+
     delete_existing_files
-    generate_for_nodes(root_table_page_node, { :parent_slug_list => [@root_directory_path], :parent_title_list => [@root_directory_path.upcase] })
+    generate_for_nodes(root_table_page_node, options)
   end
 
   def generate_for_nodes(table_page_node, options = {})

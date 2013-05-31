@@ -10,6 +10,12 @@ describe "BaseProcessor" do
 		@processor.should be_an_instance_of BaseProcessor
 	end
 
+  describe "root_node_options" do
+    it "should return an empty hash" do
+      @processor.root_node_options.should eq({})
+    end
+  end
+
   describe "process" do
     before(:each) do
       @path = "test/path/raw_data.csv"
@@ -30,7 +36,8 @@ describe "BaseProcessor" do
     it "should call the helper objects and methods to process the raw csv" do
       @csv_parser.should_receive(:parse_file).with(@path).once.ordered
       @processor.should_receive(:generate_root_node).with(@data_objects).once.ordered
-      @page_generator.should_receive(:generate_from_root_node).with(@root_node).once.ordered
+      @processor.should_receive(:root_node_options).with(@data_objects).and_return({})
+      @page_generator.should_receive(:generate_from_root_node).with(@root_node, {}).once.ordered
 
       @processor.process(@path)
     end
