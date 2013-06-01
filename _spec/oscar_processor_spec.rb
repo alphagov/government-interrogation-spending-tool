@@ -84,6 +84,7 @@ describe "OscarProcessor" do
       end
       it "should have a child node for department" do
         @root_node.children[0].children[0].is_department.should be_true
+        @root_node.children[0].children[0].alternative_title_or_title.should eq ""
       end
     end
   end

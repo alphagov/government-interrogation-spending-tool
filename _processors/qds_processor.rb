@@ -87,7 +87,7 @@ class QdsProcessor < BaseProcessor
           parent_department_total,
           parent_department_children,
           parent_department,
-          { :is_department => true })
+          { :is_department => true, :alternative_title => "" })
       end
 
       root_children << TablePageNode.new(

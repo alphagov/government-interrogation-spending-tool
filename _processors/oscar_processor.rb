@@ -90,7 +90,7 @@ class OscarProcessor < BaseProcessor
           segment_department_long_name_total,
           segment_department_long_name_children,
           segment_department_long_name,
-          { :is_department => true })
+          { :is_department => true, :alternative_title => "" })
       end
 
       root_children << TablePageNode.new(
