@@ -336,7 +336,7 @@
 
 // Executive Office
 .organisation-logo-eo {
-  @extend .organisation-logo-no-identity;
+  @extend .organisation-logo-no-identity !optional;
 
   padding: 3px 0 2px 35px;
   background-image: url("https://assets.digital.cabinet-office.gov.uk/government/assets/crests/org_crest_13px.png");
@@ -344,7 +344,7 @@
   background-size: auto 20px;
 }
 .organisation-logo-stacked-eo {
-  @extend .organisation-logo-no-identity;
+  @extend .organisation-logo-no-identity !optional;
 
   padding: 20px 0 0 1px;
   background-image: url("https://assets.digital.cabinet-office.gov.uk/government/assets/crests/org_crest_13px.png");
