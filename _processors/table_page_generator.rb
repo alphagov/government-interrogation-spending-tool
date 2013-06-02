@@ -1,6 +1,7 @@
 # encoding: utf-8
 require "fileutils"
 require_relative "extensions/float"
+require_relative "department_mapper"
 
 class TablePageGenerator
 
@@ -14,6 +15,9 @@ class TablePageGenerator
   BREADCRUMBS_LIST_REPLACE_TAG = "<!--BREADCRUMB_LIST-->"
   QUARTER_REPLACE_TAG = "<!--QUARTER-->"
   AVAILABLE_QUARTERS_REPLACE_TAG = "<!--AVAILABLE_QUARTERS-->"
+  DEPARTMENT_NAME_REPLACE_TAG = "<!--DEPARTMENT_NAME-->"
+  DEPARTMENT_CSS_CLASS_REPLACE_TAG = "<!--DEPARTMENT_CSS_CLASS-->"
+  DEPARTMENT_CSS_SUFFIX_REPLACE_TAG = "<!--DEPARTMENT_CSS_SUFFIX-->"
 
   INDEX_FILE_NAME = "index.html"
 
@@ -39,7 +43,8 @@ class TablePageGenerator
   end
 
   def generate_for_nodes(table_page_node, options = {})
-    options[:quarter] = table_page_node.title if table_page_node.is_quarter
+    options[:quarter]    = table_page_node.title if table_page_node.is_quarter
+    options[:department] = table_page_node.title if table_page_node.is_department
 
     generate_for_node(table_page_node, options)
 
@@ -78,6 +83,7 @@ class TablePageGenerator
 
     parent_slug_list   = options.has_key?(:parent_slug_list) ? options[:parent_slug_list] : []
     parent_title_list  = options.has_key?(:parent_title_list) ? options[:parent_title_list] : []
+    department         = options.has_key?(:department) ? options[:department] : nil
     quarter            = options.has_key?(:quarter) ? options[:quarter] : nil
     available_quarters = options.has_key?(:available_quarters) ? options[:available_quarters] : nil
 
@@ -109,6 +115,23 @@ class TablePageGenerator
     else
       content.sub!(BREADCRUMBS_LIST_REPLACE_TAG, "")
     end
+
+    department_name = ""
+    department_css_class = ""
+    department_css_suffix = ""
+    if department
+      department_hash = DepartmentMapper.map_raw_to_css_hash(department)
+      if department_hash
+        department_name       = "\"#{department_hash[:name]}\"" if department_hash.has_key?(:name)
+        department_css_class  = "\"#{department_hash[:css_class]}\"" if department_hash.has_key?(:css_class)
+        department_css_suffix = "\"#{department_hash[:css_logo_suffix]}\"" if department_hash.has_key?(:css_logo_suffix)
+      else
+        department_name = "\"#{department}\""
+      end
+    end
+    content.sub!(DEPARTMENT_NAME_REPLACE_TAG, department_name)
+    content.sub!(DEPARTMENT_CSS_CLASS_REPLACE_TAG, department_css_class)
+    content.sub!(DEPARTMENT_CSS_SUFFIX_REPLACE_TAG, department_css_suffix)
 
     if quarter
       content.sub!(QUARTER_REPLACE_TAG, quarter)

@@ -155,6 +155,7 @@ describe "TablePageGenerator" do
         @content = @page_generator.generate_content(@root_node, {
           :parent_slug_list => @parent_slug_list,
           :parent_title_list => @parent_title_list,
+          :department => "Cabinet Office",
           :quarter => @quarter,
           :available_quarters => [{:title => "Quarter 1 2012", :slug => "q1-2012"}, {:title => "Quarter 2 2012", :slug => "q2-2012"}] })
       end
@@ -188,6 +189,11 @@ describe "TablePageGenerator" do
         @content.should include " - \"#{@parent_title_list[0]}\": /#{@parent_slug_list[0]}"
         @content.should include " - \"#{@parent_title_list[1]}\": /#{@parent_slug_list[0]}/#{@parent_slug_list[1]}"
       end
+      it "should set the page variables for department header" do
+        @content.should match /department-name: "Cabinet Office"/
+        @content.should match /department-css-class: "cabinet-office"/
+        @content.should match /department-css-suffix: "single-identity"/
+      end
       it "should set the page variable 'quarter'" do
         @content.should include "quarter: #{@quarter}"
       end
@@ -198,6 +204,28 @@ describe "TablePageGenerator" do
       end
       it "should set the class for amounts" do
         @content.should match /class="amount"/
+      end
+    end
+
+    context "node with unknown Department" do
+      it "should return page variables for Department with raw data as name and no logo css values" do
+        root_node = TablePageNode.new("All", 0.0, [TablePageNode.new("Test1", 100.0)])
+        content = @page_generator.generate_content(root_node, { :department => "Test Office" })
+
+        content.should match /department-name: "Test Office"/
+        content.should_not match /department-css-class: ".+?"/
+        content.should_not match /department-css-suffix: ".+?"/
+      end
+    end
+
+    context "node with known Department without crest" do
+      it "should return page variables for Department with name and no logo css values" do
+        root_node = TablePageNode.new("All", 0.0, [TablePageNode.new("Test1", 100.0)])
+        content = @page_generator.generate_content(root_node, { :department => "HMRC" })
+
+        content.should match /department-name: "HM Revenue & Customs"/
+        content.should_not match /department-css-class: ".+?"/
+        content.should_not match /department-css-suffix: ".+?"/
       end
     end
 

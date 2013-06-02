@@ -1,0 +1,17 @@
+    {% if page.department-name %}
+    <div id="whitehall-wrapper">
+      {% if page.department-css-class and page.department-css-suffix %}
+      <div class="organisations-show">
+          <div class="{{ page.department-css-class }}">
+              <h1>
+                  <span class="organisation-logo organisation-logo-stacked-{{ page.department-css-suffix }} organisation-logo-stacked-{{ page.department-css-suffix }}-large">
+                      <span>{{ page.department-name }}</span>
+                  </span>
+              </h1>
+          </div>
+      </div>
+      {% else %}
+      <h1>{{ page.department-name }}</h1>
+      {% endif %}
+    </div>
+    {% endif %}

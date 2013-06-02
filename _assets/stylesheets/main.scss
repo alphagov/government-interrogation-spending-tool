@@ -10,6 +10,13 @@ $primary-colour-text: darken($primary-colour, 7%);
 @import 'treemap';
 @import 'barchart';
 
+/* Whitehall imports */
+@import 'whitehall/_dimensions';
+#whitehall-wrapper {
+  @import 'whitehall/_colours';
+  @import 'whitehall/_organisations';
+}
+
 /*layout overrides*/
 footer#footer div.footer-wrapper {
   padding:0;
@@ -40,4 +47,17 @@ header#global-breadcrumb {
   nav ol li:last-child {
     background-image: none;
   }
+}
+
+#whitehall-wrapper {
+  margin-top: 0.8em;
+}
+#whitehall-wrapper .organisation-logo span, #whitehall-wrapper h1 {
+    font-size: 27px;
+    line-height: 30px;
+    font-family: Helvetica,Arial;
+    font-weight: normal;
+    margin-left:0;
+    margin-bottom: 0;
+    padding-top:0;
 }
