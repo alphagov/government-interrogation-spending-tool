@@ -1,94 +1,112 @@
----
-layout: default
----
 
-{% if page.breadcrumbs %}
-<header id="global-breadcrumb">
-  <hgroup class="full-width">
-    <nav role="navigation">
-      <ol class="group">
-      {% for link_hash in page.breadcrumbs %}
-        {% for link in link_hash %}
-        <li><a href="{{ link[1] }}">{{ link[0] }}</a></li>
-        {% endfor %}
-      {% endfor %}
-      </ol>
-    </nav>
-  </hgroup>
-</header>
-{% endif %}
+<!DOCTYPE html>
+<!--[if lt IE 9]><html class="lte-ie8 " lang="en"><![endif]--><!--[if gt IE 8]><!--><html lang="en" class="">
+<!--<![endif]-->{% include head_table.html %}
+<body>
+    <script type="text/javascript">document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script><a href="#homepage" class="visuallyhidden">Skip to main content</a>
+    
+    <div id="wrapper">
 
-<header class="page-header table-page-header group">
-  <hgroup class="col-65">
-    <h2>{{ page.header-title }}</h2>
-  </hgroup>
-  <hgroup class="col-35 col-text-right">
-    <h1>{{ page.total }}</h1>
-    {% if page.quarter %}
-    <h2>{{ page.quarter }}</h2>
-    {% endif %}
-    {% if page.available-quarters %}
-    <details>
-      <summary role="button" aria-expanded="false">Historical Data</summary>
-      <ol class="historical-data tabular">
-      {% for link_hash in page.available-quarters %}
-        {% for link in link_hash %}
-        <li><a href="{{ link[1] }}" alt="View data for {{ link[0] }}">{{ link[0] }}</a></li>
-        {% endfor %}
-      {% endfor %}
-      <ol>
-    </details>
-    {% endif %}
-  </hgroup>
-</header>
+{% include nav_header.html %}
 
-<div class="group">
-  <article role="article" class="group">
-    <div id="chart">
-      <!--<img src="/chart" alt="">-->
-      <div id="treemap"  class="visualisation treemap"></div>
-      <div id="barchart" class="visualisation barchart"></div>
-      <div id="doughnut" class="visualisation doughnut"></div>
+      <section id="content" role="main">
+
+
+        {% if page.breadcrumbs %}
+        <header id="global-breadcrumb">
+          <hgroup class="full-width">
+            <nav role="navigation">
+              <ol class="group">
+              {% for link_hash in page.breadcrumbs %}
+                {% for link in link_hash %}
+                <li><a href="{{ link[1] }}">{{ link[0] }}</a></li>
+                {% endfor %}
+              {% endfor %}
+              </ol>
+            </nav>
+          </hgroup>
+        </header>
+        {% endif %}
+
+        <header class="page-header table-page-header group">
+          <hgroup class="col-65">
+
+        {% include department_name_logo.html %}
+
+            {% if page.header-title %}
+            <h2>{{ page.header-title }}</h2>
+            {% endif %}
+          </hgroup>
+          <hgroup class="col-35 col-text-right">
+            <h1>{{ page.total }}</h1>
+            {% if page.quarter %}
+            <h2>{{ page.quarter }}</h2>
+            {% endif %}
+            {% if page.available-quarters %}
+            <details>
+              <summary role="button" aria-expanded="false">Historical Data</summary>
+              <ol class="historical-data tabular">
+              {% for link_hash in page.available-quarters %}
+                {% for link in link_hash %}
+                <li><a href="{{ link[1] }}" alt="View data for {{ link[0] }}">{{ link[0] }}</a></li>
+                {% endfor %}
+              {% endfor %}
+              <ol>
+            </details>
+            {% endif %}
+          </hgroup>
+        </header>
+
+        <div class="group">
+          <article role="article" class="group">
+            <div id="chart">
+              <!--<img src="/chart" alt="">-->
+              <div id="treemap"  class="visualisation treemap"></div>
+              <div id="barchart" class="visualisation barchart"></div>
+              <div id="doughnut" class="visualisation doughnut"></div>
+            </div>
+            {% if page.source-label != "" %}
+            <p class="source">
+              Source: {{ page.source-label }}
+              {% if page.quarter %}
+               - {{ page.quarter }}
+              {% endif %}
+            </p>
+            {% endif %}
+            <section class="content-group">
+
+              <table id="data-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Department</th>
+                    <th scope="col" class="amount">Spend
+                      <span class="sort-ind">▼</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{ content }}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th class="sorter-false">Total</th>
+                    <th class="amount sorter-false" title="{{ page.total-value }}">{{ page.total }}</th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <div class="form-download">
+                <p>
+                  <a href="/{{ page.url }}.csv">Download the full set of data (CSV)</a>
+                </p>
+              </div>
+            </section>
+          </article>
+        </div>
+
+      </section>
     </div>
-    {% if page.source-label != "" %}
-    <p class="source">
-      Source: {{ page.source-label }}
-      {% if page.quarter %}
-       - {{ page.quarter }}
-      {% endif %}
-    </p>
-    {% endif %}
-    <section class="content-group">
 
-      <script src="/assets/javascripts/TableSorting/jquery.tablesorter.min.js" type="text/javascript"></script>
-      <script src="/assets/javascripts/TableSorting/SortTable.js" type="text/javascript"></script>
-      <link rel="stylesheet" type="text/css" href="/assets/stylesheets/tableSorter.css">
-
-      <table id="data-table">
-        <thead>
-          <tr>
-            <th scope="col">Department</th>
-            <th scope="col" class="amount">Spend
-              <span class="sort-ind">▼</span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {{ content }}
-        </tbody>
-        <tfoot>
-          <tr>
-            <th class="sorter-false">Total</th>
-            <th class="amount sorter-false" title="{{ page.total-value }}">{{ page.total }}</th>
-          </tr>
-        </tfoot>
-      </table>
-
-      <div class="form-download">
-        <p>
-          <a href="/{{ page.url }}.csv">Download the full set of data (CSV)</a>
-        </p>
-      </div>
-    </section>
-  </article>
-</div>
+{% include footer.html %}<div id="global-app-error" class="app-error hidden"></div>
+  </body>
+</html>
