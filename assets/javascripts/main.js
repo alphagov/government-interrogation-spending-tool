@@ -9,6 +9,15 @@ gist.utils = gist.utils || (function() {
 
   $.extend(util_obj.prototype, {
 
+    inherit: function(C, Base) {
+      var F = function() {};
+      F.prototype = Base.prototype;
+      C.prototype = new F();
+      C._super = Base.prototype;
+      C.prototype.constructor = C;
+      return C;
+    },
+
     load_visualisations : function() {
       var chart_id = "chart";
 

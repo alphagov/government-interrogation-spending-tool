@@ -2,12 +2,12 @@ var gist = gist || {};
 gist.charts = gist.charts || {};
 
 gist.charts.doughnut = gist.charts.doughnut || (function() {
-  var doughnut_d3js = function doughnut(_node, opts) {
-    this.opts = $.extend({}, gist.charts.doughnut.Widget.default_options, opts);
-    this.node = _node;
 
-    this._init();
-  };
+  var util = new gist.utils.Util();
+
+  var doughnut_d3js = util.inherit(function doughnut(_node, opts) {
+    doughnut_d3js._super.constructor.call(this, _node, $.extend({}, gist.charts.doughnut.Widget.default_options, opts));
+  }, gist.charts.BaseChart);
 
   $.extend(doughnut_d3js, {
     chart_type: 'doughnut',
@@ -28,22 +28,6 @@ gist.charts.doughnut = gist.charts.doughnut || (function() {
       }
     },
 
-    _onWindowResize : function() {
-      if ($(this.node).is(':visible') == false) {
-        return;
-      }
-
-      var that = this, jnode = $(this.node);
-
-      window.clearTimeout(this.timeout_id);
-      this.timeout_id = setTimeout(function() {
-        var width = jnode.innerWidth();
-        if (that.width != width) {
-          that.draw(width, that.height);
-        }
-      }, 50);
-    },
-
     draw : function(w, h) {
       var that = this,
           node_id = this.node.id,
@@ -55,6 +39,8 @@ gist.charts.doughnut = gist.charts.doughnut || (function() {
       this.height = h;
 
       if (this.opts.chart_data) {
+        $("#" + node_id).empty();
+
         var data = this.opts.chart_data.filter(function(d) { return d.total > 0; })
           .sort(function(a,b) {return (a.total < b.total)? 1 : (a.total == b.total)? 0 : -1; });
 

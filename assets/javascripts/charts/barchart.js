@@ -2,12 +2,11 @@ var gist = gist || {};
 gist.charts = gist.charts || {};
 
 gist.charts.barchart = gist.charts.barchart || (function() {
-  var barchart_d3js = function barchart(_node, opts) {
-    this.opts = $.extend({}, gist.charts.barchart.Widget.default_options, opts);
-    this.node = _node;
+  var util = new gist.utils.Util();
 
-    this._init();
-  };
+  var barchart_d3js = util.inherit(function barchart(_node, opts) {
+    barchart_d3js._super.constructor.call(this, _node, $.extend({}, gist.charts.barchart.Widget.default_options, opts));
+  }, gist.charts.BaseChart);
 
   $.extend(barchart_d3js, {
     chart_type: 'barchart',
@@ -26,22 +25,6 @@ gist.charts.barchart = gist.charts.barchart || (function() {
           that._onWindowResize();
         });
       }
-    },
-
-    _onWindowResize : function() {
-      if ($(this.node).is(':visible') == false) {
-        return;
-      }
-
-      var that = this, jnode = $(this.node);
-
-      window.clearTimeout(this.timeout_id);
-      this.timeout_id = setTimeout(function() {
-        var width = jnode.innerWidth();
-        if (that.width != width) {
-          that.draw(width, that.height);
-        }
-      }, 50);
     },
 
     draw : function(w, h) {
