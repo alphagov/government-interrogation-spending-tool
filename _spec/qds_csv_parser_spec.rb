@@ -110,6 +110,7 @@ describe "QdsCsvParser" do
 
     it "returns object populated with values" do
       @parse_row_result.parent_department.should eq "TOY"
+      @parse_row_result.scope.should eq "TOY - Core"
       @parse_row_result.report_date.should eq "Quarter 2 - 2012/13"
       @parse_row_result.section.should eq "Spend by Budget Type"
       @parse_row_result.data_headline.should eq "Organisation's Own Budget (DEL)"

@@ -133,6 +133,7 @@ describe "QdsProcessor" do
           for t in 1..num_of_data_sub_types
             data_objects << QdsData.new(
               "DEP" + d.to_s,
+              "DEP - Core",
               report_date,
               "Section " + s.to_s,
               "Data Headline " + h.to_s,
