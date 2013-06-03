@@ -68,17 +68,16 @@ class TablePageGenerator
 
     parent_dir_path = parent_slug_list.empty? ? @root_directory_path : "#{parent_slug_list.join('/')}"
     node_dir_path = table_page_node.slug.empty? ? parent_dir_path : "#{parent_dir_path}/#{table_page_node.slug}"
-    file_path = "#{node_dir_path}/#{INDEX_FILE_NAME}"
 
     Dir::mkdir(parent_dir_path) unless File.exists?(parent_dir_path)
     Dir::mkdir(node_dir_path) unless File.exists?(node_dir_path)
 
-    content = generate_content(table_page_node, options)
-
-    File.open(file_path, 'w') {|f| f.write(content) }
+    html_content = generate_html_content(table_page_node, options)
+    index_file_path = "#{node_dir_path}/#{INDEX_FILE_NAME}"
+    File.open(index_file_path, 'w') {|f| f.write(html_content) }
   end
 
-  def generate_content(table_page_node, options = {})
+  def generate_html_content(table_page_node, options = {})
     rows = []
 
     parent_slug_list   = options.has_key?(:parent_slug_list) ? options[:parent_slug_list] : []

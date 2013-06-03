@@ -84,12 +84,12 @@ describe "TablePageGenerator" do
   describe "generate_for_node" do
     before :each do
       @test_content = "test"
-      @page_generator.stub(:generate_content).and_return(@test_content)
+      @page_generator.stub(:generate_html_content).and_return(@test_content)
     end
 
     context "node with children" do
       it "creates an index.html file for the node containing test content" do
-        @page_generator.should_receive(:generate_content).with(@root_node, {}).once
+        @page_generator.should_receive(:generate_html_content).with(@root_node, {}).once
         @page_generator.generate_for_node(@root_node)
         index_file = "#{@root_directory_path}/index.html"
 
@@ -146,13 +146,13 @@ describe "TablePageGenerator" do
     end
   end
 
-  describe "generate_content" do
+  describe "generate_html_content" do
     context "node with two children, both empty" do
       before :each do
         @parent_slug_list = ['qds','testing']
         @parent_title_list = ['QDS','Testing']
         @quarter = "Quarter 1 2012"
-        @content = @page_generator.generate_content(@root_node, {
+        @content = @page_generator.generate_html_content(@root_node, {
           :parent_slug_list => @parent_slug_list,
           :parent_title_list => @parent_title_list,
           :department => "Cabinet Office",
@@ -210,7 +210,7 @@ describe "TablePageGenerator" do
     context "node with unknown Department" do
       it "should return page variables for Department with raw data as name and no logo css values" do
         root_node = TablePageNode.new("All", 0.0, [TablePageNode.new("Test1", 100.0)])
-        content = @page_generator.generate_content(root_node, { :department => "Test Office" })
+        content = @page_generator.generate_html_content(root_node, { :department => "Test Office" })
 
         content.should match /department-name: "Test Office"/
         content.should_not match /department-css-class: ".+?"/
@@ -221,7 +221,7 @@ describe "TablePageGenerator" do
     context "node with known Department without crest" do
       it "should return page variables for Department with name and no logo css values" do
         root_node = TablePageNode.new("All", 0.0, [TablePageNode.new("Test1", 100.0)])
-        content = @page_generator.generate_content(root_node, { :department => "HMRC" })
+        content = @page_generator.generate_html_content(root_node, { :department => "HMRC" })
 
         content.should match /department-name: "HM Revenue & Customs"/
         content.should_not match /department-css-class: ".+?"/
@@ -235,7 +235,7 @@ describe "TablePageGenerator" do
         node2 = TablePageNode.new("Test2", 100.0, [node1])
         root_node = TablePageNode.new("All", 0.0, [node2])
 
-        @content = @page_generator.generate_content(root_node)
+        @content = @page_generator.generate_html_content(root_node)
       end
       it "should contain a data-url set" do
         @content.should match /data-url="test2"/
@@ -252,7 +252,7 @@ describe "TablePageGenerator" do
         node3 = TablePageNode.new("Test3", -1000000.0)
         root_node = TablePageNode.new("All", 0.0, [node1,node2,node3])
 
-        @content = @page_generator.generate_content(root_node)
+        @content = @page_generator.generate_html_content(root_node)
       end
       it "should display values formatted with uk currency format" do
         @content.should match /£999,100,000/
@@ -271,7 +271,7 @@ describe "TablePageGenerator" do
         node3 = TablePageNode.new("Test3", 200.0)
         root_node = TablePageNode.new("All", 200.0, [node1,node2,node3])
 
-        content = @page_generator.generate_content(root_node)
+        content = @page_generator.generate_html_content(root_node)
         content.should match /Test3.*Test2.*Test1/m
       end
     end
@@ -282,7 +282,7 @@ describe "TablePageGenerator" do
         root_node = TablePageNode.new(
           "All", 200.0, [node2], "all", { :alternative_title => "Everything" })
 
-        content = @page_generator.generate_content(root_node)
+        content = @page_generator.generate_html_content(root_node)
         content.should match /header-title: Everything/
       end
     end
