@@ -53,6 +53,12 @@ describe QdsData do
         	@qds_data1.value.should eql 425.345
     	end
 	end
+  describe "#abbr" do
+    it "returns the correct abbr" do
+      @qds_data1.abbr.should eql "FCO"
+    end
+  end
+
   describe "to_s" do
     it "return string version of object" do
       @qds_data1.to_s.include?(@qds_data1.parent_department).should be_true
@@ -81,6 +87,13 @@ describe QdsData do
       QdsData.quarter_long("Quarter 2 - 2012/13").should eq "Quarter 2 2012"
       QdsData.quarter_long("Quarter 3 - 2012/13").should eq "Quarter 3 2012"
       QdsData.quarter_long("Quarter 4 - 2012/13").should eq "Quarter 4 2012"
+    end
+  end
+
+  describe "abbr_from_scope" do
+    it "returns department abbreviation from scope value" do
+      QdsData.abbr_from_scope("FCO - Core").should eq "FCO"
+      QdsData.abbr_from_scope("DfE - Core").should eq "DFE"
     end
   end
 end

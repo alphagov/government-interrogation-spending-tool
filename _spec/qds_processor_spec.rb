@@ -26,9 +26,9 @@ describe "QdsProcessor" do
   end
 
   describe "root_node_options" do
-    context "qds data for a single quarter, one department" do
+    context "qds data for a single quarter, one department, with one parent_department" do
       it "should return options with the quarter in quarters_list" do
-        data_objects = get_qds_data_objects("Quarter 2 - 2012/13", 1, 1, 1, 1)
+        data_objects = get_qds_data_objects("Quarter 2 - 2012/13", ["DEP"], ["DEP - Core"], ["Spend by Budget Type"], ["Organisation's Own Budget (DEL)"], ["Capital"])
 
         options = @processor.root_node_options(data_objects)
         options.has_key?(:available_quarters).should be_true
@@ -36,11 +36,11 @@ describe "QdsProcessor" do
         options[:available_quarters][0].should eq({ :title => "Quarter 2 2012", :slug => "q2-2012" })
       end
     end
-    context "qds data for a two quarters, one department" do
+    context "qds data for a two quarters, one department, with one parent_department" do
       it "should return options with the quarter in quarters_list" do
 
-        data_objects = get_qds_data_objects("Quarter 1 - 2012/13", 1, 1, 2, 2)
-        data_objects = data_objects + get_qds_data_objects("Quarter 2 - 2012/13", 1, 1, 2, 2)
+        data_objects = get_qds_data_objects("Quarter 1 - 2012/13", ["DEP"], ["DEP - Core"], ["Spend by Budget Type"], ["DEL1", "DEL2"], ["Capital1", "Capital2"])
+        data_objects = data_objects + get_qds_data_objects("Quarter 2 - 2012/13", ["DEP"], ["DEP - Core"], ["Spend by Budget Type"], ["DEL1", "DEL2"], ["Capital1", "Capital2"])
 
         options = @processor.root_node_options(data_objects)
         options.has_key?(:available_quarters).should be_true
@@ -52,9 +52,9 @@ describe "QdsProcessor" do
   end
 
   describe "generate_root_node" do
-    context "qds data for a single quarter, one department, one section, one headline" do
-      before(:all) do
-        @data_objects = get_qds_data_objects("Quarter 2 - 2012/13", 1, 1, 2, 2)
+    context "qds data for a single quarter, one department, one parent_department, one section, one headline" do
+      before(:each) do
+        @data_objects = get_qds_data_objects("Quarter 2 - 2012/13", ["DEP"], ["DEP - Core"], ["Spend by Budget Type"], ["DEL1"], ["Capital1"])
         @root_node = @processor.generate_root_node(@data_objects)
       end
 
@@ -62,10 +62,14 @@ describe "QdsProcessor" do
         @root_node.should be_an_instance_of TablePageNode
       end
 
-      it "should create a node tree with depth 4 with nodes: root, quarter, department, section, headline" do
+      it "should create a node tree with depth 5 with nodes: root, quarter, scope abbr, parent_department, section, headline" do
         @root_node.children.should have(1).items
+
         @root_node.children[0].children.should have(1).items
         @root_node.children[0].children[0].children.should have(1).items
+        @root_node.children[0].children[0].children[0].children.should have(1).items
+        @root_node.children[0].children[0].children[0].children[0].children.should have(1).items
+        @root_node.children[0].children[0].children[0].children[0].children[0].children.should have(1).items
       end
 
       it "should have a child node for quarter with generic quarter title and slug, alternative title" do
@@ -77,6 +81,22 @@ describe "QdsProcessor" do
       it "should have a child node for department" do
         @root_node.children[0].children[0].is_department.should be_true
         @root_node.children[0].children[0].alternative_title_or_title.should eq ""
+      end
+    end
+    context "qds data for a single quarter, one scope abbr, two parent_departments, one section, one headline" do
+      before(:each) do
+        @data_objects = get_qds_data_objects("Quarter 2 - 2012/13", ["DECC", "NDA"], ["DECC - Core"], ["Spend by Budget Type"], ["DEL1"], ["Capital1"])
+        @root_node = @processor.generate_root_node(@data_objects)
+      end
+
+      it "should have a child node for quarter, one scope abbr with 2 child nodes for parent_departments" do
+        @root_node.children.should have(1).items
+
+        @root_node.children[0].children.should have(1).items
+        @root_node.children[0].children[0].children.should have(2).items
+
+        @root_node.children[0].children[0].children[0].title.should eq "DECC"
+        @root_node.children[0].children[0].children[1].title.should eq "NDA"
       end
     end
   end
@@ -101,8 +121,9 @@ describe "QdsProcessor" do
 
         File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/index.html").should be_true
         File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/toy/index.html").should be_true
-        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/toy/spend-by-budget-type/index.html").should be_true
-        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/toy/spend-by-budget-type/organisations-own-budget-del/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/toy/toy/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/toy/toy/spend-by-budget-type/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/toy/toy/spend-by-budget-type/organisations-own-budget-del/index.html").should be_true
       end
     end
     context "test_qds.csv" do
@@ -111,11 +132,15 @@ describe "QdsProcessor" do
 
         File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/index.html").should be_true
         File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/toy/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/toy/toy/index.html").should be_true
         File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/yot/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/yot/yot/index.html").should be_true
 
         File.exists?("#{TEST_QDS_PAGE_PATH}/q1-2012/index.html").should be_true
         File.exists?("#{TEST_QDS_PAGE_PATH}/q1-2012/toy/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q1-2012/toy/toy/index.html").should be_true
         File.exists?("#{TEST_QDS_PAGE_PATH}/q1-2012/yot/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q1-2012/yot/yot/index.html").should be_true
       end
     end
 
@@ -124,21 +149,23 @@ describe "QdsProcessor" do
     end
   end
 
-  def get_qds_data_objects(report_date, num_of_parent_departments, num_of_sections, num_of_data_headlines, num_of_data_sub_types)
+  def get_qds_data_objects(report_date, parent_departments, scopes, sections, data_headlines, data_sub_types)
     data_objects = []
 
-    for d in 1..num_of_parent_departments
-      for s in 1..num_of_sections
-        for h in 1..num_of_data_headlines
-          for t in 1..num_of_data_sub_types
-            data_objects << QdsData.new(
-              "DEP" + d.to_s,
-              "DEP - Core",
-              report_date,
-              "Section " + s.to_s,
-              "Data Headline " + h.to_s,
-              "Data Sub Type " + t.to_s,
-              t.to_f)
+    parent_departments.each do |parent_department|
+      scopes.each do |scope|
+        sections.each do |section|
+          data_headlines.each do |data_headline|
+            data_sub_types.each_with_index do |data_sub_type, t|
+              data_objects << QdsData.new(
+                parent_department,
+                scope,
+                report_date,
+                section,
+                data_headline,
+                data_sub_type,
+                t.to_f)
+            end
           end
         end
       end

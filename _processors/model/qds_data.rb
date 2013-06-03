@@ -3,9 +3,10 @@
 class QdsData
 
   QUARTER_GROUPING_REG_EX = /(Quarter )([0-9])( - )([0-9]{4})(\/[0-9]{2})/
+  DEPARTMENT_ABBR_FROM_SCOPE = /(.+?) - Core/
 
 	# Field names and order matches QDS spreadsheet column name and order
-	attr_accessor :parent_department, :scope, :report_date, :section, :data_headline, :data_sub_type, :value
+	attr_accessor :parent_department, :scope, :report_date, :section, :data_headline, :data_sub_type, :value, :abbr
     def initialize parent_department, scope, report_date, section, data_headline, data_sub_type, value
         @parent_department = parent_department
         @scope = scope
@@ -14,10 +15,16 @@ class QdsData
         @data_headline = data_headline
         @data_sub_type = data_sub_type
         @value = value
+
+        @abbr = QdsData.abbr_from_scope(@scope)
     end
 
     def to_s
       "QDS - parent_department = #{parent_department}, scope = #{scope}, report_date = #{report_date}, section = #{section}, data_headline = #{data_headline}, data_sub_type = #{data_sub_type}, value = #{value.to_s}"
+    end
+
+    def self.abbr_from_scope(scope)
+      scope.gsub(DEPARTMENT_ABBR_FROM_SCOPE, '\1').upcase
     end
 
     def self.quarter_short(report_date)
