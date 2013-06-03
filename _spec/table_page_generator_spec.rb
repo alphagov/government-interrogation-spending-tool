@@ -84,35 +84,45 @@ describe "TablePageGenerator" do
   describe "generate_for_node" do
     before :each do
       @test_content = "test"
+      @test_csv_content = "test,value"
       @page_generator.stub(:generate_html_content).and_return(@test_content)
+      @page_generator.stub(:generate_csv_content).and_return(@test_csv_content)
     end
 
     context "node with children" do
-      it "creates an index.html file for the node containing test content" do
+      it "creates an index.html and data.csv file for the node containing test content" do
         @page_generator.should_receive(:generate_html_content).with(@root_node, {}).once
+        @page_generator.should_receive(:generate_csv_content).with(@root_node, {}).once
         @page_generator.generate_for_node(@root_node)
         index_file = "#{@root_directory_path}/index.html"
+        csv_file   = "#{@root_directory_path}/data.csv"
 
         File.exists?(index_file).should be_true
+        File.exists?(csv_file).should be_true
+
         File.read(index_file).should eq (@test_content)
+        File.read(csv_file).should eq (@test_csv_content)
       end
     end
 
     context "node with no children" do
-      it "does not create an index.html file for the node" do
+      it "does not create an index.html and data.csv file for the node" do
         @page_generator.generate_for_node(@empty_node)
         File.exists?("#{@root_directory_path}/empty/index.html").should be_false
+        File.exists?("#{@root_directory_path}/empty/data.csv").should be_false
       end
     end
 
     context "node under parent slug" do
-      it "creates an index.html file under the parent slug directory" do
+      it "creates an index.html and data.csv file under the parent slug directory" do
         @page_generator.generate_for_node(@root_node, { :parent_slug_list => [@root_directory_path, 'toy'] })
         File.exists?("#{@root_directory_path}/toy/index.html").should be_true
+        File.exists?("#{@root_directory_path}/toy/data.csv").should be_true
       end
-      it "creates an index.html file under the parent slug directory and own slug" do
+      it "creates an index.html and data.csv file under the parent slug directory and own slug" do
         @page_generator.generate_for_node(@child_node_not_empty, { :parent_slug_list => [@root_directory_path, 'test'] })
         File.exists?("#{@root_directory_path}/test/toy/index.html").should be_true
+        File.exists?("#{@root_directory_path}/test/toy/data.csv").should be_true
       end
     end
 
@@ -284,6 +294,21 @@ describe "TablePageGenerator" do
 
         content = @page_generator.generate_html_content(root_node)
         content.should match /header-title: Everything/
+      end
+    end
+  end
+
+  describe "generate_csv_content" do
+    context "node with two children, both empty" do
+      before :each do
+        @csv_content = @page_generator.generate_csv_content(@root_node, {})
+      end
+      it "should return a string with header row" do
+        @csv_content.should match /"Name","Spend"/m
+      end
+      it "should return a string containing two rows for the nodes" do
+        @csv_content.should match /"Toy","100"/m
+        @csv_content.should match /"Test","200"/m
       end
     end
   end

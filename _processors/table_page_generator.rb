@@ -20,6 +20,7 @@ class TablePageGenerator
   DEPARTMENT_CSS_SUFFIX_REPLACE_TAG = "<!--DEPARTMENT_CSS_SUFFIX-->"
 
   INDEX_FILE_NAME = "index.html"
+  CSV_FILE_NAME   = "data.csv"
 
   attr_accessor :root_directory_path, :source_label
   def initialize root_directory_path, source_label
@@ -75,6 +76,10 @@ class TablePageGenerator
     html_content = generate_html_content(table_page_node, options)
     index_file_path = "#{node_dir_path}/#{INDEX_FILE_NAME}"
     File.open(index_file_path, 'w') {|f| f.write(html_content) }
+
+    csv_content = generate_csv_content(table_page_node, options)
+    csv_file_path = "#{node_dir_path}/#{CSV_FILE_NAME}"
+    File.open(csv_file_path, 'w') {|f| f.write(csv_content) }
   end
 
   def generate_html_content(table_page_node, options = {})
@@ -147,5 +152,15 @@ class TablePageGenerator
     content.sub!(AVAILABLE_QUARTERS_REPLACE_TAG, available_quarters_list)
 
     content
+  end
+
+  def generate_csv_content(table_page_node, options = {})
+    rows = ["\"Name\",\"Spend\""]
+
+    table_page_node.children.each do |node|
+      rows << "\"#{node.title}\",\"#{node.total.to_attribute_format}\""
+    end
+
+    rows.join("\n")
   end
 end
