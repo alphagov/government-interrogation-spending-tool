@@ -90,14 +90,16 @@ describe "TablePageGenerator" do
     end
 
     context "node with children" do
-      it "creates an index.html and data.csv file for the node containing test content" do
+      it "creates an index.html, chart.png and data.csv file for the node containing test content" do
         @page_generator.should_receive(:generate_html_content).with(@root_node, {}).once
         @page_generator.should_receive(:generate_csv_content).with(@root_node, {}).once
         @page_generator.generate_for_node(@root_node)
         index_file = "#{@root_directory_path}/index.html"
+        png_file   = "#{@root_directory_path}/chart.png"
         csv_file   = "#{@root_directory_path}/data.csv"
 
         File.exists?(index_file).should be_true
+        File.exists?(png_file).should be_true
         File.exists?(csv_file).should be_true
 
         File.read(index_file).should eq (@test_content)
@@ -106,23 +108,26 @@ describe "TablePageGenerator" do
     end
 
     context "node with no children" do
-      it "does not create an index.html and data.csv file for the node" do
+      it "does not create an index.html, chart.png and data.csv file for the node" do
         @page_generator.generate_for_node(@empty_node)
         File.exists?("#{@root_directory_path}/empty/index.html").should be_false
         File.exists?("#{@root_directory_path}/empty/data.csv").should be_false
+        File.exists?("#{@root_directory_path}/empty/chart.png").should be_false
       end
     end
 
     context "node under parent slug" do
-      it "creates an index.html and data.csv file under the parent slug directory" do
+      it "creates an index.html, chart.png and data.csv file under the parent slug directory" do
         @page_generator.generate_for_node(@root_node, { :parent_slug_list => [@root_directory_path, 'toy'] })
         File.exists?("#{@root_directory_path}/toy/index.html").should be_true
         File.exists?("#{@root_directory_path}/toy/data.csv").should be_true
+        File.exists?("#{@root_directory_path}/toy/chart.png").should be_true
       end
-      it "creates an index.html and data.csv file under the parent slug directory and own slug" do
+      it "creates an index.html, chart.png and data.csv file under the parent slug directory and own slug" do
         @page_generator.generate_for_node(@child_node_not_empty, { :parent_slug_list => [@root_directory_path, 'test'] })
         File.exists?("#{@root_directory_path}/test/toy/index.html").should be_true
         File.exists?("#{@root_directory_path}/test/toy/data.csv").should be_true
+        File.exists?("#{@root_directory_path}/test/toy/chart.png").should be_true
       end
     end
 

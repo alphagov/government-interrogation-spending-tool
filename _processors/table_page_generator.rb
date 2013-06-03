@@ -6,6 +6,7 @@ require_relative "department_mapper"
 class TablePageGenerator
 
   TABLE_PAGE_TEMPLATE_FILE_PATH = File.expand_path("#{File.dirname(__FILE__)}/templates/table_page.html")
+  TABLE_PAGE_CHART_PLACEHOLDER_IMAGE_FILE_PATH = File.expand_path("#{File.dirname(__FILE__)}/templates/chart.png")
 
   TABLE_ROWS_REPLACE_TAG = "<!--TABLE_CONTENT-->"
   TOTAL_REPLACE_TAG = "<!--TOTAL-->"
@@ -80,6 +81,8 @@ class TablePageGenerator
     csv_content = generate_csv_content(table_page_node, options)
     csv_file_path = "#{node_dir_path}/#{CSV_FILE_NAME}"
     File.open(csv_file_path, 'w') {|f| f.write(csv_content) }
+
+    FileUtils.cp TABLE_PAGE_CHART_PLACEHOLDER_IMAGE_FILE_PATH, "#{node_dir_path}/chart.png"
   end
 
   def generate_html_content(table_page_node, options = {})
