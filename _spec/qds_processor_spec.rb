@@ -78,9 +78,14 @@ describe "QdsProcessor" do
         @root_node.children[0].title.should eq "Quarter 2 2012"
         @root_node.children[0].alternative_title_or_title.should eq "All Departments"
       end
+
       it "should have a child node for department" do
         @root_node.children[0].children[0].is_department.should be_true
         @root_node.children[0].children[0].alternative_title_or_title.should eq ""
+      end
+
+      it "should have redirect url set at parent_department level to redirect to spend-by-budget-type" do
+        @root_node.children[0].children[0].children[0].redirect_url.should eq "/qds/q2-2012/dep/dep/spend-by-budget-type"
       end
     end
     context "qds data for a single quarter, one scope abbr, two parent_departments, one section, one headline" do

@@ -7,6 +7,7 @@ class TablePageGenerator
 
   TABLE_PAGE_TEMPLATE_FILE_PATH = File.expand_path("#{File.dirname(__FILE__)}/templates/table_page.html")
   TABLE_PAGE_CHART_PLACEHOLDER_IMAGE_FILE_PATH = File.expand_path("#{File.dirname(__FILE__)}/templates/chart.png")
+  REDIRECT_PAGE_TEMPLATE_FILE_PATH = File.expand_path("#{File.dirname(__FILE__)}/templates/redirect_page.html")
 
   TABLE_ROWS_REPLACE_TAG = "<!--TABLE_CONTENT-->"
   TOTAL_REPLACE_TAG = "<!--TOTAL-->"
@@ -20,6 +21,8 @@ class TablePageGenerator
   DEPARTMENT_CSS_CLASS_REPLACE_TAG = "<!--DEPARTMENT_CSS_CLASS-->"
   DEPARTMENT_CSS_SUFFIX_REPLACE_TAG = "<!--DEPARTMENT_CSS_SUFFIX-->"
 
+  REDIRECT_URL_REPLACE_TAG = "<!--REDIRECT_URL-->"
+
   INDEX_FILE_NAME = "index.html"
   CSV_FILE_NAME   = "data.csv"
 
@@ -27,7 +30,9 @@ class TablePageGenerator
   def initialize root_directory_path, source_label
     @root_directory_path = root_directory_path
     @source_label = source_label
+
     @table_page_template_content = File.read(TABLE_PAGE_TEMPLATE_FILE_PATH)
+    @redirect_page_template_content = File.read(REDIRECT_PAGE_TEMPLATE_FILE_PATH)
   end
 
   def delete_existing_files
@@ -74,15 +79,21 @@ class TablePageGenerator
     Dir::mkdir(parent_dir_path) unless File.exists?(parent_dir_path)
     Dir::mkdir(node_dir_path) unless File.exists?(node_dir_path)
 
-    html_content = generate_html_content(table_page_node, options)
-    index_file_path = "#{node_dir_path}/#{INDEX_FILE_NAME}"
-    File.open(index_file_path, 'w') {|f| f.write(html_content) }
+    if !table_page_node.redirect_url
+      html_content = generate_html_content(table_page_node, options)
+      index_file_path = "#{node_dir_path}/#{INDEX_FILE_NAME}"
+      File.open(index_file_path, 'w') {|f| f.write(html_content) }
 
-    csv_content = generate_csv_content(table_page_node, options)
-    csv_file_path = "#{node_dir_path}/#{CSV_FILE_NAME}"
-    File.open(csv_file_path, 'w') {|f| f.write(csv_content) }
+      csv_content = generate_csv_content(table_page_node, options)
+      csv_file_path = "#{node_dir_path}/#{CSV_FILE_NAME}"
+      File.open(csv_file_path, 'w') {|f| f.write(csv_content) }
 
-    FileUtils.cp TABLE_PAGE_CHART_PLACEHOLDER_IMAGE_FILE_PATH, "#{node_dir_path}/chart.png"
+      FileUtils.cp TABLE_PAGE_CHART_PLACEHOLDER_IMAGE_FILE_PATH, "#{node_dir_path}/chart.png"
+    else
+      redirect_content = generate_redirect_page_content(table_page_node.redirect_url)
+      index_file_path = "#{node_dir_path}/#{INDEX_FILE_NAME}"
+      File.open(index_file_path, 'w') {|f| f.write(redirect_content) }
+    end
   end
 
   def generate_html_content(table_page_node, options = {})
@@ -165,5 +176,10 @@ class TablePageGenerator
     end
 
     rows.join("\n")
+  end
+
+  def generate_redirect_page_content(redirect_url)
+    content = @redirect_page_template_content.clone
+    content.sub(REDIRECT_URL_REPLACE_TAG, "\"#{redirect_url}\"")
   end
 end
