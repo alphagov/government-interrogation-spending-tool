@@ -28,8 +28,7 @@ gist.charts.barchart = gist.charts.barchart || (function() {
       if (this.opts.chart_data) {
         $("#" + node_id).empty();
 
-        var data = this.opts.chart_data.filter(function(d) { return d.total > 0; })
-          .sort(function(a,b) {return (a.total < b.total)? 1 : (a.total == b.total)? 0 : -1; });
+        var data = this.util.filter_sort_data(this.opts.chart_data);
 
         var max_y = d3.max(data, function(d) { return d.total });
         var y = d3.scale.linear().domain([0, max_y]).range([height, 0]);

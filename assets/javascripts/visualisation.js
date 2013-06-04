@@ -89,6 +89,10 @@ gist.utils = gist.utils || (function() {
         if (i != 0) { $("#" + selections[i].id).hide(); }
       }
       chart_div.prepend(selector_div);
+    },
+
+    filter_sort_data : function(data) {
+      return data.filter(function(d) { return d.total > 0; }).sort(function(a,b) {return (a.total < b.total)? 1 : (a.total == b.total)? 0 : -1; });
     }
   });
 

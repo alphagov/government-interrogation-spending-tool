@@ -105,6 +105,22 @@ describe("Util", function() {
       expect($('a')).toExist();
     });
   });
+
+  describe("filter_sort_data", function() {
+    it("should filter zero/negative values and sort by descending order", function () {
+      var data = [
+        { total: -1 },
+        { total: 1 },
+        { total: 0 },
+        { total: 2 }
+      ];
+
+      var sorted_filtered_data = util.filter_sort_data(data);
+      expect(sorted_filtered_data.length).toEqual(2);
+      expect(sorted_filtered_data[0].total).toEqual(2);
+      expect(sorted_filtered_data[1].total).toEqual(1);
+    });
+  });
 });
 
 

@@ -5,6 +5,7 @@ gist.charts = gist.charts || (function() {
   var base_chart = function BaseChart(_node, opts) {
     this.opts = $.extend({}, gist.charts.BaseChart.default_options, opts);
     this.node = _node;
+    this.util = new gist.utils.Util();
 
     this.timeout_id = null;
     this._init();
