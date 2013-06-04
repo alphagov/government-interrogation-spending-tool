@@ -26,6 +26,8 @@ gist.utils = gist.utils || (function() {
             table_data = this.load_data_from_table('data-table'),
             selections = [];
 
+        this.remove_chart_image();
+
         $(".visualisation").each(function(index, node) {
           if ($(node).hasClass('treemap')) { that.draw_tree_map(node, table_data);  selections.push({ id: node.id, label: "area", title: "view data as an area map"}); }
           if ($(node).hasClass('barchart')) { that.draw_barchart(node, table_data); selections.push({ id: node.id, label: "bar", title: "view data as a bar chart" }); }
@@ -36,6 +38,10 @@ gist.utils = gist.utils || (function() {
           this.draw_chart_selector(chart_id, selections);
         }
       }
+    },
+
+    remove_chart_image : function() {
+      $("#chart-image").remove();
     },
 
     load_data_from_table : function(table_id) {

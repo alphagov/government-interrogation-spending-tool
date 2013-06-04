@@ -18,6 +18,7 @@ describe("Util", function() {
       beforeEach(function () {
         loadFixtures('visualisation-divs.html');
         spyOn(util,'load_data_from_table').andReturn([]);
+        spyOn(util,'remove_chart_image');
         spyOn(util,'draw_tree_map');
         spyOn(util,'draw_barchart');
         spyOn(util,'draw_doughnut');
@@ -28,6 +29,10 @@ describe("Util", function() {
 
       it("should call load_from_table", function () {
         expect(util.load_data_from_table).toHaveBeenCalled();
+      });
+
+      it("should call remove_chart_image", function () {
+        expect(util.remove_chart_image).toHaveBeenCalled();
       });
 
       it("should call draw for the treemap", function () {
@@ -45,6 +50,14 @@ describe("Util", function() {
       it("should call draw for the chart selector", function () {
         expect(util.draw_chart_selector).toHaveBeenCalled();
       });
+    });
+  });
+
+  describe("remove_chart_image", function () {
+    it("should remove the chart image ", function () {
+      loadFixtures('visualisation-divs.html');
+      util.remove_chart_image()
+      expect($("#chart-image").length).toEqual(0)
     });
   });
 
