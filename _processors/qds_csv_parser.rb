@@ -37,6 +37,7 @@ class QdsCsvParser < CsvParser
 
     QdsData.new(
       row[0],
+      row[1],
       row[2],
       row[5],
       row[6],

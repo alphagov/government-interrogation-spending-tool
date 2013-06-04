@@ -19,6 +19,8 @@ describe "TablePageGenerator" do
     @child_node_not_empty = TablePageNode.new("Toy", 100.0, [@leaf_node1, @leaf_node2])
     @child_node_empty = TablePageNode.new("Empty", 200.0)
     @root_node_with_two_levels = TablePageNode.new("All Departments", 300.0, [@child_node_empty, @child_node_not_empty], "")
+
+    @child_node_not_empty_redirect = TablePageNode.new("Toy", 100.0, [@leaf_node1, @leaf_node2], "toy", {:redirect_url => "/qds/q1-2012/toy/toy/spend-by-budget-type"})
   end
 
   describe "#new" do
@@ -85,19 +87,24 @@ describe "TablePageGenerator" do
     before :each do
       @test_content = "test"
       @test_csv_content = "test,value"
+      @test_redirect_content = "redirect"
+
       @page_generator.stub(:generate_html_content).and_return(@test_content)
       @page_generator.stub(:generate_csv_content).and_return(@test_csv_content)
+      @page_generator.stub(:generate_redirect_page_content).and_return(@test_redirect_content)
     end
 
     context "node with children" do
-      it "creates an index.html and data.csv file for the node containing test content" do
+      it "creates an index.html, chart.png and data.csv file for the node containing test content" do
         @page_generator.should_receive(:generate_html_content).with(@root_node, {}).once
         @page_generator.should_receive(:generate_csv_content).with(@root_node, {}).once
         @page_generator.generate_for_node(@root_node)
         index_file = "#{@root_directory_path}/index.html"
+        png_file   = "#{@root_directory_path}/chart.png"
         csv_file   = "#{@root_directory_path}/data.csv"
 
         File.exists?(index_file).should be_true
+        File.exists?(png_file).should be_true
         File.exists?(csv_file).should be_true
 
         File.read(index_file).should eq (@test_content)
@@ -106,23 +113,39 @@ describe "TablePageGenerator" do
     end
 
     context "node with no children" do
-      it "does not create an index.html and data.csv file for the node" do
+      it "does not create an index.html, chart.png and data.csv file for the node" do
         @page_generator.generate_for_node(@empty_node)
         File.exists?("#{@root_directory_path}/empty/index.html").should be_false
         File.exists?("#{@root_directory_path}/empty/data.csv").should be_false
+        File.exists?("#{@root_directory_path}/empty/chart.png").should be_false
       end
     end
 
     context "node under parent slug" do
-      it "creates an index.html and data.csv file under the parent slug directory" do
+      it "creates an index.html, chart.png and data.csv file under the parent slug directory" do
         @page_generator.generate_for_node(@root_node, { :parent_slug_list => [@root_directory_path, 'toy'] })
         File.exists?("#{@root_directory_path}/toy/index.html").should be_true
         File.exists?("#{@root_directory_path}/toy/data.csv").should be_true
+        File.exists?("#{@root_directory_path}/toy/chart.png").should be_true
       end
-      it "creates an index.html and data.csv file under the parent slug directory and own slug" do
+      it "creates an index.html, chart.png and data.csv file under the parent slug directory and own slug" do
         @page_generator.generate_for_node(@child_node_not_empty, { :parent_slug_list => [@root_directory_path, 'test'] })
         File.exists?("#{@root_directory_path}/test/toy/index.html").should be_true
         File.exists?("#{@root_directory_path}/test/toy/data.csv").should be_true
+        File.exists?("#{@root_directory_path}/test/toy/chart.png").should be_true
+      end
+    end
+
+    context "node with redirect url" do
+      it "creates an index.html with redirect url, no chart.png and data.csv file under the parent slug directory and own slug" do
+        @page_generator.should_receive(:generate_redirect_page_content).once
+
+        @page_generator.generate_for_node(@child_node_not_empty_redirect, { :parent_slug_list => [@root_directory_path, 'test'] })
+        File.exists?("#{@root_directory_path}/test/toy/index.html").should be_true
+        File.read("#{@root_directory_path}/test/toy/index.html").should eq (@test_redirect_content)
+
+        File.exists?("#{@root_directory_path}/test/toy/data.csv").should be_false
+        File.exists?("#{@root_directory_path}/test/toy/chart.png").should be_false
       end
     end
 
@@ -310,6 +333,14 @@ describe "TablePageGenerator" do
         @csv_content.should match /"Toy","100"/m
         @csv_content.should match /"Test","200"/m
       end
+    end
+  end
+
+  describe "generate_redirect_content" do
+    it "should set the page-variable redirect url" do
+      redirect_url = "/qds/q2-2012/yot/yot/spend-by-budget-type"
+      redirect_content = @page_generator.generate_redirect_page_content(redirect_url)
+      redirect_content.should include "redirect-url: \"#{redirect_url}\""
     end
   end
 

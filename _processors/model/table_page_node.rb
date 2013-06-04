@@ -32,6 +32,10 @@ class TablePageNode
     slug
   end
 
+  def self.slugify_paths_to_url(*paths)
+    '/' + paths.map{ |p| TablePageNode.slugify(p) }.join('/')
+  end
+
   def has_children
     !children.nil? && !children.empty?
   end
@@ -46,6 +50,10 @@ class TablePageNode
 
   def alternative_title_or_title
     @options.has_key?(:alternative_title) ? @options[:alternative_title] : @title
+  end
+
+  def redirect_url
+    @options.has_key?(:redirect_url) ? @options[:redirect_url] : nil
   end
 
   def to_s
