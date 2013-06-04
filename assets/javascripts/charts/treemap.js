@@ -10,10 +10,7 @@ gist.charts.treemap = gist.charts.treemap || (function() {
 
   $.extend(treemap_d3js, {
     chart_type: 'treemap',
-    default_options : {
-      chart_data : null,
-      auto_resize : true
-    }
+    default_options : {}
   });
 
   $.extend(treemap_d3js.prototype, {
@@ -46,8 +43,7 @@ gist.charts.treemap = gist.charts.treemap || (function() {
           children: this.opts.chart_data
         };
 
-        var color = d3.scale.category20c(),
-            treemap = d3.layout.treemap()
+        var treemap = d3.layout.treemap()
               .size([width, height])
               .sticky(true)
               .value(function(d) { return d.total; }),
@@ -73,8 +69,10 @@ gist.charts.treemap = gist.charts.treemap || (function() {
                   window.location = d.url;
                 }
               })
-              .style("background", function(d) { return d.children ? null : d3.rgb(color(d.name)).darker(); })
-              .append('span').html(function(d) { return d.children ? null : d.name + ' - <em>' + d.total + '</em>'; });
+              .style("background", function(d) { return d.children ? null : d.colour ? d.colour : that.opts.default_colour; })
+              .append('span')
+                .style("color", function(d) { return d.children ? null : d.fontColour ? d.fontColour : that.opts.default_font_colour; })
+                .html(function(d) { return d.children ? null : d.name + ' - <em>' + d.total + '</em>'; });
       }
     }
   });

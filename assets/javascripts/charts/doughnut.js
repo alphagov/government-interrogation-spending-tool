@@ -11,10 +11,7 @@ gist.charts.doughnut = gist.charts.doughnut || (function() {
 
   $.extend(doughnut_d3js, {
     chart_type: 'doughnut',
-    default_options : {
-      chart_data : null,
-      auto_resize : true
-    }
+    default_options : {}
   });
 
   $.extend(doughnut_d3js.prototype, {
@@ -76,7 +73,7 @@ gist.charts.doughnut = gist.charts.doughnut || (function() {
             .attr("d", arc)
             .attr("fill-rule", "evenodd")
             .style("stroke", "#fff")
-            .style("fill", function(d) { return "blue"; });
+            .style("fill", function(d) { return d.colour ? d.colour : that.opts.default_colour; });
       }
     }
   });

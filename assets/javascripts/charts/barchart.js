@@ -10,10 +10,7 @@ gist.charts.barchart = gist.charts.barchart || (function() {
 
   $.extend(barchart_d3js, {
     chart_type: 'barchart',
-    default_options : {
-      chart_data : null,
-      auto_resize : true
-    }
+    default_options : {}
   });
 
   $.extend(barchart_d3js.prototype, {
@@ -78,12 +75,13 @@ gist.charts.barchart = gist.charts.barchart || (function() {
           .attr("y", function(d) { return y(d.total); })
           .attr("width", bar_settings.min_bar_g_w - bar_settings.bar_left_m)
           .attr("height", function(d) { return height - y(d.total); })
-          .attr("fill", "#0075B9");
+          .attr("fill", function(d) { return d.colour ? d.colour : that.opts.default_colour; });
 
         bars.append("svg:text")
           .attr("x", bar_settings.bar_left_m + bar_settings.min_bar_g_w/2)
           .attr("y", height + 20)
           .attr('text-anchor', 'middle')
+          .style('color', function(d) { return d.fontColour ? d.fontColour : that.opts.default_font_colour; })
           .text(function(d) { return d.name; });
       }
     }
