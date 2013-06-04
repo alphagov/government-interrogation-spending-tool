@@ -12,6 +12,8 @@ address = system.args[1];
 output_file = system.args[2],
 chart_id = "chart",
 
+page.viewportSize = { width: 1025, height: 800 };
+
 page.onError = function (msg, trace) {
   console.log(msg);
   trace.forEach(function(item) {
