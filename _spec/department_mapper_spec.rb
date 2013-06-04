@@ -11,7 +11,7 @@ describe "DepartmentMapper" do
       dfid_hash = { :abbr => "DFID", :name => "Department for International Development", :css_class => "department-for-international-development", :css_logo_suffix => "single-identity", :colour=>"#729ecd", :font_colour=>"#0A0C0C" }
       DepartmentMapper.map_raw_to_css_hash("Department for International Development").should eq(dfid_hash)
       DepartmentMapper.map_raw_to_css_hash("DfID").should eq(dfid_hash)
-      DepartmentMapper.map_raw_to_css_hash("DfID").should eq(dfid_hash)
+      DepartmentMapper.map_raw_to_css_hash("DFID").should eq(dfid_hash)
 
       DepartmentMapper.map_raw_to_css_hash("ZZZ").should eq nil
       DepartmentMapper.map_raw_to_css_hash("HMRC").should eq({ :abbr => "HMRC", :name => "HM Revenue & Customs" })
