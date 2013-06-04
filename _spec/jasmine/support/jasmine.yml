@@ -12,9 +12,11 @@
 #
 src_files:
     - static/libs/jquery/jquery-1.7.2.js
+    - assets/javascripts/jquery.event-filter.min.js
     - assets/javascripts/d3.v3.min.js
+    - assets/javascripts/jquery.tablesorter.min.js
     - assets/javascripts/main.js
-    - assets/javascripts/**/*.js
+    - assets/javascripts/visualisation.js
 
 # stylesheets
 #
