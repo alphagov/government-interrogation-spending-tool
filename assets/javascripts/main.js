@@ -17,7 +17,7 @@ table_sorter.sort = table_sorter.Sort || (function() {
     },
     initiate_custom_parser_for_sorting : function(){
       $.tablesorter.addParser({
-        // set a unique id
+        // set a unique index
         id: 'parseRealNumbers',
         is: function(s) {
           return false;
@@ -36,6 +36,8 @@ table_sorter.sort = table_sorter.Sort || (function() {
       });
     },
     change_direction_arrow_for_acending_decending : function(){
+      console.log("clicked within the origin file");
+      
       $("#data-table").bind("sortEnd",function() {
         $(".sort-ind").remove();
         $('#data-table thead th').each(function(index){
