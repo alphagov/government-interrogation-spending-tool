@@ -66,12 +66,16 @@ describe("Util", function() {
         expect(table_data.length).toEqual(2)
 
         expect(table_data[0].name).toEqual("CO")
-        expect(table_data[0].total).toEqual('40')
+        expect(table_data[0].total).toEqual(40)
         expect(table_data[0].url).toEqual("co")
+        expect(table_data[0].colour).toEqual("#0078ba")
+        expect(table_data[0].fontColour).toEqual("#fff")
 
         expect(table_data[1].name).toEqual("HMRC")
-        expect(table_data[1].total).toEqual('360')
+        expect(table_data[1].total).toEqual(360)
         expect(table_data[1].url).toEqual("hmrc")
+        expect(table_data[1].colour).toEqual("")
+        expect(table_data[1].fontColour).toEqual("")
       });
     });
   });

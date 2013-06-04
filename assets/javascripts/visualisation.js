@@ -39,18 +39,11 @@ gist.utils = gist.utils || (function() {
     },
 
     load_data_from_table : function(table_id) {
-      var table_data = [],
-          row_data = {};
+      var table_data = [];
 
       if ($("#" + table_id).length != 0) {
         $("#" + table_id + " > tbody > tr").each(function(index, node) {
-          row_data = {};
-
-          row_data.name = $(this).attr('data-name');
-          row_data.total = $(this).attr('data-total');
-          row_data.url = $(this).attr('data-url');
-
-          table_data.push(row_data)
+          table_data.push($(this).data())
         });
       }
 
