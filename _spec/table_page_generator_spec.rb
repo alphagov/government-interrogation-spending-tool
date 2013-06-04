@@ -263,7 +263,7 @@ describe "TablePageGenerator" do
     context "node with department level child nodes" do
       before :each do
         co_node = TablePageNode.new("CO", 100.0, [], "co", { :is_department => true, :alternative_title => "" })
-        dcms_node = TablePageNode.new("Department for Culture, Media and Sport", 100.0, [], "Department for Culture, Media and Sport", { :is_department => true, :alternative_title => "" })
+        dcms_node = TablePageNode.new("Department for Education", 100.0, [], "Department for Education", { :is_department => true, :alternative_title => "" })
         hmrc_node = TablePageNode.new("HMRC", 100.0, [], "hmrc", { :is_department => true, :alternative_title => "" })
 
         root_node = TablePageNode.new("All", 0.0, [co_node, dcms_node, hmrc_node])
@@ -274,7 +274,7 @@ describe "TablePageGenerator" do
         @content.should match /data-colour="#0078ba"/
         @content.should match /data-font-colour="#fff"/
         #HO
-        @content.should match /data-colour="#ee1089"/
+        @content.should match /data-colour="#f6823e"/
         @content.should match /data-font-colour="#0A0C0C"/
         #HMRC
         @content.should match /data-colour=""/
