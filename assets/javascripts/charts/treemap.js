@@ -14,16 +14,6 @@ gist.charts.treemap = gist.charts.treemap || (function() {
   });
 
   $.extend(treemap_d3js.prototype, {
-    _init : function() {
-      var that = this;
-
-      if (this.opts.auto_resize) {
-        $(window).on('resize', function() {
-          that._onWindowResize();
-        });
-      }
-    },
-
     draw : function(w, h) {
       var that = this,
           node_id = this.node.id,
@@ -37,10 +27,13 @@ gist.charts.treemap = gist.charts.treemap || (function() {
       if (this.opts.chart_data) {
         $("#" + node_id).empty();
 
+        var data = this.opts.chart_data.filter(function(d) { return d.total > 0; })
+          .sort(function(a,b) {return (a.total < b.total)? 1 : (a.total == b.total)? 0 : -1; });
+
         var root = {
           name: "/",
           total: 0.0,
-          children: this.opts.chart_data
+          children: data
         };
 
         var treemap = d3.layout.treemap()

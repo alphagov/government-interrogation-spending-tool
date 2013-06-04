@@ -22,6 +22,15 @@ gist.charts = gist.charts || (function() {
   });
 
   $.extend(base_chart.prototype, {
+    _init : function() {
+      var that = this;
+
+      if (this.opts.auto_resize) {
+        $(window).on('resize', function() {
+          that._onWindowResize();
+        });
+      }
+    },
 
     _onWindowResize : function() {
       if ($(this.node).is(':visible') == false) {

@@ -14,16 +14,6 @@ gist.charts.barchart = gist.charts.barchart || (function() {
   });
 
   $.extend(barchart_d3js.prototype, {
-    _init : function() {
-      var that = this;
-
-      if (this.opts.auto_resize) {
-        $(window).on('resize', function() {
-          that._onWindowResize();
-        });
-      }
-    },
-
     draw : function(w, h) {
       var that = this,
           node_id = this.node.id,
