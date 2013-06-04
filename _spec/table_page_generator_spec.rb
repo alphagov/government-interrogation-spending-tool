@@ -205,6 +205,10 @@ describe "TablePageGenerator" do
 
         @content.should_not match /data-url=/
       end
+      it "should set the data attributes with department colours for the row" do
+        @content.should match /data-colour="#0078ba"/
+        @content.should match /data-font-colour="#fff"/
+      end
       it "should set the page variable 'header-title'" do
         @content.should match /header-title: All Departments/
       end
@@ -241,13 +245,40 @@ describe "TablePageGenerator" do
     end
 
     context "node with unknown Department" do
-      it "should return page variables for Department with raw data as name and no logo css values" do
+      before :each do
         root_node = TablePageNode.new("All", 0.0, [TablePageNode.new("Test1", 100.0)])
-        content = @page_generator.generate_html_content(root_node, { :department => "Test Office" })
+        @content = @page_generator.generate_html_content(root_node, { :department => "Test Office" })
+      end
+      it "should return page variables for Department with raw data as name and no logo css values" do
+        @content.should match /department-name: "Test Office"/
+        @content.should_not match /department-css-class: ".+?"/
+        @content.should_not match /department-css-suffix: ".+?"/
+      end
+      it "should set the data attributes for colour/font-colour to empty" do
+        @content.should match /data-colour=""/
+        @content.should match /data-font-colour=""/
+      end
+    end
 
-        content.should match /department-name: "Test Office"/
-        content.should_not match /department-css-class: ".+?"/
-        content.should_not match /department-css-suffix: ".+?"/
+    context "node with department level child nodes" do
+      before :each do
+        co_node = TablePageNode.new("CO", 100.0, [], "co", { :is_department => true, :alternative_title => "" })
+        dcms_node = TablePageNode.new("Department for Culture, Media and Sport", 100.0, [], "Department for Culture, Media and Sport", { :is_department => true, :alternative_title => "" })
+        hmrc_node = TablePageNode.new("HMRC", 100.0, [], "hmrc", { :is_department => true, :alternative_title => "" })
+
+        root_node = TablePageNode.new("All", 0.0, [co_node, dcms_node, hmrc_node])
+        @content = @page_generator.generate_html_content(root_node, {})
+      end
+      it "should return rows containing data attributes for department colours" do
+        #CO
+        @content.should match /data-colour="#0078ba"/
+        @content.should match /data-font-colour="#fff"/
+        #HO
+        @content.should match /data-colour="#ee1089"/
+        @content.should match /data-font-colour="#0A0C0C"/
+        #HMRC
+        @content.should match /data-colour=""/
+        @content.should match /data-font-colour=""/
       end
     end
 

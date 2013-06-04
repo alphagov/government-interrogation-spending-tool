@@ -105,9 +105,38 @@ class TablePageGenerator
     quarter            = options.has_key?(:quarter) ? options[:quarter] : nil
     available_quarters = options.has_key?(:available_quarters) ? options[:available_quarters] : nil
 
+    department_name = ""
+    department_css_class = ""
+    department_css_suffix = ""
+    department_colour = ""
+    department_font_colour = ""
+    if department
+      department_hash = DepartmentMapper.map_raw_to_css_hash(department)
+      if department_hash
+        department_name       = "\"#{department_hash[:name]}\"" if department_hash.has_key?(:name)
+        department_css_class  = "\"#{department_hash[:css_class]}\"" if department_hash.has_key?(:css_class)
+        department_css_suffix = "\"#{department_hash[:css_logo_suffix]}\"" if department_hash.has_key?(:css_logo_suffix)
+
+        department_colour      = department_hash[:colour] if department_hash.has_key?(:colour)
+        department_font_colour = department_hash[:font_colour] if department_hash.has_key?(:font_colour)
+      else
+        department_name = "\"#{department}\""
+      end
+    end
+
     table_page_node.children.sort { |a,b| b.total <=> a.total }.each do |node|
+      data_colour = department_colour
+      data_font_colour = department_font_colour
+      if node.is_department
+        child_department_hash = DepartmentMapper.map_raw_to_css_hash(node.title)
+        if child_department_hash
+          data_colour      = child_department_hash[:colour] if child_department_hash.has_key?(:colour)
+          data_font_colour = child_department_hash[:font_colour] if child_department_hash.has_key?(:font_colour)
+        end
+      end
+
       row_title = node.has_children ? "<a href='#{node.slug}'>#{node.title}</a>" : node.title
-      row = "<tr data-name=\"#{node.title}\" data-total=\"#{node.total.to_attribute_format}\" #{node.has_children ? "data-url=\"" + node.slug + "\"" : ""}>
+      row = "<tr data-name=\"#{node.title}\" data-total=\"#{node.total.to_attribute_format}\" #{node.has_children ? "data-url=\"" + node.slug + "\"" : ""} data-colour=\"#{data_colour}\" data-font-colour=\"#{data_font_colour}\">
   <td>#{row_title}</td><td class=\"amount\" title=\"#{node.total.to_attribute_format}\">#{node.total.to_uk_formatted_currency_string}</td>
 </tr>"
       rows << row
@@ -134,19 +163,6 @@ class TablePageGenerator
       content.sub!(BREADCRUMBS_LIST_REPLACE_TAG, "")
     end
 
-    department_name = ""
-    department_css_class = ""
-    department_css_suffix = ""
-    if department
-      department_hash = DepartmentMapper.map_raw_to_css_hash(department)
-      if department_hash
-        department_name       = "\"#{department_hash[:name]}\"" if department_hash.has_key?(:name)
-        department_css_class  = "\"#{department_hash[:css_class]}\"" if department_hash.has_key?(:css_class)
-        department_css_suffix = "\"#{department_hash[:css_logo_suffix]}\"" if department_hash.has_key?(:css_logo_suffix)
-      else
-        department_name = "\"#{department}\""
-      end
-    end
     content.sub!(DEPARTMENT_NAME_REPLACE_TAG, department_name)
     content.sub!(DEPARTMENT_CSS_CLASS_REPLACE_TAG, department_css_class)
     content.sub!(DEPARTMENT_CSS_SUFFIX_REPLACE_TAG, department_css_suffix)
