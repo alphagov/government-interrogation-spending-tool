@@ -1,20 +1,24 @@
-     <table id="data-table">
-        <thead>
-          <tr>
-            <th scope="col">Department</th>
-            <th scope="col" class="amount">Spend</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr data-name="TEST COMMISSION" data-total="40" data-url="test-commission">
-            <td><a href='test-commission'>TEST COMMISSION</a></td><td class="amount" title="40">£40</td>
-          </tr>
-          <tr data-name="TEST OFFICE" data-total="360" data-url="test-office">
-            <td><a href='test-office'>TEST OFFICE</a></td><td class="amount" title="360">£360</td>
-          </tr>
-          <tr>
-            <th>Total</th>
-            <th class="amount" title="400">£400</th>
-          </tr>
-        </tbody>
-      </table>
+<table id="data-table">
+  <thead>
+    <tr>
+      <th scope="col">Department</th>
+      <th scope="col" class="amount">Spend
+        <span class="sort-ind">▼</span>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr data-name="CO" data-total="40" data-url="co" data-colour="#" data-font-colour="#">
+      <td><a href='co'CO</a></td><td class="amount" title="40">£40</td>
+    </tr>
+    <tr data-name="HMRC" data-total="360" data-url="hmrc" data-colour data-font-colour>
+      <td><a href='hmrc'>HMRC</a></td><td class="amount" title="360">£360</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <th class="sorter-false">Total</th>
+      <th class="amount sorter-false" title="{{ page.total-value }}">{{ page.total }}</th>
+    </tr>
+  </tfoot>
+</table>

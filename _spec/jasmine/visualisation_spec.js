@@ -65,13 +65,13 @@ describe("Util", function() {
         var table_data = util.load_data_from_table("data-table")
         expect(table_data.length).toEqual(2)
 
-        expect(table_data[0].name).toEqual("TEST COMMISSION")
-        expect(table_data[0].total).toEqual("40")
-        expect(table_data[0].url).toEqual("test-commission")
+        expect(table_data[0].name).toEqual("CO")
+        expect(table_data[0].total).toEqual('40')
+        expect(table_data[0].url).toEqual("co")
 
-        expect(table_data[1].name).toEqual("TEST OFFICE")
-        expect(table_data[1].total).toEqual("360")
-        expect(table_data[1].url).toEqual("test-office")
+        expect(table_data[1].name).toEqual("HMRC")
+        expect(table_data[1].total).toEqual('360')
+        expect(table_data[1].url).toEqual("hmrc")
       });
     });
   });
