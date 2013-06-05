@@ -84,6 +84,20 @@ describe "QdsCsvParser" do
 
       @csv_parser.filter_row(major_cat_row).should be_false
     end
+
+    it "return true for rows with Data Headline 'Grants' and not in list of main components" do
+      not_main_component_row = @sample_row.clone
+      not_main_component_row[QdsCsvParser::DATA_HEADLINE_ROW_INDEX] = "Grants"
+      not_main_component_row[QdsCsvParser::METRICNAME_ROW_INDEX] = "C3LGov"
+
+      @csv_parser.filter_row(not_main_component_row).should be_true
+
+      main_component_row = @sample_row.clone
+      main_component_row[QdsCsvParser::DATA_HEADLINE_ROW_INDEX] = "Grants"
+      main_component_row[QdsCsvParser::METRICNAME_ROW_INDEX] = "C3Gra"
+
+      @csv_parser.filter_row(main_component_row).should be_false
+    end
   end
 
   describe "#parse_row" do

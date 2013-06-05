@@ -18,7 +18,7 @@ class QdsCsvParser < CsvParser
 
   METRICNAME_ROW_INDEX        = 17
 
-  PROCUREMENT_COSTS = "procurement costs"
+  PROCUREMENT_COSTS_DATA_HEADLINE = "procurement costs"
   PROCUREMENT_OF_WHICH_MAJOR_COMPONENT_CATEGORIES_METRICNAMES =[
     "C1CCL",
     "C1Cons",
@@ -26,6 +26,12 @@ class QdsCsvParser < CsvParser
     "C1Goods",
     "C1Large",
     "C1CatOth"
+  ]
+
+  GRANTS_DATA_HEADLINE = "grants"
+  GRANTS_OF_WHICH_MAIN_COMPONENT_METRICNAMES = [
+    "C3Gra",
+    "C3GraOth"
   ]
 
   def log_file_path
@@ -44,8 +50,11 @@ class QdsCsvParser < CsvParser
     # Data Period  must be 'Actual'
     return true if !row[DATA_PERIOD_ROW_INDEX].downcase.include? 'actual'
     # Filter if Data Headline is 'Procurement Costs' and MetricName is not in list of Major Component categories
-    return true if row[DATA_HEADLINE_ROW_INDEX].downcase.include?(PROCUREMENT_COSTS) &&
+    return true if row[DATA_HEADLINE_ROW_INDEX].downcase.include?(PROCUREMENT_COSTS_DATA_HEADLINE) &&
       !PROCUREMENT_OF_WHICH_MAJOR_COMPONENT_CATEGORIES_METRICNAMES.include?(row[METRICNAME_ROW_INDEX])
+    # Filter if Data Headline is 'Grants' and MetricName is not in list of main components
+    return true if row[DATA_HEADLINE_ROW_INDEX].downcase.include?(GRANTS_DATA_HEADLINE) &&
+      !GRANTS_OF_WHICH_MAIN_COMPONENT_METRICNAMES.include?(row[METRICNAME_ROW_INDEX])
 
     false
   end
