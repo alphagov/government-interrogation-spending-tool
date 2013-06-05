@@ -104,6 +104,22 @@ describe "QdsProcessor" do
         @root_node.children[0].children[0].children[1].title.should eq "NDA"
       end
     end
+    context "qds data for a single quarter, one scope abbr, one parent_departments, one section, one headline with a total row" do
+      before(:each) do
+        @data_objects = get_qds_data_objects("Quarter 2 - 2012/13", ["DECC"], ["DECC - Core"], ["Spend by Type of Budget"], ["Organisation's Own Budget (DEL)"], ["Capital"])
+        @data_objects = @data_objects + get_qds_data_objects("Quarter 2 - 2012/13", ["DECC"], ["DECC - Core"], ["Spend by Type of Budget"], ["Organisation's Own Budget (DEL)"], ["Organisation's Own Budget (DEL), Sub-Total"], "CQSpAA1SubTot")
+        @data_objects = @data_objects + get_qds_data_objects("Quarter 2 - 2012/13", ["DECC"], ["DECC - Core"], ["Spend by Type of Budget"], ["Top Total"], ["Top Total"], "CQSpATot")
+        @data_objects = @data_objects + get_qds_data_objects("Quarter 2 - 2012/13", ["DECC"], ["DECC - Core"], ["Spend by Type of Budget"], ["Total Spend"], ["Total Spend"], "CQSpAATot")
+
+        @root_node = @processor.generate_root_node(@data_objects)
+      end
+      it "should not include total row in headline childs" do
+        @root_node.children[0].children[0].children[0].children[0].children[0].children.should have(1).items
+      end
+      it "should not include total rows as children at each level" do
+        @root_node.children[0].children[0].children[0].children[0].children.should have(1).items
+      end
+    end
   end
 
   describe "process" do
@@ -154,7 +170,7 @@ describe "QdsProcessor" do
     end
   end
 
-  def get_qds_data_objects(report_date, parent_departments, scopes, sections, data_headlines, data_sub_types)
+  def get_qds_data_objects(report_date, parent_departments, scopes, sections, data_headlines, data_sub_types, varname = "CQSpAA1RDel")
     data_objects = []
 
     parent_departments.each do |parent_department|
@@ -163,7 +179,7 @@ describe "QdsProcessor" do
           data_headlines.each do |data_headline|
             data_sub_types.each_with_index do |data_sub_type, t|
               data_objects << QdsData.new(
-                "CQSpAA1RDel",
+                varname,
                 parent_department,
                 scope,
                 report_date,

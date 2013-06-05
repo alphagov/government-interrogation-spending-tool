@@ -5,16 +5,40 @@ class QdsData
   QUARTER_GROUPING_REG_EX = /(Quarter )([0-9])( - )([0-9]{4})(\/[0-9]{2})/
   DEPARTMENT_ABBR_FROM_SCOPE = /(.+?) - Core/
 
+  CURRENT_QUARTER_TOTAL_VARNAMES = [
+    "CQSpAB3SubTot",
+    "CQSpAB2SubTot",
+    "CQSpAB1SubTot",
+    "CQSpAA2SubTot",
+    "CQSpAC3SubTot",
+    "CQSpAC3RecTot",
+    "CQSpAA1SubTot",
+    "CQSpAC2SubTot",
+    "CQSpAB4SubTot",
+    "CQSpAC1SubTot",
+    "CQSpAATot",
+    "CQSpABTot",
+    "CQSpACTot",
+    "CQSpAC1CompCatTot",
+    "CQSpAC3GraCompTot",
+    "CQSpATot",
+    "CQSpAA2Comp3",
+    "YTDSpAB4Pol7",
+    "CQSpAB4Pol7",
+    "CQSpAC1SupTot",
+    "CQSpAC3GraTot"
+  ]
+
 	# Field names and order matches QDS spreadsheet column name and order
 	attr_accessor :varname, :parent_department, :scope, :report_date, :section, :data_headline, :data_sub_type, :value, :abbr
     def initialize varname, parent_department, scope, report_date, section, data_headline, data_sub_type, value
-        @varname = varname
+        @varname = varname.strip
         @parent_department = parent_department
         @scope = scope
         @report_date = report_date
         @section = section
         @data_headline = data_headline
-        @data_sub_type = data_sub_type
+        @data_sub_type = (!data_sub_type.nil? && !data_sub_type.empty?) ? data_sub_type : varname
         @value = value
 
         @abbr = QdsData.abbr_from_scope(@scope)
@@ -34,5 +58,9 @@ class QdsData
 
     def self.quarter_long(report_date)
       report_date.gsub(QUARTER_GROUPING_REG_EX, 'Quarter \2 \4')
+    end
+
+    def is_total
+      CURRENT_QUARTER_TOTAL_VARNAMES.include?(varname)
     end
 end

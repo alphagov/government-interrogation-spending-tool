@@ -37,13 +37,15 @@ class QdsProcessor < BaseProcessor
     grouped = {}
 
     data_objects.map do |o|
-      grouped[o.report_date] = {} if !grouped.has_key? o.report_date
-      grouped[o.report_date][o.abbr] = {} if !grouped[o.report_date].has_key? o.abbr
-      grouped[o.report_date][o.abbr][o.parent_department] = {} if !grouped[o.report_date][o.abbr].has_key? o.parent_department
-      grouped[o.report_date][o.abbr][o.parent_department][o.section] = {} if !grouped[o.report_date][o.abbr][o.parent_department].has_key? o.section
-      grouped[o.report_date][o.abbr][o.parent_department][o.section][o.data_headline] = [] if !grouped[o.report_date][o.abbr][o.parent_department][o.section].has_key? o.data_headline
+      if !o.is_total
+        grouped[o.report_date] = {} if !grouped.has_key? o.report_date
+        grouped[o.report_date][o.abbr] = {} if !grouped[o.report_date].has_key? o.abbr
+        grouped[o.report_date][o.abbr][o.parent_department] = {} if !grouped[o.report_date][o.abbr].has_key? o.parent_department
+        grouped[o.report_date][o.abbr][o.parent_department][o.section] = {} if !grouped[o.report_date][o.abbr][o.parent_department].has_key? o.section
+        grouped[o.report_date][o.abbr][o.parent_department][o.section][o.data_headline] = [] if !grouped[o.report_date][o.abbr][o.parent_department][o.section].has_key? o.data_headline
 
-      grouped[o.report_date][o.abbr][o.parent_department][o.section][o.data_headline] << o
+        grouped[o.report_date][o.abbr][o.parent_department][o.section][o.data_headline] << o
+      end
     end
 
     root_children = []
@@ -67,10 +69,12 @@ class QdsProcessor < BaseProcessor
               data_headline_children = []
 
               spends.each do |s|
-                data_headline_total += s.value
-                data_headline_children << TablePageNode.new(
-                  s.data_sub_type,
-                  s.value)
+                if !s.is_total
+                  data_headline_total += s.value
+                  data_headline_children << TablePageNode.new(
+                    s.data_sub_type,
+                    s.value)
+                end
               end
 
               section_total += data_headline_total

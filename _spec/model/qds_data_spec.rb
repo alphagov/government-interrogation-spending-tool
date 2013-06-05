@@ -103,4 +103,29 @@ describe QdsData do
       QdsData.abbr_from_scope("DfE - Core").should eq "DFE"
     end
   end
+
+  describe "is_total" do
+    it "returns true if qds_data is for a total row identified by varname" do
+      generate_qds_data("CQSpAB3SubTot", "Cost of Corporate Services", "Cost of corporate services, Sub-Total").is_total.should be_true
+      generate_qds_data("CQSpAA2SubTot", "Expenditure Managed by the Organisation (AME)", "Expenditure managed by the organisation (AME), Sub-Total").is_total.should be_true
+      generate_qds_data("CQSpAA1SubTot", "Organisation's Own Budget (DEL)", "Organisation's Own Budget (DEL), Sub-Total").is_total.should be_true
+      generate_qds_data("CQSpAATot", "Total Spend", "Total Spend").is_total.should be_true
+      generate_qds_data("CQSpATot", "Top Total", "Top Total").is_total.should be_true
+      generate_qds_data("CQSpAC3GraCompTot", "Grants", "Total by main components").is_total.should be_true
+      generate_qds_data("CQSpAB2Desk", "Cost of Running IT", "Desktop").is_total.should be_false
+      generate_qds_data("CQSpAA1RDel", "Organisation's Own Budget (DEL)", "Resource (excl. depreciation)").is_total.should be_false
+    end
+  end
+
+  def generate_qds_data(varname, headline, sub_type)
+    QdsData.new(
+      varname,
+      "FCO",
+      "FCO - Core",
+      "Quarter 2 - 2012/13",
+      "Spend by Type of Budget",
+      headline,
+      sub_type,
+      425.345)
+  end
 end

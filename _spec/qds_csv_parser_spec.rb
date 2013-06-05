@@ -8,6 +8,7 @@ describe "QdsCsvParser" do
     @log_file_path = "_processors/logs/QdsCsvParser.log"
     @sample_file_full_path = "_spec/test_data/test_qds_sample.csv"
     @sample_row = ["CQSpAA1RDel", "TOY", "TOY - Core", "Quarter 2 - 2012/13", "Current Quarter", "Spending Data", "Spend by Type of Budget", "Organisation's Own Budget (DEL)", "Resource (excl. depreciation)", "Actual", "105", "A note 1"]
+    @sample_row_with_empty_data_sub_type = ["CQSpAA1RDel", "TOY", "TOY - Core", "Quarter 2 - 2012/13", "Current Quarter", "Spending Data", "Spend by Type of Budget", "Organisation's Own Budget (DEL)", "", "Actual", "105", "A note 1"]
   end
 
   describe "#new" do
@@ -63,27 +64,6 @@ describe "QdsCsvParser" do
       @csv_parser.filter_row(not_spending_data_row).should be_true
     end
 
-    it "return true for rows with Data Headline 'Top Total'" do
-      top_total_row = @sample_row.clone
-      top_total_row[QdsCsvParser::DATA_HEADLINE_ROW_INDEX] = "Top Total"
-
-      @csv_parser.filter_row(top_total_row).should be_true
-    end
-
-    it "return true for rows with Data Headline 'Total Spend'" do
-      total_spend_row = @sample_row.clone
-      total_spend_row[QdsCsvParser::DATA_HEADLINE_ROW_INDEX] = "Total Spend"
-
-      @csv_parser.filter_row(total_spend_row).should be_true
-    end
-
-    it "return true for rows with Data Sub Type containing 'Sub-Total'" do
-      sub_total_row = @sample_row.clone
-      sub_total_row[QdsCsvParser::DATA_SUB_TYPE_ROW_INDEX] = "Organisation's Own Budget (DEL), Sub-Total"
-
-      @csv_parser.filter_row(sub_total_row).should be_true
-    end
-
     it "return true for rows with Data Period not 'Actual'" do
       not_actual_row = @sample_row.clone
       not_actual_row[QdsCsvParser::DATA_PERIOD_ROW_INDEX] = "Target"
@@ -94,32 +74,39 @@ describe "QdsCsvParser" do
   end
 
   describe "#parse_row" do
-    before(:all) do
-      @parse_row_result = @csv_parser.parse_row(@sample_row)
-    end
+    context "sample row" do
+      before(:all) do
+        @parse_row_result = @csv_parser.parse_row(@sample_row)
+      end
 
-    it "raises ArgumentError if row has less than 12 rows" do
-      expect {
-          @csv_parser.parse_row((1..11).to_a.collect{ |i| i.to_s })
-      }.to raise_error(ArgumentError)
-    end
+      it "raises ArgumentError if row has less than 12 rows" do
+        expect {
+            @csv_parser.parse_row((1..11).to_a.collect{ |i| i.to_s })
+        }.to raise_error(ArgumentError)
+      end
 
-    it "returns a qds_data object" do
-      @parse_row_result.should be_an_instance_of QdsData
-    end
+      it "returns a qds_data object" do
+        @parse_row_result.should be_an_instance_of QdsData
+      end
 
-    it "returns object populated with values" do
-      @parse_row_result.varname.should eq "CQSpAA1RDel"
-      @parse_row_result.parent_department.should eq "TOY"
-      @parse_row_result.scope.should eq "TOY - Core"
-      @parse_row_result.report_date.should eq "Quarter 2 - 2012/13"
-      @parse_row_result.section.should eq "Spend by Type of Budget"
-      @parse_row_result.data_headline.should eq "Organisation's Own Budget (DEL)"
-      @parse_row_result.data_sub_type.should eq "Resource (excl. depreciation)"
-    end
+      it "returns object populated with values" do
+        @parse_row_result.varname.should eq "CQSpAA1RDel"
+        @parse_row_result.parent_department.should eq "TOY"
+        @parse_row_result.scope.should eq "TOY - Core"
+        @parse_row_result.report_date.should eq "Quarter 2 - 2012/13"
+        @parse_row_result.section.should eq "Spend by Type of Budget"
+        @parse_row_result.data_headline.should eq "Organisation's Own Budget (DEL)"
+        @parse_row_result.data_sub_type.should eq "Resource (excl. depreciation)"
+      end
 
-    it "returns value scaled to millions" do
-      @parse_row_result.value.should eq 105 * 1000000.0
+      it "returns value scaled to millions" do
+        @parse_row_result.value.should eq 105 * 1000000.0
+      end
+    end
+    context "a sample row with empty sub type" do
+      it "returns a qds_data object using varname in place of sub type" do
+        @csv_parser.parse_row(@sample_row_with_empty_data_sub_type).data_sub_type.should eq "CQSpAA1RDel"
+      end
     end
   end
 
@@ -134,7 +121,7 @@ describe "QdsCsvParser" do
     end
 
     it "returns an array of parsed rows" do
-      @parse_file_results.should have(2).items
+      @parse_file_results.should have(4).items
       @parse_file_results[0].should be_an_instance_of QdsData
     end
   end
