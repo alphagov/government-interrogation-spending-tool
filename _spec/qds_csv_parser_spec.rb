@@ -71,6 +71,19 @@ describe "QdsCsvParser" do
       @csv_parser.filter_row(not_actual_row).should be_true
     end
 
+    it "return true for rows with Data Headline 'Procurement Costs' and not in list of major category spends" do
+      not_major_cat_row = @sample_row.clone
+      not_major_cat_row[QdsCsvParser::DATA_HEADLINE_ROW_INDEX] = "Procurement Costs"
+      not_major_cat_row[QdsCsvParser::METRICNAME_ROW_INDEX] = "C1GPS"
+
+      @csv_parser.filter_row(not_major_cat_row).should be_true
+
+      major_cat_row = @sample_row.clone
+      major_cat_row[QdsCsvParser::DATA_HEADLINE_ROW_INDEX] = "Procurement Costs"
+      major_cat_row[QdsCsvParser::METRICNAME_ROW_INDEX] = "C1MaM"
+
+      @csv_parser.filter_row(major_cat_row).should be_false
+    end
   end
 
   describe "#parse_row" do

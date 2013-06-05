@@ -18,6 +18,16 @@ class QdsCsvParser < CsvParser
 
   METRICNAME_ROW_INDEX        = 17
 
+  PROCUREMENT_COSTS = "procurement costs"
+  PROCUREMENT_OF_WHICH_MAJOR_COMPONENT_CATEGORIES_METRICNAMES =[
+    "C1CCL",
+    "C1Cons",
+    "C1MaM",
+    "C1Goods",
+    "C1Large",
+    "C1CatOth"
+  ]
+
   def log_file_path
     "_processors/logs/QdsCsvParser.log"
   end
@@ -33,6 +43,9 @@ class QdsCsvParser < CsvParser
     return true if !row[MAIN_DATA_TYPE_ROW_INDEX].downcase.include? 'spending data'
     # Data Period  must be 'Actual'
     return true if !row[DATA_PERIOD_ROW_INDEX].downcase.include? 'actual'
+    # Filter if Data Headline is 'Procurement Costs' and MetricName is not in list of Major Component categories
+    return true if row[DATA_HEADLINE_ROW_INDEX].downcase.include?(PROCUREMENT_COSTS) &&
+      !PROCUREMENT_OF_WHICH_MAJOR_COMPONENT_CATEGORIES_METRICNAMES.include?(row[METRICNAME_ROW_INDEX])
 
     false
   end
