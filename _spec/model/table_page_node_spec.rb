@@ -99,7 +99,7 @@ describe "TablePageNode" do
 
   describe "redirect_url" do
     it "returns the redirect_url or nil if not set" do
-      redirect_url = "/qds/q2-2012/yot/yot/spend-by-budget-type"
+      redirect_url = "/qds/q2-2012/yot/yot/spend-by-type-of-budget"
       node1 = TablePageNode.new("Quarter 1 2012", 100.0, [], "Different String", { :redirect_url => redirect_url })
       node2 = TablePageNode.new("Toy", 100.0)
 
@@ -110,7 +110,7 @@ describe "TablePageNode" do
 
   describe "self.slugify_paths_to_url" do
     it "returns a slugified url for an array of path values" do
-      TablePageNode.slugify_paths_to_url("qds", "Q1 2012", "TOY", "TOY", "Spend By Budget Type").should eq "/qds/q1-2012/toy/toy/spend-by-budget-type"
+      TablePageNode.slugify_paths_to_url("qds", "Q1 2012", "TOY", "TOY", "Spend by Type of Budget").should eq "/qds/q1-2012/toy/toy/spend-by-type-of-budget"
     end
   end
 

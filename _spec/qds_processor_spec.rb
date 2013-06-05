@@ -28,7 +28,7 @@ describe "QdsProcessor" do
   describe "root_node_options" do
     context "qds data for a single quarter, one department, with one parent_department" do
       it "should return options with the quarter in quarters_list" do
-        data_objects = get_qds_data_objects("Quarter 2 - 2012/13", ["DEP"], ["DEP - Core"], ["Spend by Budget Type"], ["Organisation's Own Budget (DEL)"], ["Capital"])
+        data_objects = get_qds_data_objects("Quarter 2 - 2012/13", ["DEP"], ["DEP - Core"], ["Spend by Type of Budget"], ["Organisation's Own Budget (DEL)"], ["Capital"])
 
         options = @processor.root_node_options(data_objects)
         options.has_key?(:available_quarters).should be_true
@@ -39,8 +39,8 @@ describe "QdsProcessor" do
     context "qds data for a two quarters, one department, with one parent_department" do
       it "should return options with the quarter in quarters_list" do
 
-        data_objects = get_qds_data_objects("Quarter 1 - 2012/13", ["DEP"], ["DEP - Core"], ["Spend by Budget Type"], ["DEL1", "DEL2"], ["Capital1", "Capital2"])
-        data_objects = data_objects + get_qds_data_objects("Quarter 2 - 2012/13", ["DEP"], ["DEP - Core"], ["Spend by Budget Type"], ["DEL1", "DEL2"], ["Capital1", "Capital2"])
+        data_objects = get_qds_data_objects("Quarter 1 - 2012/13", ["DEP"], ["DEP - Core"], ["Spend by Type of Budget"], ["DEL1", "DEL2"], ["Capital1", "Capital2"])
+        data_objects = data_objects + get_qds_data_objects("Quarter 2 - 2012/13", ["DEP"], ["DEP - Core"], ["Spend by Type of Budget"], ["DEL1", "DEL2"], ["Capital1", "Capital2"])
 
         options = @processor.root_node_options(data_objects)
         options.has_key?(:available_quarters).should be_true
@@ -54,7 +54,7 @@ describe "QdsProcessor" do
   describe "generate_root_node" do
     context "qds data for a single quarter, one department, one parent_department, one section, one headline" do
       before(:each) do
-        @data_objects = get_qds_data_objects("Quarter 2 - 2012/13", ["DEP"], ["DEP - Core"], ["Spend by Budget Type"], ["DEL1"], ["Capital1"])
+        @data_objects = get_qds_data_objects("Quarter 2 - 2012/13", ["DEP"], ["DEP - Core"], ["Spend by Type of Budget"], ["DEL1"], ["Capital1"])
         @root_node = @processor.generate_root_node(@data_objects)
       end
 
@@ -84,13 +84,13 @@ describe "QdsProcessor" do
         @root_node.children[0].children[0].alternative_title_or_title.should eq ""
       end
 
-      it "should have redirect url set at parent_department level to redirect to spend-by-budget-type" do
-        @root_node.children[0].children[0].children[0].redirect_url.should eq "/qds/q2-2012/dep/dep/spend-by-budget-type"
+      it "should have redirect url set at parent_department level to redirect to spend-by-type-of-budget" do
+        @root_node.children[0].children[0].children[0].redirect_url.should eq "/qds/q2-2012/dep/dep/spend-by-type-of-budget"
       end
     end
     context "qds data for a single quarter, one scope abbr, two parent_departments, one section, one headline" do
       before(:each) do
-        @data_objects = get_qds_data_objects("Quarter 2 - 2012/13", ["DECC", "NDA"], ["DECC - Core"], ["Spend by Budget Type"], ["DEL1"], ["Capital1"])
+        @data_objects = get_qds_data_objects("Quarter 2 - 2012/13", ["DECC", "NDA"], ["DECC - Core"], ["Spend by Type of Budget"], ["DEL1"], ["Capital1"])
         @root_node = @processor.generate_root_node(@data_objects)
       end
 
@@ -127,8 +127,8 @@ describe "QdsProcessor" do
         File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/index.html").should be_true
         File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/toy/index.html").should be_true
         File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/toy/toy/index.html").should be_true
-        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/toy/toy/spend-by-budget-type/index.html").should be_true
-        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/toy/toy/spend-by-budget-type/organisations-own-budget-del/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/toy/toy/spend-by-type-of-budget/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/toy/toy/spend-by-type-of-budget/organisations-own-budget-del/index.html").should be_true
       end
     end
     context "test_qds.csv" do

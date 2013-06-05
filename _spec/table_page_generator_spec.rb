@@ -20,7 +20,7 @@ describe "TablePageGenerator" do
     @child_node_empty = TablePageNode.new("Empty", 200.0)
     @root_node_with_two_levels = TablePageNode.new("All Departments", 300.0, [@child_node_empty, @child_node_not_empty], "")
 
-    @child_node_not_empty_redirect = TablePageNode.new("Toy", 100.0, [@leaf_node1, @leaf_node2], "toy", {:redirect_url => "/qds/q1-2012/toy/toy/spend-by-budget-type"})
+    @child_node_not_empty_redirect = TablePageNode.new("Toy", 100.0, [@leaf_node1, @leaf_node2], "toy", {:redirect_url => "/qds/q1-2012/toy/toy/spend-by-type-of-budget"})
   end
 
   describe "#new" do
@@ -369,7 +369,7 @@ describe "TablePageGenerator" do
 
   describe "generate_redirect_content" do
     it "should set the page-variable redirect url" do
-      redirect_url = "/qds/q2-2012/yot/yot/spend-by-budget-type"
+      redirect_url = "/qds/q2-2012/yot/yot/spend-by-type-of-budget"
       redirect_content = @page_generator.generate_redirect_page_content(redirect_url)
       redirect_content.should include "redirect-url: \"#{redirect_url}\""
     end

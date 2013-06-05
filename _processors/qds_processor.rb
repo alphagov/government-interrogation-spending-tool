@@ -7,7 +7,7 @@ require_relative "model/table_page_node.rb"
 
 class QdsProcessor < BaseProcessor
 
-  SPEND_BY_BUDGET_TYPE = "Spend by Budget Type"
+  SPEND_BY_TYPE_OF_BUDGET = "Spend by Type of Budget"
 
   def csv_parser
     QdsCsvParser.new
@@ -94,7 +94,7 @@ class QdsProcessor < BaseProcessor
             parent_department_total,
             parent_department_children,
             parent_department,
-            { :redirect_url => TablePageNode.slugify_paths_to_url("qds", QdsData.quarter_short(report_date), abbr, parent_department, SPEND_BY_BUDGET_TYPE) })
+            { :redirect_url => TablePageNode.slugify_paths_to_url("qds", QdsData.quarter_short(report_date), abbr, parent_department, SPEND_BY_TYPE_OF_BUDGET) })
         end
 
         report_date_total += abbr_total

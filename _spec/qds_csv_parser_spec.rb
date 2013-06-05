@@ -7,7 +7,7 @@ describe "QdsCsvParser" do
     @csv_parser = QdsCsvParser.new
     @log_file_path = "_processors/logs/QdsCsvParser.log"
     @sample_file_full_path = "_spec/test_data/test_qds_sample.csv"
-    @sample_row = ["TOY", "TOY - Core", "Quarter 2 - 2012/13", "Current Quarter", "Spending Data", "Spend by Budget Type", "Organisation's Own Budget (DEL)", "Resource (excl. depreciation)", "Actual", "105", "A note 1"]
+    @sample_row = ["CQSpAA1RDel", "TOY", "TOY - Core", "Quarter 2 - 2012/13", "Current Quarter", "Spending Data", "Spend by Type of Budget", "Organisation's Own Budget (DEL)", "Resource (excl. depreciation)", "Actual", "105", "A note 1"]
   end
 
   describe "#new" do
@@ -29,28 +29,28 @@ describe "QdsCsvParser" do
 
     it "returns true for rows with no value" do
       no_value_row = @sample_row.clone
-      no_value_row[9] = ""
+      no_value_row[QdsCsvParser::VALUE_ROW_INDEX] = ""
       @csv_parser.filter_row(no_value_row).should be_true
     end
 
     it "returns true for rows with zero value" do
       zero_value_row = @sample_row.clone
-      zero_value_row[9] = "0"
+      zero_value_row[QdsCsvParser::VALUE_ROW_INDEX] = "0"
       @csv_parser.filter_row(zero_value_row).should be_true
     end
 
     it "returns true for rows with Scope not core" do
       not_core_row = @sample_row.clone
-      not_core_row[1] = "DVLA"
+      not_core_row[QdsCsvParser::SCOPE_ROW_INDEX] = "DVLA"
       @csv_parser.filter_row(not_core_row).should be_true
     end
 
     it "returns true for rows with Return Period not 'Current Quarter'" do
       not_current_quarter_row1 = @sample_row.clone
-      not_current_quarter_row1[3] = "Year To Date"
+      not_current_quarter_row1[QdsCsvParser::RETURN_PERIOD_ROW_INDEX] = "Year To Date"
 
       not_current_quarter_row2 = @sample_row.clone
-      not_current_quarter_row2[3] = "Full Year Forecast"
+      not_current_quarter_row2[QdsCsvParser::RETURN_PERIOD_ROW_INDEX] = "Full Year Forecast"
 
       @csv_parser.filter_row(not_current_quarter_row1).should be_true
       @csv_parser.filter_row(not_current_quarter_row2).should be_true
@@ -58,35 +58,35 @@ describe "QdsCsvParser" do
 
     it "return true for rows with Main Data Type not 'Spending Data'" do
       not_spending_data_row = @sample_row.clone
-      not_spending_data_row[4] = "Performance Indicators"
+      not_spending_data_row[QdsCsvParser::MAIN_DATA_TYPE_ROW_INDEX] = "Performance Indicators"
 
       @csv_parser.filter_row(not_spending_data_row).should be_true
     end
 
     it "return true for rows with Data Headline 'Top Total'" do
       top_total_row = @sample_row.clone
-      top_total_row[6] = "Top Total"
+      top_total_row[QdsCsvParser::DATA_HEADLINE_ROW_INDEX] = "Top Total"
 
       @csv_parser.filter_row(top_total_row).should be_true
     end
 
     it "return true for rows with Data Headline 'Total Spend'" do
       total_spend_row = @sample_row.clone
-      total_spend_row[6] = "Total Spend"
+      total_spend_row[QdsCsvParser::DATA_HEADLINE_ROW_INDEX] = "Total Spend"
 
       @csv_parser.filter_row(total_spend_row).should be_true
     end
 
     it "return true for rows with Data Sub Type containing 'Sub-Total'" do
       sub_total_row = @sample_row.clone
-      sub_total_row[7] = "Organisation's Own Budget (DEL), Sub-Total"
+      sub_total_row[QdsCsvParser::DATA_SUB_TYPE_ROW_INDEX] = "Organisation's Own Budget (DEL), Sub-Total"
 
       @csv_parser.filter_row(sub_total_row).should be_true
     end
 
     it "return true for rows with Data Period not 'Actual'" do
       not_actual_row = @sample_row.clone
-      not_actual_row[8] = "Target"
+      not_actual_row[QdsCsvParser::DATA_PERIOD_ROW_INDEX] = "Target"
 
       @csv_parser.filter_row(not_actual_row).should be_true
     end
@@ -98,9 +98,9 @@ describe "QdsCsvParser" do
       @parse_row_result = @csv_parser.parse_row(@sample_row)
     end
 
-    it "raises ArgumentError if row has less than 11 rows" do
+    it "raises ArgumentError if row has less than 12 rows" do
       expect {
-          @csv_parser.parse_row((1..10).to_a.collect{ |i| i.to_s })
+          @csv_parser.parse_row((1..11).to_a.collect{ |i| i.to_s })
       }.to raise_error(ArgumentError)
     end
 
@@ -112,7 +112,7 @@ describe "QdsCsvParser" do
       @parse_row_result.parent_department.should eq "TOY"
       @parse_row_result.scope.should eq "TOY - Core"
       @parse_row_result.report_date.should eq "Quarter 2 - 2012/13"
-      @parse_row_result.section.should eq "Spend by Budget Type"
+      @parse_row_result.section.should eq "Spend by Type of Budget"
       @parse_row_result.data_headline.should eq "Organisation's Own Budget (DEL)"
       @parse_row_result.data_sub_type.should eq "Resource (excl. depreciation)"
     end

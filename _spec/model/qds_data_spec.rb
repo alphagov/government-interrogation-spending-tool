@@ -7,7 +7,7 @@ describe QdsData do
 			"FCO",
       "FCO - Core",
 			"Quarter 2 - 2012/13",
-			"Spend by Budget Type",
+			"Spend by Type of Budget",
 			"Organisation's Own Budget (DEL)",
 			"Organisation's Own Budget (DEL), Sub-Total",
 			425.345)
@@ -35,7 +35,7 @@ describe QdsData do
 	end
 	describe "#section" do
     	it "returns the correct section" do
-        	@qds_data1.section.should eql "Spend by Budget Type"
+        	@qds_data1.section.should eql "Spend by Type of Budget"
     	end
 	end
 	describe "#data_headline" do
