@@ -4,6 +4,7 @@ require_relative "../../_processors/model/qds_data.rb"
 describe QdsData do
 	before :all do
 		@qds_data1 = QdsData.new(
+      "CQSpAA1RDel",
 			"FCO",
       "FCO - Core",
 			"Quarter 2 - 2012/13",
@@ -14,10 +15,15 @@ describe QdsData do
 	end
 
 	describe "#new" do
-		it "takes 7 parameters and returns a QdsData object" do
+		it "takes 8 parameters and returns a QdsData object" do
 			@qds_data1.should be_an_instance_of QdsData
 		end
 	end
+  describe "#varname" do
+      it "returns the correct varname" do
+          @qds_data1.varname.should eql "CQSpAA1RDel"
+      end
+  end
 	describe "#parent_department" do
     	it "returns the correct parent_department" do
         	@qds_data1.parent_department.should eql "FCO"
@@ -61,6 +67,7 @@ describe QdsData do
 
   describe "to_s" do
     it "return string version of object" do
+      @qds_data1.to_s.include?(@qds_data1.varname).should be_true
       @qds_data1.to_s.include?(@qds_data1.parent_department).should be_true
       @qds_data1.to_s.include?(@qds_data1.scope).should be_true
       @qds_data1.to_s.include?(@qds_data1.report_date).should be_true

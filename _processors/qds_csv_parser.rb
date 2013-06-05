@@ -48,6 +48,7 @@ class QdsCsvParser < CsvParser
     value_scaled_to_millions = value * 1000000.0
 
     QdsData.new(
+      row[VARNAME_ROW_INDEX],
       row[PARENT_DEPARTMENT_ROW_INDEX],
       row[SCOPE_ROW_INDEX],
       row[REPORT_DATE_ROW_INDEX],

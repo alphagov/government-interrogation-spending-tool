@@ -6,8 +6,9 @@ class QdsData
   DEPARTMENT_ABBR_FROM_SCOPE = /(.+?) - Core/
 
 	# Field names and order matches QDS spreadsheet column name and order
-	attr_accessor :parent_department, :scope, :report_date, :section, :data_headline, :data_sub_type, :value, :abbr
-    def initialize parent_department, scope, report_date, section, data_headline, data_sub_type, value
+	attr_accessor :varname, :parent_department, :scope, :report_date, :section, :data_headline, :data_sub_type, :value, :abbr
+    def initialize varname, parent_department, scope, report_date, section, data_headline, data_sub_type, value
+        @varname = varname
         @parent_department = parent_department
         @scope = scope
         @report_date = report_date
@@ -20,7 +21,7 @@ class QdsData
     end
 
     def to_s
-      "QDS - parent_department = #{parent_department}, scope = #{scope}, report_date = #{report_date}, section = #{section}, data_headline = #{data_headline}, data_sub_type = #{data_sub_type}, value = #{value.to_s}"
+      "QDS - varname = #{varname}, parent_department = #{parent_department}, scope = #{scope}, report_date = #{report_date}, section = #{section}, data_headline = #{data_headline}, data_sub_type = #{data_sub_type}, value = #{value.to_s}"
     end
 
     def self.abbr_from_scope(scope)

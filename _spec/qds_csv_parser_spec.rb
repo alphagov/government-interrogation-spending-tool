@@ -109,6 +109,7 @@ describe "QdsCsvParser" do
     end
 
     it "returns object populated with values" do
+      @parse_row_result.varname.should eq "CQSpAA1RDel"
       @parse_row_result.parent_department.should eq "TOY"
       @parse_row_result.scope.should eq "TOY - Core"
       @parse_row_result.report_date.should eq "Quarter 2 - 2012/13"

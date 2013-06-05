@@ -163,6 +163,7 @@ describe "QdsProcessor" do
           data_headlines.each do |data_headline|
             data_sub_types.each_with_index do |data_sub_type, t|
               data_objects << QdsData.new(
+                "CQSpAA1RDel",
                 parent_department,
                 scope,
                 report_date,
