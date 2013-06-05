@@ -1,13 +1,13 @@
-Varname,Parent Department,Scope,Report Date,Return Period,Main Data Type,Section,Data Headline,Data Sub Type,Data Period,Value,Notes
-CQSpATot,TOY,TOY - Core,Quarter 2 - 2012/13,Current Quarter,Spending Data,Spend by Type of Budget,Top Total,Top Total,Actual,105,A note 1
-CQSpATot,TOY,TOY - Core,Quarter 2 - 2012/13,Current Quarter,Spending Data,Spend by Type of Budget,Top Total,Top Total,Budget,100,
-CQSpATot,TOY,TOY - Core,Quarter 2 - 2012/13,Current Quarter,Spending Data,Spend by Type of Budget,Top Total,Top Total,Last year,57,A note 2
-CQSpAA1SubTot,TOY,TOY - Core,Quarter 2 - 2012/13,Current Quarter,Spending Data,Spend by Type of Budget,Organisation's Own Budget (DEL),"Organisation's Own Budget (DEL), Sub-Total",Actual,106,
-CQSpAA1SubTot,TOY,TOY - Core,Quarter 2 - 2012/13,Current Quarter,Spending Data,Spend by Type of Budget,Organisation's Own Budget (DEL),"Organisation's Own Budget (DEL), Sub-Total",Budget,100,
-CQSpAA1SubTot,TOY,TOY - Core,Quarter 2 - 2012/13,Current Quarter,Spending Data,Spend by Type of Budget,Organisation's Own Budget (DEL),"Organisation's Own Budget (DEL), Sub-Total",Last year,57,
-CQSpAA1RDel,TOY,TOY - Core,Quarter 2 - 2012/13,Current Quarter,Spending Data,Spend by Type of Budget,Organisation's Own Budget (DEL),Resource (excl. depreciation),Actual,103,
-CQSpAA1RDel,TOY,TOY - Core,Quarter 2 - 2012/13,Current Quarter,Spending Data,Spend by Type of Budget,Organisation's Own Budget (DEL),Resource (excl. depreciation),Budget,100,
-CQSpAA1RDel,TOY,TOY - Core,Quarter 2 - 2012/13,Current Quarter,Spending Data,Spend by Type of Budget,Organisation's Own Budget (DEL),Resource (excl. depreciation),Last year,57,
-CQSpAA1CDel,TOY,TOY - Core,Quarter 2 - 2012/13,Current Quarter,Spending Data,Spend by Type of Budget,Organisation's Own Budget (DEL),Capital,Actual,3,
-CQSpAA1CDel,TOY,TOY - Core,Quarter 2 - 2012/13,Current Quarter,Spending Data,Spend by Type of Budget,Organisation's Own Budget (DEL),Capital,Budget,0,
-CQSpAA1CDel,TOY,TOY - Core,Quarter 2 - 2012/13,Current Quarter,Spending Data,Spend by Type of Budget,Organisation's Own Budget (DEL),Capital,Last year,0,
+Varname,Parent Department,Scope,Report Date,Return Period,Main Data Type,Section,Data Headline,Data Sub Type,Data Period,Value,Notes,BisNull,CompletionDenomQ3b_1213,DQComment,TestSubLabelQ3b_1213,DataItemStatus,MetricName,DeptSpecificQ3b_1213,DeptType,NewDeptSpec
+CQSpATot,TOY,TOY - Core,Quarter 2 - 2012/13,Current Quarter,Spending Data,Spend by Type of Budget,Top Total,Top Total,Actual,105,A note 1,,,,,,A2Compt,,,
+CQSpATot,TOY,TOY - Core,Quarter 2 - 2012/13,Current Quarter,Spending Data,Spend by Type of Budget,Top Total,Top Total,Budget,100,,,,,,,A2Compt,,,
+CQSpATot,TOY,TOY - Core,Quarter 2 - 2012/13,Current Quarter,Spending Data,Spend by Type of Budget,Top Total,Top Total,Last year,57,A note 2,,,,,,A2Compt,,,
+CQSpAA1SubTot,TOY,TOY - Core,Quarter 2 - 2012/13,Current Quarter,Spending Data,Spend by Type of Budget,Organisation's Own Budget (DEL),"Organisation's Own Budget (DEL), Sub-Total",Actual,106,,,,,,,A2Compt,,,
+CQSpAA1SubTot,TOY,TOY - Core,Quarter 2 - 2012/13,Current Quarter,Spending Data,Spend by Type of Budget,Organisation's Own Budget (DEL),"Organisation's Own Budget (DEL), Sub-Total",Budget,100,,,,,,,A2Compt,,,
+CQSpAA1SubTot,TOY,TOY - Core,Quarter 2 - 2012/13,Current Quarter,Spending Data,Spend by Type of Budget,Organisation's Own Budget (DEL),"Organisation's Own Budget (DEL), Sub-Total",Last year,57,,,,,,,A2Compt,,,
+CQSpAA1RDel,TOY,TOY - Core,Quarter 2 - 2012/13,Current Quarter,Spending Data,Spend by Type of Budget,Organisation's Own Budget (DEL),Resource (excl. depreciation),Actual,103,,,,,,,A2Compt,,,
+CQSpAA1RDel,TOY,TOY - Core,Quarter 2 - 2012/13,Current Quarter,Spending Data,Spend by Type of Budget,Organisation's Own Budget (DEL),Resource (excl. depreciation),Budget,100,,,,,,,A2Compt,,,
+CQSpAA1RDel,TOY,TOY - Core,Quarter 2 - 2012/13,Current Quarter,Spending Data,Spend by Type of Budget,Organisation's Own Budget (DEL),Resource (excl. depreciation),Last year,57,,,,,,,A2Compt,,,
+CQSpAA1CDel,TOY,TOY - Core,Quarter 2 - 2012/13,Current Quarter,Spending Data,Spend by Type of Budget,Organisation's Own Budget (DEL),Capital,Actual,3,,,,,,,A2Compt,,,
+CQSpAA1CDel,TOY,TOY - Core,Quarter 2 - 2012/13,Current Quarter,Spending Data,Spend by Type of Budget,Organisation's Own Budget (DEL),Capital,Budget,0,,,,,,,A2Compt,,,
+CQSpAA1CDel,TOY,TOY - Core,Quarter 2 - 2012/13,Current Quarter,Spending Data,Spend by Type of Budget,Organisation's Own Budget (DEL),Capital,Last year,0,,,,,,,A2Compt,,,

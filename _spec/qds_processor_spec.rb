@@ -186,7 +186,8 @@ describe "QdsProcessor" do
                 section,
                 data_headline,
                 data_sub_type,
-                t.to_f)
+                t.to_f,
+                "C1Large")
             end
           end
         end

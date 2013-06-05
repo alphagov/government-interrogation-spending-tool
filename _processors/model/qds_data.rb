@@ -30,8 +30,8 @@ class QdsData
   ]
 
 	# Field names and order matches QDS spreadsheet column name and order
-	attr_accessor :varname, :parent_department, :scope, :report_date, :section, :data_headline, :data_sub_type, :value, :abbr
-    def initialize varname, parent_department, scope, report_date, section, data_headline, data_sub_type, value
+	attr_accessor :varname, :parent_department, :scope, :report_date, :section, :data_headline, :data_sub_type, :value, :metricName, :abbr
+    def initialize varname, parent_department, scope, report_date, section, data_headline, data_sub_type, value, metricName
         @varname = varname.strip
         @parent_department = parent_department
         @scope = scope
@@ -40,6 +40,7 @@ class QdsData
         @data_headline = data_headline
         @data_sub_type = (!data_sub_type.nil? && !data_sub_type.empty?) ? data_sub_type : varname
         @value = value
+        @metricName = metricName
 
         @abbr = QdsData.abbr_from_scope(@scope)
     end

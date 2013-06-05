@@ -11,11 +11,12 @@ describe QdsData do
 			"Spend by Type of Budget",
 			"Organisation's Own Budget (DEL)",
 			"Organisation's Own Budget (DEL), Sub-Total",
-			425.345)
+			425.345,
+      "C1Large")
 	end
 
 	describe "#new" do
-		it "takes 8 parameters and returns a QdsData object" do
+		it "takes 9 parameters and returns a QdsData object" do
 			@qds_data1.should be_an_instance_of QdsData
 		end
 	end
@@ -59,6 +60,11 @@ describe QdsData do
         	@qds_data1.value.should eql 425.345
     	end
 	end
+  describe "#metricName" do
+      it "returns the correct value" do
+          @qds_data1.metricName.should eql "C1Large"
+      end
+  end
   describe "#abbr" do
     it "returns the correct abbr" do
       @qds_data1.abbr.should eql "FCO"
@@ -126,6 +132,7 @@ describe QdsData do
       "Spend by Type of Budget",
       headline,
       sub_type,
-      425.345)
+      425.345,
+      "C1Large")
   end
 end

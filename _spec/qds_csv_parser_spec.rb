@@ -7,8 +7,8 @@ describe "QdsCsvParser" do
     @csv_parser = QdsCsvParser.new
     @log_file_path = "_processors/logs/QdsCsvParser.log"
     @sample_file_full_path = "_spec/test_data/test_qds_sample.csv"
-    @sample_row = ["CQSpAA1RDel", "TOY", "TOY - Core", "Quarter 2 - 2012/13", "Current Quarter", "Spending Data", "Spend by Type of Budget", "Organisation's Own Budget (DEL)", "Resource (excl. depreciation)", "Actual", "105", "A note 1"]
-    @sample_row_with_empty_data_sub_type = ["CQSpAA1RDel", "TOY", "TOY - Core", "Quarter 2 - 2012/13", "Current Quarter", "Spending Data", "Spend by Type of Budget", "Organisation's Own Budget (DEL)", "", "Actual", "105", "A note 1"]
+    @sample_row = ["CQSpAA1RDel", "TOY", "TOY - Core", "Quarter 2 - 2012/13", "Current Quarter", "Spending Data", "Spend by Type of Budget", "Organisation's Own Budget (DEL)", "Resource (excl. depreciation)", "Actual", "105", "A note 1","","","","","","C1Large"]
+    @sample_row_with_empty_data_sub_type = ["CQSpAA1RDel", "TOY", "TOY - Core", "Quarter 2 - 2012/13", "Current Quarter", "Spending Data", "Spend by Type of Budget", "Organisation's Own Budget (DEL)", "", "Actual", "105", "A note 1","","","","","","C1Large"]
   end
 
   describe "#new" do
@@ -81,7 +81,7 @@ describe "QdsCsvParser" do
 
       it "raises ArgumentError if row has less than 12 rows" do
         expect {
-            @csv_parser.parse_row((1..11).to_a.collect{ |i| i.to_s })
+            @csv_parser.parse_row((1..17).to_a.collect{ |i| i.to_s })
         }.to raise_error(ArgumentError)
       end
 
@@ -97,6 +97,7 @@ describe "QdsCsvParser" do
         @parse_row_result.section.should eq "Spend by Type of Budget"
         @parse_row_result.data_headline.should eq "Organisation's Own Budget (DEL)"
         @parse_row_result.data_sub_type.should eq "Resource (excl. depreciation)"
+        @parse_row_result.metricName.should eq "C1Large"
       end
 
       it "returns value scaled to millions" do

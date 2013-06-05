@@ -16,6 +16,8 @@ class QdsCsvParser < CsvParser
   DATA_PERIOD_ROW_INDEX       = 9
   VALUE_ROW_INDEX             = 10
 
+  METRICNAME_ROW_INDEX        = 17
+
   def log_file_path
     "_processors/logs/QdsCsvParser.log"
   end
@@ -36,7 +38,7 @@ class QdsCsvParser < CsvParser
   end
 
 	def parse_row(row)
-    raise ArgumentError, "Too few rows", caller if row.length < 12
+    raise ArgumentError, "Too few rows", caller if row.length < 18
 
     value = parse_value(row[VALUE_ROW_INDEX])
     value_scaled_to_millions = value * 1000000.0
@@ -49,7 +51,8 @@ class QdsCsvParser < CsvParser
       row[SECTION_ROW_INDEX],
       row[DATA_HEADLINE_ROW_INDEX],
       row[DATA_SUB_TYPE_ROW_INDEX],
-      value_scaled_to_millions)
+      value_scaled_to_millions,
+      row[METRICNAME_ROW_INDEX])
 	end
 
 end
