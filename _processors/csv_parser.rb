@@ -19,7 +19,7 @@ class CsvParser
   end
 
   def is_numeric_string_empty_or_zero(numeric_string)
-    return true if numeric_string.empty?
+    return true if numeric_string.nil? || numeric_string.empty?
     return true if parse_value(numeric_string) == 0.0
 
     false

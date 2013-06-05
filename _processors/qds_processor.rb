@@ -35,6 +35,7 @@ class QdsProcessor < BaseProcessor
   def generate_root_node(data_objects)
 
     grouped = {}
+    grouped_totals = {}
 
     data_objects.map do |o|
       if !o.is_total
@@ -45,6 +46,14 @@ class QdsProcessor < BaseProcessor
         grouped[o.report_date][o.abbr][o.parent_department][o.section][o.data_headline] = [] if !grouped[o.report_date][o.abbr][o.parent_department][o.section].has_key? o.data_headline
 
         grouped[o.report_date][o.abbr][o.parent_department][o.section][o.data_headline] << o
+      else
+        grouped_totals[o.report_date] = {} if !grouped_totals.has_key? o.report_date
+        grouped_totals[o.report_date][o.abbr] = {} if !grouped_totals[o.report_date].has_key? o.abbr
+        grouped_totals[o.report_date][o.abbr][o.parent_department] = {} if !grouped_totals[o.report_date][o.abbr].has_key? o.parent_department
+        grouped_totals[o.report_date][o.abbr][o.parent_department][o.section] = {} if !grouped_totals[o.report_date][o.abbr][o.parent_department].has_key? o.section
+        grouped_totals[o.report_date][o.abbr][o.parent_department][o.section][o.data_headline] = [] if !grouped_totals[o.report_date][o.abbr][o.parent_department][o.section].has_key? o.data_headline
+
+        grouped_totals[o.report_date][o.abbr][o.parent_department][o.section][o.data_headline] << o
       end
     end
 
@@ -61,27 +70,39 @@ class QdsProcessor < BaseProcessor
           parent_department_children = []
 
           sections_hash.each_pair do |section, data_headlines_hash|
-            section_total = 0.0
+            data_headline_totals = 0.0
             section_children = []
 
             data_headlines_hash.each_pair do |data_headline, spends|
-              data_headline_total = 0.0
+              data_sub_types_total = 0.0
               data_headline_children = []
 
               spends.each do |s|
-                if !s.is_total
-                  data_headline_total += s.value
-                  data_headline_children << TablePageNode.new(
-                    s.data_sub_type,
-                    s.value)
-                end
+                data_sub_types_total += s.value
+                data_headline_children << TablePageNode.new(
+                  s.data_sub_type,
+                  s.value)
               end
 
-              section_total += data_headline_total
+              begin
+                data_headline_total = grouped_totals[report_date][abbr][parent_department][section][data_headline].first.value
+              rescue Exception => e
+                # use data_sub_type_total
+                data_headline_total = data_sub_types_total
+              end
+
+              data_headline_totals += data_headline_total
               section_children << TablePageNode.new(
                 data_headline,
                 data_headline_total,
                 data_headline_children)
+            end
+
+            begin
+              section_total = grouped_totals[report_date][abbr][parent_department][section][QdsData::TOTAL_SPEND].first.value
+            rescue Exception => e
+              # use the sum from data_headline_totals
+              section_total = data_headline_totals
             end
 
             parent_department_children << TablePageNode.new(
@@ -90,12 +111,17 @@ class QdsProcessor < BaseProcessor
               section_children)
           end
 
-          # QDS sections are different views on the same spending, so totals are equal
-          parent_department_total = parent_department_children[0].total
-          abbr_total += parent_department_total
+          begin
+            top_total = grouped_totals[report_date][abbr][parent_department][SPEND_BY_TYPE_OF_BUDGET][QdsData::TOP_TOTAL].first.value
+          rescue Exception => e
+            # use the spend type of budget total
+            top_total = parent_department_children[0].total
+          end
+
+          abbr_total += top_total
           abbr_children << TablePageNode.new(
             parent_department,
-            parent_department_total,
+            top_total,
             parent_department_children,
             parent_department,
             { :redirect_url => TablePageNode.slugify_paths_to_url("qds", QdsData.quarter_short(report_date), abbr, parent_department, SPEND_BY_TYPE_OF_BUDGET) })

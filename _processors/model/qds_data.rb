@@ -5,6 +5,9 @@ class QdsData
   QUARTER_GROUPING_REG_EX = /(Quarter )([0-9])( - )([0-9]{4})(\/[0-9]{2})/
   DEPARTMENT_ABBR_FROM_SCOPE = /(.+?) - Core/
 
+  TOTAL_SPEND = "Total Spend"
+  TOP_TOTAL = "Top Total"
+
   CURRENT_QUARTER_TOTAL_VARNAMES = [
     "CQSpAB3SubTot",
     "CQSpAB2SubTot",

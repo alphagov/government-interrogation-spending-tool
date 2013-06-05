@@ -106,10 +106,14 @@ describe "QdsProcessor" do
     end
     context "qds data for a single quarter, one scope abbr, one parent_departments, one section, one headline with a total row" do
       before(:each) do
+        @sub_total = 1000.0
+        @total_spend = 2000.0
+        @top_total = 3000.0
+
         @data_objects = get_qds_data_objects("Quarter 2 - 2012/13", ["DECC"], ["DECC - Core"], ["Spend by Type of Budget"], ["Organisation's Own Budget (DEL)"], ["Capital"])
-        @data_objects = @data_objects + get_qds_data_objects("Quarter 2 - 2012/13", ["DECC"], ["DECC - Core"], ["Spend by Type of Budget"], ["Organisation's Own Budget (DEL)"], ["Organisation's Own Budget (DEL), Sub-Total"], "CQSpAA1SubTot")
-        @data_objects = @data_objects + get_qds_data_objects("Quarter 2 - 2012/13", ["DECC"], ["DECC - Core"], ["Spend by Type of Budget"], ["Top Total"], ["Top Total"], "CQSpATot")
-        @data_objects = @data_objects + get_qds_data_objects("Quarter 2 - 2012/13", ["DECC"], ["DECC - Core"], ["Spend by Type of Budget"], ["Total Spend"], ["Total Spend"], "CQSpAATot")
+        @data_objects = @data_objects + get_qds_data_objects("Quarter 2 - 2012/13", ["DECC"], ["DECC - Core"], ["Spend by Type of Budget"], ["Organisation's Own Budget (DEL)"], ["Organisation's Own Budget (DEL), Sub-Total"], @sub_total, "CQSpAA1SubTot")
+        @data_objects = @data_objects + get_qds_data_objects("Quarter 2 - 2012/13", ["DECC"], ["DECC - Core"], ["Spend by Type of Budget"], ["Total Spend"], ["Total Spend"], @total_spend, "CQSpAATot")
+        @data_objects = @data_objects + get_qds_data_objects("Quarter 2 - 2012/13", ["DECC"], ["DECC - Core"], ["Spend by Type of Budget"], ["Top Total"], ["Top Total"], @top_total,"CQSpATot")
 
         @root_node = @processor.generate_root_node(@data_objects)
       end
@@ -118,6 +122,15 @@ describe "QdsProcessor" do
       end
       it "should not include total rows as children at each level" do
         @root_node.children[0].children[0].children[0].children[0].children.should have(1).items
+      end
+      it "should use the Top Total value as the Total at the parent_department level" do
+        @root_node.children[0].children[0].children[0].total.should eq @top_total
+      end
+      it "should use the Total Spend value as the Total at the section level" do
+        @root_node.children[0].children[0].children[0].children[0].total.should eq @total_spend
+      end
+      it "should use the Sub-Total value as the Total at the headline level" do
+        @root_node.children[0].children[0].children[0].children[0].children[0].total.should eq @sub_total
       end
     end
   end
@@ -170,7 +183,7 @@ describe "QdsProcessor" do
     end
   end
 
-  def get_qds_data_objects(report_date, parent_departments, scopes, sections, data_headlines, data_sub_types, varname = "CQSpAA1RDel")
+  def get_qds_data_objects(report_date, parent_departments, scopes, sections, data_headlines, data_sub_types, value=10.0, varname = "CQSpAA1RDel")
     data_objects = []
 
     parent_departments.each do |parent_department|
@@ -186,7 +199,7 @@ describe "QdsProcessor" do
                 section,
                 data_headline,
                 data_sub_type,
-                t.to_f,
+                value,
                 "C1Large")
             end
           end
