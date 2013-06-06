@@ -73,10 +73,14 @@ gist.charts.treemap = gist.charts.treemap || (function() {
     },
 
     generate_label_html : function(d) {
-      var magnitude_value = this.util.format_number_by_magnitude(d.total, true),
+      var dy_font = d3.scale.threshold().domain([80,130,220]).range(["small","medium","large","x-large"]),
+          font_class = dy_font(d.dy),
+          magnitude_value = this.util.format_number_by_magnitude(d.total, true),
           name_div = "<div>" + d.name + "</div>",
-          value_div = "<div>" + magnitude_value.value + magnitude_value.suffix + "</div>",
-          label_div = name_div + value_div;
+          value_div = "<div class='amount'>" + magnitude_value.value + "</div>",
+          magnitude_div = "<div>" + magnitude_value.long_suffix + "</div>"
+          label_div = "<div class='" + font_class + "'>" + name_div + value_div + magnitude_div + "</div>";
+
       return label_div;
     }
   });

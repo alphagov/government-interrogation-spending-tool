@@ -6,6 +6,31 @@
     display: inline-block;
     padding: 5px;
     color: white;
-    font-weight: bold;
+    @include core-14;
+
+    .small {
+      .amount {
+        @include bold-16;
+      }
+    }
+    .medium {
+      @include core-19;
+      .amount {
+        @include bold-27;
+      }
+    }
+    .large {
+      @include core-24;
+      .amount {
+        @include bold-48;
+      }
+    }
+    .x-large {
+      @include core-27;
+      .amount {
+        @include bold-80;
+      }
+    }
+
   }
 }
