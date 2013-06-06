@@ -45,6 +45,11 @@ gist.charts = gist.charts || (function() {
           that.draw(width, that.height);
         }
       }, 50);
+    },
+
+    to_short_magnitude_string : function(value)  {
+      var magnitude_value = this.util.format_number_by_magnitude(value, true);
+      return magnitude_value.value + magnitude_value.suffix;
     }
   });
 

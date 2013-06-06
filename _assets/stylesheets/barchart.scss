@@ -9,4 +9,7 @@ svg {
       shape-rendering: crispEdges;
     }
   }
+  text {
+    @include core-19;
+  }
 }

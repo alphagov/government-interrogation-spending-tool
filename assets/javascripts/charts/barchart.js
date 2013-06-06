@@ -17,10 +17,10 @@ gist.charts.barchart = gist.charts.barchart || (function() {
     draw : function(w, h) {
       var that = this,
           node_id = this.node.id,
-          margin = {top: 10, right: 0, bottom: 50, left: 70},
+          margin = {top: 10, right: 0, bottom: 10, left: 70},
           width = w - margin.left - margin.right,
           height = h - margin.top - margin.bottom,
-          bar_settings = { min_bar_g_w: 50, max_bar_g_w: 100, bar_left_m: 5 };
+          bar_settings = { min_bar_g_w: 50, max_bar_g_w: 100, bar_left_m: 5, label_m: 10 };
 
       this.width = w;
       this.height = h;
@@ -46,8 +46,7 @@ gist.charts.barchart = gist.charts.barchart || (function() {
           .ticks(5)
           .tickSize(-width)
           .tickFormat(function(value) {
-            var magnitude_value = that.util.format_number_by_magnitude(value, true);
-            return magnitude_value.value + magnitude_value.suffix;
+            return that.to_short_magnitude_string(value);
           });
 
         svg.append("g")
@@ -74,11 +73,11 @@ gist.charts.barchart = gist.charts.barchart || (function() {
           .attr("fill", function(d) { return d.colour ? d.colour : that.opts.default_colour; });
 
         bars.append("svg:text")
-          .attr("x", bar_settings.bar_left_m + bar_g_w/2)
-          .attr("y", height + 20)
-          .attr('text-anchor', 'middle')
-          .style('color', function(d) { return d.fontColour ? d.fontColour : that.opts.default_font_colour; })
-          .text(function(d) { return d.name; });
+          .attr("x", (bar_settings.bar_left_m + bar_g_w)/2)
+          .attr("y", function(d) { return y(d.total) + bar_settings.label_m; })
+          .style("writing-mode", "tb")
+          .attr('fill', function(d) { return d.fontColour ? d.fontColour : that.opts.default_font_colour; })
+          .text(function(d) { return that.to_short_magnitude_string(d.total) + " " + d.name; });
       }
     }
   });
