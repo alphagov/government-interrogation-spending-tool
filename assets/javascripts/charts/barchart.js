@@ -17,7 +17,7 @@ gist.charts.barchart = gist.charts.barchart || (function() {
     draw : function(w, h) {
       var that = this,
           node_id = this.node.id,
-          margin = {top: 10, right: 0, bottom: 50, left: 50},
+          margin = {top: 10, right: 0, bottom: 50, left: 70},
           width = w - margin.left - margin.right,
           height = h - margin.top - margin.bottom,
           bar_settings = { min_bar_g_w: 50, max_bar_g_w: 100, bar_left_m: 5 };
@@ -44,7 +44,11 @@ gist.charts.barchart = gist.charts.barchart || (function() {
           .scale(y)
           .orient("left")
           .ticks(5)
-          .tickSize(-width);
+          .tickSize(-width)
+          .tickFormat(function(value) {
+            var magnitude_value = that.util.format_number_by_magnitude(value, true);
+            return magnitude_value.value + magnitude_value.suffix;
+          });
 
         svg.append("g")
           .attr("class", "y axis")

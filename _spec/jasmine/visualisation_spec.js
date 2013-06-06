@@ -223,7 +223,8 @@ describe("Util", function() {
           mag_9990000000 = util.format_number_by_magnitude(9990000000.0),
           mag_9990000000000 = util.format_number_by_magnitude(9990000000000.0),
           specific_43316208347 = util.format_number_by_magnitude(43316208347.0),
-          specific_763573000 = util.format_number_by_magnitude(763573000.0);
+          specific_763573000 = util.format_number_by_magnitude(763573000.0),
+          specific_100000000000 = util.format_number_by_magnitude(100000000000.0);
 
       expect(mag_1.value).toEqual("1");
       expect(mag_1.suffix).toEqual("");
@@ -251,6 +252,7 @@ describe("Util", function() {
 
       expect(specific_43316208347.value).toEqual("43.3");
       expect(specific_763573000.value).toEqual("764");
+      expect(specific_100000000000.value).toEqual("100");
     });
     it("should return an object representation of a negative number", function() {
       var mag_neg_9990 = util.format_number_by_magnitude(-9990.0);

@@ -158,7 +158,7 @@ gist.utils = gist.utils || (function() {
       magnitude = magnitudeFor(value),
       scaled_value = (value / magnitude.value),
       scaled_value_3_sigs = scaled_value.toPrecision(3),
-      magnitude_value = scaled_value_3_sigs.toString().replace(/\.?0+$/,"");
+      magnitude_value = scaled_value_3_sigs.toString().replace(/\.0+$/,"");
 
       if (is_sterling) {
         magnitude_value = ("£" + magnitude_value).replace("£-", "-£");
