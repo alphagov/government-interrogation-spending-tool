@@ -136,6 +136,33 @@ gist.utils = gist.utils || (function() {
 
         return (other_count > 1)? result : data;
       }
+    },
+
+    format_number_by_magnitude : function(value, is_sterling, decimalPlaces) {
+      var magnitudes = {
+        trillion: { value:1e12, suffix:"tn", long_suffix:"trillion" },
+        billion:  { value:1e9,  suffix:"bn", long_suffix:"billion" },
+        million:  { value:1e6,  suffix:"m",  long_suffix:"million" },
+        thousand: { value:1e3,  suffix:"k",  long_suffix:"thousand" },
+        unit:     { value:1,    suffix:"",   long_suffix:"" }
+      },
+      magnitudeFor = function (value) {
+        var abs = Math.abs(value);
+
+        if (abs >= 1e12) return magnitudes.trillion;
+        if (abs >= 1e9)  return magnitudes.billion;
+        if (abs >= 1e6)  return magnitudes.million;
+        if (abs >= 1e3)  return magnitudes.thousand;
+        return magnitudes.unit;
+      },
+      magnitude = magnitudeFor(value),
+      magnitude_value = (value / magnitude.value).toFixed(decimalPlaces || 2).toString().replace(/\.?0+$/,"");
+
+      if (is_sterling) {
+        magnitude_value = ("£" + magnitude_value).replace("£-", "-£");
+      }
+
+      return { value:magnitude_value, suffix:magnitude.suffix, long_suffix:magnitude.long_suffix };
     }
   });
 

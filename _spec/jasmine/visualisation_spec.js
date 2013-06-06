@@ -212,6 +212,66 @@ describe("Util", function() {
     });
   });
 
+  describe("format_number_by_magnitude", function() {
+    it("should return an object representation of a number with the value scaled to 3 significant figures, short magnitude and long magnitude string", function() {
+      var mag_1 = util.format_number_by_magnitude(1.0),
+          mag_999 = util.format_number_by_magnitude(999.0),
+          mag_9990 = util.format_number_by_magnitude(9990.0),
+          mag_9990000 = util.format_number_by_magnitude(9990000.0),
+          mag_9990000000 = util.format_number_by_magnitude(9990000000.0),
+          mag_9990000000000 = util.format_number_by_magnitude(9990000000000.0);
+
+      expect(mag_1.value).toEqual("1");
+      expect(mag_1.suffix).toEqual("");
+      expect(mag_1.long_suffix).toEqual("");
+
+      expect(mag_999.value).toEqual("999");
+      expect(mag_999.suffix).toEqual("");
+      expect(mag_999.long_suffix).toEqual("");
+
+      expect(mag_9990.value).toEqual("9.99");
+      expect(mag_9990.suffix).toEqual("k");
+      expect(mag_9990.long_suffix).toEqual("thousand");
+
+      expect(mag_9990000.value).toEqual("9.99");
+      expect(mag_9990000.suffix).toEqual("m");
+      expect(mag_9990000.long_suffix).toEqual("million");
+
+      expect(mag_9990000000.value).toEqual("9.99");
+      expect(mag_9990000000.suffix).toEqual("bn");
+      expect(mag_9990000000.long_suffix).toEqual("billion");
+
+      expect(mag_9990000000000.value).toEqual("9.99");
+      expect(mag_9990000000000.suffix).toEqual("tn");
+      expect(mag_9990000000000.long_suffix).toEqual("trillion");
+    });
+    it("should return an object representation of a negative number", function() {
+      var mag_neg_9990 = util.format_number_by_magnitude(-9990.0);
+
+      expect(mag_neg_9990.value).toEqual("-9.99");
+      expect(mag_neg_9990.suffix).toEqual("k");
+      expect(mag_neg_9990.long_suffix).toEqual("thousand");
+    });
+
+    it("should return an object representation of a sterling number", function() {
+      var mag_sterling_999 = util.format_number_by_magnitude(999.0, true),
+          mag_sterling_9990000 = util.format_number_by_magnitude(9990000.0, true),
+          mag_neg_sterling_9990 = util.format_number_by_magnitude(-9990.0, true);
+
+      expect(mag_sterling_999.value).toEqual("£999");
+      expect(mag_sterling_999.suffix).toEqual("");
+      expect(mag_sterling_999.long_suffix).toEqual("");
+
+      expect(mag_sterling_9990000.value).toEqual("£9.99");
+      expect(mag_sterling_9990000.suffix).toEqual("m");
+      expect(mag_sterling_9990000.long_suffix).toEqual("million");
+
+      expect(mag_neg_sterling_9990.value).toEqual("-£9.99");
+      expect(mag_neg_sterling_9990.suffix).toEqual("k");
+      expect(mag_neg_sterling_9990.long_suffix).toEqual("thousand");
+    });
+  });
+
 });
 
 
