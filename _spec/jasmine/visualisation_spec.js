@@ -123,9 +123,10 @@ describe("Util", function() {
   });
 
   describe("group_data_to_max_num_items_by_lowest", function() {
-    describe("when there is less than the max number before grouping", function () {
+    describe("when there is less than or equal the max number before grouping", function () {
       it("should return the data without grouping", function () {
         var data = [
+          { name: "5", total: 5 },
           { name: "4", total: 4 },
           { name: "3", total: 3 },
           { name: "2", total: 2 },
@@ -134,8 +135,9 @@ describe("Util", function() {
         max_number_of_items = 5;
 
         var grouped_data = util.group_data_to_max_num_items_by_lowest(data, max_number_of_items);
-        expect(grouped_data.length).toEqual(4);
-        expect(grouped_data[0].total).toEqual(4);
+        expect(grouped_data.length).toEqual(5);
+        expect(grouped_data[0].total).toEqual(5);
+        expect(grouped_data[4].name).toEqual("1");
       });
     });
     describe("when there is more than the max number before grouping", function () {
