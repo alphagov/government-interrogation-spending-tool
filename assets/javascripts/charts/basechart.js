@@ -15,8 +15,6 @@ gist.charts = gist.charts || (function() {
     default_options : {
       chart_data : null,
       auto_resize : true,
-      other_colour: "#e2e2e2",
-      other_font_colour: "#231f20",
       default_colour: "#2e358b",
       default_font_colour: "#fff"
     }

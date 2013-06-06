@@ -28,10 +28,13 @@ gist.charts.barchart = gist.charts.barchart || (function() {
       if (this.opts.chart_data) {
         $("#" + node_id).empty();
 
-        var data = this.util.filter_sort_data(this.opts.chart_data);
-
-        var max_y = d3.max(data, function(d) { return d.total });
-        var y = d3.scale.linear().domain([0, max_y]).range([height, 0]);
+        var max_number_of_bars = Math.floor(width/(bar_settings.min_bar_g_w*1.0)),
+            data = this.util.filter_sort_data(this.opts.chart_data),
+            data = this.util.group_data_to_max_num_items_by_lowest(data, max_number_of_bars),
+            bar_g_w = Math.floor(width /(data.length*1.0)),
+            bar_g_w = (bar_g_w < bar_settings.max_bar_g_w)? bar_g_w : bar_settings.max_bar_g_w,
+            max_y = d3.max(data, function(d) { return d.total }),
+            y = d3.scale.linear().domain([0, max_y]).range([height, 0]);
 
         var svg = d3.select("#" + node_id).append("svg:svg")
           .attr("width", w)
@@ -56,18 +59,18 @@ gist.charts.barchart = gist.charts.barchart || (function() {
           .append("g")
           .attr('class','bar')
           .attr("transform", function(d, i) {
-            return "translate(" + (margin.left + i*bar_settings.min_bar_g_w) + "," + margin.top + ")"; });
+            return "translate(" + (margin.left + i*bar_g_w) + "," + margin.top + ")"; });
 
         var bar = bars.append("rect")
           .attr('class', 'actual')
           .attr("x", bar_settings.bar_left_m)
           .attr("y", function(d) { return y(d.total); })
-          .attr("width", bar_settings.min_bar_g_w - bar_settings.bar_left_m)
+          .attr("width", bar_g_w - bar_settings.bar_left_m)
           .attr("height", function(d) { return height - y(d.total); })
           .attr("fill", function(d) { return d.colour ? d.colour : that.opts.default_colour; });
 
         bars.append("svg:text")
-          .attr("x", bar_settings.bar_left_m + bar_settings.min_bar_g_w/2)
+          .attr("x", bar_settings.bar_left_m + bar_g_w/2)
           .attr("y", height + 20)
           .attr('text-anchor', 'middle')
           .style('color', function(d) { return d.fontColour ? d.fontColour : that.opts.default_font_colour; })

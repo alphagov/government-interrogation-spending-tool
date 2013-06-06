@@ -10,7 +10,9 @@ gist.charts.treemap = gist.charts.treemap || (function() {
 
   $.extend(treemap_d3js, {
     chart_type: 'treemap',
-    default_options : {}
+    default_options : {
+      percentile_bar_for_other : 0.3
+    }
   });
 
   $.extend(treemap_d3js.prototype, {
@@ -27,10 +29,11 @@ gist.charts.treemap = gist.charts.treemap || (function() {
       if (this.opts.chart_data) {
         $("#" + node_id).empty();
 
-        var data = this.util.filter_sort_data(this.opts.chart_data);
+        var data = this.util.filter_sort_data(this.opts.chart_data),
+            data = this.util.group_data_by_percentile_lowest(data, this.opts.percentile_bar_for_other);
 
         var root = {
-          name: "/",
+          name: "",
           total: 0.0,
           children: data
         };
@@ -64,8 +67,17 @@ gist.charts.treemap = gist.charts.treemap || (function() {
               .style("background", function(d) { return d.children ? null : d.colour ? d.colour : that.opts.default_colour; })
               .append('span')
                 .style("color", function(d) { return d.children ? null : d.fontColour ? d.fontColour : that.opts.default_font_colour; })
-                .html(function(d) { return d.children ? null : d.name + ' - <em>' + d.total + '</em>'; });
+                .html(function(d) {
+                  return that.generate_label_html(d); });
       }
+    },
+
+    generate_label_html : function(d) {
+      var magnitude_value = this.util.format_number_by_magnitude(d.total, true),
+          name_div = "<div>" + d.name + "</div>",
+          value_div = "<div>" + magnitude_value.value + magnitude_value.suffix + "</div>",
+          label_div = name_div + value_div;
+      return label_div;
     }
   });
 
