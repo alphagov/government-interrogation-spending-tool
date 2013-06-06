@@ -9,6 +9,9 @@ class TablePageGenerator
   TABLE_PAGE_CHART_PLACEHOLDER_IMAGE_FILE_PATH = File.expand_path("#{File.dirname(__FILE__)}/templates/chart.png")
   REDIRECT_PAGE_TEMPLATE_FILE_PATH = File.expand_path("#{File.dirname(__FILE__)}/templates/redirect_page.html")
 
+  DEFAULT_LAYOUT = "table"
+
+  LAYOUT_REPLACE_TAG = "<!--LAYOUT-->"
   TABLE_ROWS_REPLACE_TAG = "<!--TABLE_CONTENT-->"
   TOTAL_REPLACE_TAG = "<!--TOTAL-->"
   TOTAL_VALUE_REPLACE_TAG = "<!--TOTAL_VALUE-->"
@@ -145,6 +148,9 @@ class TablePageGenerator
     table_rows = rows.join("\n")
 
     content = @table_page_template_content.clone
+    layout = table_page_node.alternative_layout ? table_page_node.alternative_layout : DEFAULT_LAYOUT
+
+    content.sub!(LAYOUT_REPLACE_TAG, layout)
     content.sub!(TABLE_ROWS_REPLACE_TAG, table_rows)
     content.sub!(TOTAL_REPLACE_TAG, "#{table_page_node.total.to_sterling_magnitude_string}")
     content.sub!(TOTAL_VALUE_REPLACE_TAG, table_page_node.total.to_attribute_format)

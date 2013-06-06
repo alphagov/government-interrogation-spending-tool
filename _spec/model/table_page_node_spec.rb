@@ -108,6 +108,17 @@ describe "TablePageNode" do
     end
   end
 
+  describe "alternative_layout" do
+    it "returns the alternative_layout or nil if not set" do
+      alternative_layout = "table_root"
+      node1 = TablePageNode.new("All Quarters", 100.0, [], "All Quarters", { :alternative_layout => alternative_layout })
+      node2 = TablePageNode.new("Toy", 100.0)
+
+      node1.alternative_layout.should eq alternative_layout
+      node2.alternative_layout.should eq nil
+    end
+  end
+
   describe "self.slugify_paths_to_url" do
     it "returns a slugified url for an array of path values" do
       TablePageNode.slugify_paths_to_url("qds", "Q1 2012", "TOY", "TOY", "Spend by Type of Budget").should eq "/qds/q1-2012/toy/toy/spend-by-type-of-budget"

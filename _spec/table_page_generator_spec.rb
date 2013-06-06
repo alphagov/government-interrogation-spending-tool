@@ -350,6 +350,28 @@ describe "TablePageGenerator" do
         content.should match /header-title: Everything/
       end
     end
+
+    context "node without alternative layout" do
+      it "should return using default layout" do
+        node2 = TablePageNode.new("Test2", 100.0)
+        root_node = TablePageNode.new(
+          "All", 200.0, [node2])
+
+        content = @page_generator.generate_html_content(root_node)
+        content.should match /layout: table/
+      end
+    end
+
+    context "node with alternative layout" do
+      it "should return using alternative layout" do
+        node2 = TablePageNode.new("Test2", 100.0)
+        root_node = TablePageNode.new(
+          "All", 200.0, [node2], "all", { :alternative_layout => "table_root" })
+
+        content = @page_generator.generate_html_content(root_node)
+        content.should match /layout: table_root/
+      end
+    end
   end
 
   describe "generate_csv_content" do

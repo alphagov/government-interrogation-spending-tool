@@ -56,6 +56,10 @@ class TablePageNode
     @options.has_key?(:redirect_url) ? @options[:redirect_url] : nil
   end
 
+  def alternative_layout
+    @options.has_key?(:alternative_layout) ? @options[:alternative_layout] : nil
+  end
+
   def to_s
     "TablePageNode: title = #{title}, total = #{total.to_s}, slug = #{slug}, children = #{children.to_s}"
   end
