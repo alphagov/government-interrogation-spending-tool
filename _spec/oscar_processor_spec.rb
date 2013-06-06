@@ -69,6 +69,10 @@ describe "OscarProcessor" do
         @root_node.should be_an_instance_of TablePageNode
       end
 
+      it "the root node should used the alternative layout table_root" do
+        @root_node.alternative_layout.should eq "table_root"
+      end
+
       it "should create a node tree with a single node for quarter, department, org, control code, the 2 econ category names" do
         @root_node.children.should have(1).items
         @root_node.children[0].children.should have(1).items

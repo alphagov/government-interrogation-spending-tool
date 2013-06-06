@@ -2,6 +2,8 @@
 
 class BaseProcessor
 
+  ROOT_NODE_LAYOUT = "table_root"
+
   def csv_parser
     raise "this method should be overridden and return a csv parser"
   end

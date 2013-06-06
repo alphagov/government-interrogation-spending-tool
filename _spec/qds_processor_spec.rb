@@ -62,6 +62,10 @@ describe "QdsProcessor" do
         @root_node.should be_an_instance_of TablePageNode
       end
 
+      it "the root node should used the alternative layout table_root" do
+        @root_node.alternative_layout.should eq "table_root"
+      end
+
       it "should create a node tree with depth 5 with nodes: root, quarter, scope abbr, parent_department, section, headline" do
         @root_node.children.should have(1).items
 

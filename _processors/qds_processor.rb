@@ -144,6 +144,11 @@ class QdsProcessor < BaseProcessor
         { :is_quarter => true, :alternative_title => "All Departments" })
     end
 
-    root = TablePageNode.new("All Quarters", 0.0, root_children, "")
+    root = TablePageNode.new(
+      "All Quarters",
+      0.0,
+      root_children,
+      "",
+      { :alternative_layout => ROOT_NODE_LAYOUT })
   end
 end
