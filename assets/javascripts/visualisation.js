@@ -111,6 +111,29 @@ gist.utils = gist.utils || (function() {
 
         return result;
       }
+    },
+
+    group_data_by_percentile_lowest : function(data, percentile_bar) {
+      if (data.length <= 2) {
+        return data;
+      } else {
+        var values = data.map(function(d) { return d.total; }),
+            sorted_values = values.sort(d3.ascending),
+            quantile = d3.quantile(sorted_values, percentile_bar),
+            result = [],
+            other_item = { title: "Other", total: 0 };
+
+        data.forEach(function(d) {
+          if (d.total >= quantile) {
+            result.push(d);
+          } else {
+            other_item.total += d.total;
+          }
+        });
+        result.push(other_item);
+
+        return result;
+      }
     }
   });
 

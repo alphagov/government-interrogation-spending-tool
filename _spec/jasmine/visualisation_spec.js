@@ -160,7 +160,7 @@ describe("Util", function() {
       });
     });
   });
-/*
+
   describe("group_data_by_percentile_lowest", function() {
     it("should return the data unchanged if there is less than 3 items", function () {
       var data = [
@@ -169,29 +169,33 @@ describe("Util", function() {
       ],
       percentile_bar = 0.1;
 
-      var grouped_data = util.group_data_by_percentile_lowest(percentile_bar)
+      var grouped_data = util.group_data_by_percentile_lowest(data, percentile_bar)
       expect(grouped_data.length).toEqual(2);
       expect(grouped_data[0].total).toEqual(2);
       expect(grouped_data[1].total).toEqual(1);
     });
     it("should return the data with items below the percentile bar grouped into a single object other", function () {
+      // quantile should be 1.75
       var data = [
-        { title: "10a", total: 10 },
-        { title: "10b", total: 10 },
-        { title: "10c", total: 10 },
-        { title: "10d", total: 10 },
-        { title: "10e", total: 10 },
-        { title: "2", total: 2 },
-        { title: "1a", total: 1 },
-        { title: "1b", total: 1 },
+        { title: "10a", total: 10.0 },
+        { title: "10b", total: 10.0 },
+        { title: "10c", total: 10.0 },
+        { title: "10d", total: 10.0 },
+        { title: "10e", total: 10.0 },
+        { title: "2",   total: 2.0 },
+        { title: "1a",  total: 1.0 },
+        { title: "1b",  total: 1.0 },
       ],
-      percentile_bar = 0.1;
+      percentile_bar = 0.25;
 
-      var grouped_data = util.group_data_by_percentile_lowest(percentile_bar)
-      expect(0).toEqual(1);
+      var grouped_data = util.group_data_by_percentile_lowest(data, percentile_bar)
+      expect(grouped_data.length).toEqual(7);
+      expect(grouped_data[0].total).toEqual(10.0);
+      expect(grouped_data[6].title).toEqual("Other");
+      expect(grouped_data[6].total).toEqual(2.0);
     });
   });
-*/
+
 });
 
 
