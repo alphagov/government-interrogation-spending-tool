@@ -156,7 +156,7 @@ describe("Util", function() {
 
         expect(grouped_data.length).toEqual(max_number_of_items);
         expect(grouped_data[4].total).toEqual(6);
-        expect(grouped_data[4].title).toEqual("Other");
+        expect(grouped_data[4].name).toEqual("Other");
       });
     });
   });
@@ -191,7 +191,7 @@ describe("Util", function() {
       var grouped_data = util.group_data_by_percentile_lowest(data, percentile_bar)
       expect(grouped_data.length).toEqual(7);
       expect(grouped_data[0].total).toEqual(10.0);
-      expect(grouped_data[6].title).toEqual("Other");
+      expect(grouped_data[6].name).toEqual("Other");
       expect(grouped_data[6].total).toEqual(2.0);
     });
   });
