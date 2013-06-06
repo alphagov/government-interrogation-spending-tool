@@ -138,7 +138,7 @@ gist.utils = gist.utils || (function() {
       }
     },
 
-    format_number_by_magnitude : function(value, is_sterling, decimalPlaces) {
+    format_number_by_magnitude : function(value, is_sterling) {
       var magnitudes = {
         trillion: { value:1e12, suffix:"tn", long_suffix:"trillion" },
         billion:  { value:1e9,  suffix:"bn", long_suffix:"billion" },
@@ -156,7 +156,9 @@ gist.utils = gist.utils || (function() {
         return magnitudes.unit;
       },
       magnitude = magnitudeFor(value),
-      magnitude_value = (value / magnitude.value).toFixed(decimalPlaces || 2).toString().replace(/\.?0+$/,"");
+      scaled_value = (value / magnitude.value),
+      scaled_value_3_sigs = scaled_value.toPrecision(3),
+      magnitude_value = scaled_value_3_sigs.toString().replace(/\.?0+$/,"");
 
       if (is_sterling) {
         magnitude_value = ("£" + magnitude_value).replace("£-", "-£");
