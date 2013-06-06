@@ -93,6 +93,24 @@ gist.utils = gist.utils || (function() {
 
     filter_sort_data : function(data) {
       return data.filter(function(d) { return d.total > 0; }).sort(function(a,b) {return (a.total < b.total)? 1 : (a.total == b.total)? 0 : -1; });
+    },
+
+    group_data_to_max_num_items_by_lowest : function(data, max_number_of_items) {
+      if (data.length < max_number_of_items) {
+        return data;
+      } else {
+        var sorted = data.sort(function(a,b) {return (a.total < b.total)? 1 : (a.total == b.total)? 0 : -1; }),
+            other_group = sorted.slice(max_number_of_items-1),
+            other_item = { title: "Other", total: 0 };
+
+        other_group.forEach(function(item) {
+          other_item.total += item.total;
+        });
+        var result = sorted.slice(0, max_number_of_items-1);
+        result.push(other_item);
+
+        return result;
+      }
     }
   });
 

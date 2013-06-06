@@ -121,6 +121,77 @@ describe("Util", function() {
       expect(sorted_filtered_data[1].total).toEqual(1);
     });
   });
+
+  describe("group_data_to_max_num_items_by_lowest", function() {
+    describe("when there is less than the max number before grouping", function () {
+      it("should return the data without grouping", function () {
+        var data = [
+          { title: "4", total: 4 },
+          { title: "3", total: 3 },
+          { title: "2", total: 2 },
+          { title: "1", total: 1 }
+        ],
+        max_number_of_items = 5;
+
+        var grouped_data = util.group_data_to_max_num_items_by_lowest(data, max_number_of_items);
+        expect(grouped_data.length).toEqual(4);
+        expect(grouped_data[0].total).toEqual(4);
+      });
+    });
+    describe("when there is more than the max number before grouping", function () {
+      it("should return the data with the lowest values grouped into a single object other", function () {
+        var data = [
+          { title: "7", total: 7 },
+          { title: "6", total: 6 },
+          { title: "5", total: 5 },
+          { title: "4", total: 4 },
+          // should total following
+          { title: "3", total: 3 },
+          { title: "2", total: 2 },
+          { title: "1", total: 1 }
+        ],
+        max_number_of_items = 5;
+
+        var grouped_data = util.group_data_to_max_num_items_by_lowest(data, max_number_of_items);
+
+        expect(grouped_data.length).toEqual(max_number_of_items);
+        expect(grouped_data[4].total).toEqual(6);
+        expect(grouped_data[4].title).toEqual("Other");
+      });
+    });
+  });
+/*
+  describe("group_data_by_percentile_lowest", function() {
+    it("should return the data unchanged if there is less than 3 items", function () {
+      var data = [
+        { title: "2", total: 2 },
+        { title: "1", total: 1 }
+      ],
+      percentile_bar = 0.1;
+
+      var grouped_data = util.group_data_by_percentile_lowest(percentile_bar)
+      expect(grouped_data.length).toEqual(2);
+      expect(grouped_data[0].total).toEqual(2);
+      expect(grouped_data[1].total).toEqual(1);
+    });
+    it("should return the data with items below the percentile bar grouped into a single object other", function () {
+      var data = [
+        { title: "10a", total: 10 },
+        { title: "10b", total: 10 },
+        { title: "10c", total: 10 },
+        { title: "10d", total: 10 },
+        { title: "10e", total: 10 },
+        { title: "2", total: 2 },
+        { title: "1a", total: 1 },
+        { title: "1b", total: 1 },
+      ],
+      percentile_bar = 0.1;
+
+      var grouped_data = util.group_data_by_percentile_lowest(percentile_bar)
+      expect(0).toEqual(1);
+    });
+  });
+*/
 });
 
 
