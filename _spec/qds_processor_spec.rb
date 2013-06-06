@@ -91,6 +91,10 @@ describe "QdsProcessor" do
       it "should have redirect url set at parent_department level to redirect to spend-by-type-of-budget" do
         @root_node.children[0].children[0].children[0].redirect_url.should eq "/qds/q2-2012/dep/dep/spend-by-type-of-budget"
       end
+
+      it "should use alternative_layout table_qds_section at the section level" do
+        @root_node.children[0].children[0].children[0].children[0].alternative_layout.should eq "table_qds_section"
+      end
     end
     context "qds data for a single quarter, one scope abbr, two parent_departments, one section, one headline" do
       before(:each) do

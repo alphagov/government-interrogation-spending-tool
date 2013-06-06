@@ -108,7 +108,9 @@ class QdsProcessor < BaseProcessor
             parent_department_children << TablePageNode.new(
               section,
               section_total,
-              section_children)
+              section_children,
+              section,
+              { :alternative_layout => "table_qds_section" })
           end
 
           begin
