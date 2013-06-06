@@ -97,8 +97,8 @@ describe("Util", function() {
     it("should insert a div into chart div above visualisation divs containing selector links", function () {
       loadFixtures('visualisation-divs.html');
       var selections = [
-        { id: "test1", label: "label1", title: "title1"},
-        { id: "test2", label: "label2", title: "title2"}];
+        { id: "test1", label: "label1", name: "title1"},
+        { id: "test2", label: "label2", name: "title2"}];
 
       util.draw_chart_selector("chart", selections);
       expect($('div.chart-selector')).toExist();
@@ -126,10 +126,10 @@ describe("Util", function() {
     describe("when there is less than the max number before grouping", function () {
       it("should return the data without grouping", function () {
         var data = [
-          { title: "4", total: 4 },
-          { title: "3", total: 3 },
-          { title: "2", total: 2 },
-          { title: "1", total: 1 }
+          { name: "4", total: 4 },
+          { name: "3", total: 3 },
+          { name: "2", total: 2 },
+          { name: "1", total: 1 }
         ],
         max_number_of_items = 5;
 
@@ -141,14 +141,14 @@ describe("Util", function() {
     describe("when there is more than the max number before grouping", function () {
       it("should return the data with the lowest values grouped into a single object other", function () {
         var data = [
-          { title: "7", total: 7 },
-          { title: "6", total: 6 },
-          { title: "5", total: 5 },
-          { title: "4", total: 4 },
+          { name: "7", total: 7 },
+          { name: "6", total: 6 },
+          { name: "5", total: 5 },
+          { name: "4", total: 4 },
           // should total following
-          { title: "3", total: 3 },
-          { title: "2", total: 2 },
-          { title: "1", total: 1 }
+          { name: "3", total: 3 },
+          { name: "2", total: 2 },
+          { name: "1", total: 1 }
         ],
         max_number_of_items = 5;
 
@@ -164,8 +164,8 @@ describe("Util", function() {
   describe("group_data_by_percentile_lowest", function() {
     it("should return the data unchanged if there is less than 3 items", function () {
       var data = [
-        { title: "2", total: 2 },
-        { title: "1", total: 1 }
+        { name: "2", total: 2 },
+        { name: "1", total: 1 }
       ],
       percentile_bar = 0.1;
 
@@ -174,17 +174,33 @@ describe("Util", function() {
       expect(grouped_data[0].total).toEqual(2);
       expect(grouped_data[1].total).toEqual(1);
     });
+
+    it("should return the data unchanged if the quantile only affects one item", function () {
+      var data = [
+        { name: "1000a", total: 1000.0 },
+        { name: "1000b",  total: 1000.0 },
+        { name: "1",  total: 1.0 }
+      ],
+      percentile_bar = 0.25;
+
+      var grouped_data = util.group_data_by_percentile_lowest(data, percentile_bar)
+      expect(grouped_data.length).toEqual(3);
+      expect(grouped_data[0].total).toEqual(1000.0);
+      expect(grouped_data[2].name).toEqual("1");
+      expect(grouped_data[2].total).toEqual(1.0);
+    });
+
     it("should return the data with items below the percentile bar grouped into a single object other", function () {
       // quantile should be 1.75
       var data = [
-        { title: "10a", total: 10.0 },
-        { title: "10b", total: 10.0 },
-        { title: "10c", total: 10.0 },
-        { title: "10d", total: 10.0 },
-        { title: "10e", total: 10.0 },
-        { title: "2",   total: 2.0 },
-        { title: "1a",  total: 1.0 },
-        { title: "1b",  total: 1.0 },
+        { name: "10a", total: 10.0 },
+        { name: "10b", total: 10.0 },
+        { name: "10c", total: 10.0 },
+        { name: "10d", total: 10.0 },
+        { name: "10e", total: 10.0 },
+        { name: "2",   total: 2.0 },
+        { name: "1a",  total: 1.0 },
+        { name: "1b",  total: 1.0 },
       ],
       percentile_bar = 0.25;
 
