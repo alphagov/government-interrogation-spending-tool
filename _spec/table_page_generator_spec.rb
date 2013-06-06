@@ -274,8 +274,8 @@ describe "TablePageGenerator" do
         @content.should match /data-colour="#0078ba"/
         @content.should match /data-font-colour="#fff"/
         #HO
-        @content.should match /data-colour="#f6823e"/
-        @content.should match /data-font-colour="#0A0C0C"/
+        @content.should match /data-colour="#003969"/
+        @content.should match /data-font-colour="#fff"/
         #HMRC
         @content.should match /data-colour=""/
         @content.should match /data-font-colour=""/
