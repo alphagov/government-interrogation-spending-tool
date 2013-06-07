@@ -1,0 +1,19 @@
+<nav>
+  <ul id="format-success-tabs" class="tabs">
+    <a href="../spend-by-type-of-budget/">
+      <li data-format="budget" {% if page.url contains "/spend-by-type-of-budget" %} class="active" {% endif %}>
+        <span>Budget</span>
+      </li>
+    </a>
+    <a href="../spend-by-type-of-internal-operation/">
+      <li data-format="operation" {% if page.url contains "/spend-by-type-of-internal-operation" %} class="active" {% endif %}>
+        <span>Operation</span>
+      </li>
+    </a>
+    <a href="../spend-by-type-of-transaction/">
+      <li data-format="transaction" {% if page.url contains "/spend-by-type-of-transaction" %} class="active" {% endif %}>
+        <span>Transaction</span>
+      </li>
+    </a>
+  </ul>
+</nav>

@@ -10,6 +10,7 @@ $primary-colour-text: darken($primary-colour, 7%);
 @import 'treemap';
 @import 'barchart';
 @import 'tables';
+@import 'tabbed_layout';
 
 /* Whitehall imports */
 @import 'whitehall/_dimensions';

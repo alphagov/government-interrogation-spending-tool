@@ -1,0 +1,15 @@
+{% if page.breadcrumbs %}
+<header id="global-breadcrumb">
+  <hgroup class="full-width">
+    <nav role="navigation">
+      <ol class="group">
+      {% for link_hash in page.breadcrumbs %}
+        {% for link in link_hash %}
+        <li><a href="{{ link[1] }}">{{ link[0] }}</a></li>
+        {% endfor %}
+      {% endfor %}
+      </ol>
+    </nav>
+  </hgroup>
+</header>
+{% endif %}
