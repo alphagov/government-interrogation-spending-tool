@@ -9,7 +9,7 @@ svg {
       shape-rendering: crispEdges;
     }
   }
-  text {
+  .bars text {
     @include core-24;
     .amount {
       @include bold-24;
