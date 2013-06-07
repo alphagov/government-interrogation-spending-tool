@@ -1,16 +1,3 @@
-/* remove GOV.UK default styles */
-.header-wrapper {
-    width: auto;
-}
-
-
-@media (max-width: 700px) {
-    section.content-group > h1 {
-        border-bottom: 3px solid #108095;
-        padding-bottom: 8px;
-    }
-}
-
 @media (max-width: 960px) {
     .module-header {
         width: 100%;
@@ -95,7 +82,6 @@
     margin-left: -.5em;
     margin-right: -.5em;
 }
-
 
 
 
