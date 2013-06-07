@@ -9,7 +9,18 @@ svg {
       shape-rendering: crispEdges;
     }
   }
-  text {
-    @include core-19;
+  .bars {
+    text {
+      @include core-24;
+
+      .amount {
+        @include bold-24;
+      }
+
+
+    }
+    rect.hitbox {
+        fill: transparent;
+    }
   }
 }

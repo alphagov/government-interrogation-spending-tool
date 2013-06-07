@@ -33,8 +33,11 @@ gist.charts.barchart = gist.charts.barchart || (function() {
             data = this.util.group_data_to_max_num_items_by_lowest(data, max_number_of_bars),
             bar_g_w = Math.floor(width /(data.length*1.0)),
             bar_g_w = (bar_g_w < bar_settings.max_bar_g_w)? bar_g_w : bar_settings.max_bar_g_w,
+            bar_w = bar_g_w - bar_settings.bar_left_m,
             max_y = d3.max(data, function(d) { return d.total }),
             y = d3.scale.linear().domain([0, max_y]).range([height, 0]);
+
+        data.forEach(function(d) { d.y = y(d.total); d.height = height - d.y; });
 
         var svg = d3.select("#" + node_id).append("svg:svg")
           .attr("width", w)
@@ -65,19 +68,38 @@ gist.charts.barchart = gist.charts.barchart || (function() {
             return "translate(" + (margin.left + i*bar_g_w) + "," + margin.top + ")"; });
 
         var bar = bars.append("rect")
-          .attr('class', 'actual')
           .attr("x", bar_settings.bar_left_m)
-          .attr("y", function(d) { return y(d.total); })
-          .attr("width", bar_g_w - bar_settings.bar_left_m)
-          .attr("height", function(d) { return height - y(d.total); })
+          .attr("y", function(d) { return d.y; })
+          .attr("width", bar_w)
+          .attr("height", function(d) { return d.height; })
           .attr("fill", function(d) { return d.colour ? d.colour : that.opts.default_colour; });
 
-        bars.append("svg:text")
+        var text = bars.append("svg:text")
           .attr("x", (bar_settings.bar_left_m + bar_g_w)/2)
-          .attr("y", function(d) { return y(d.total) + bar_settings.label_m; })
+          .attr("y", function(d) { return d.y + bar_settings.label_m; })
           .style("writing-mode", "tb")
-          .attr('fill', function(d) { return d.fontColour ? d.fontColour : that.opts.default_font_colour; })
-          .text(function(d) { return that.to_short_magnitude_string(d.total) + " " + d.name; });
+          .attr('fill', function(d) { return d.fontColour ? d.fontColour : that.opts.default_font_colour; });
+
+        text.append("tspan")
+          .attr('class', 'amount')
+          .text(function(d) { return (d.height) > 100 ? that.to_short_magnitude_string(d.total) : ""; });
+        text.append("tspan")
+          .text(function(d) { return (d.height) > 150 ? "  " + d.name : ""; });
+
+        var hitboxes = bars.append("rect")
+          .attr('class', 'hitbox')
+          .attr("x", bar_settings.bar_left_m)
+          .attr("y", 0)
+          .attr('width', bar_w)
+          .attr('height', height)
+          .style("cursor", function(d) { return d.url ? "pointer" : ""; })
+          .on("click", function(d) {
+            if (d.url) {
+              window.location = d.url;
+            }
+          });
+
+        that._setupTooltips(hitboxes, that);
       }
     }
   });
