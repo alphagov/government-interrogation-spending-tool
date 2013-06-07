@@ -8,6 +8,10 @@ module Jekyll
 			begin
         main_file_path = "./assets/stylesheets/main.css"
 
+        if File.exists? main_file_path
+          return nil if (Time.now.to_i - File.mtime(main_file_path).to_i) < 3
+        end
+
         t = Time.now.strftime("%Y-%m-%d %H:%M:%S");
         puts "[#{t}] Performing Sass Conversion."
         sass_filename = "./_assets/stylesheets/main.scss"
