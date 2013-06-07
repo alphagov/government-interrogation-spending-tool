@@ -10,6 +10,9 @@ svg {
     }
   }
   text {
-    @include core-19;
+    @include core-24;
+    .amount {
+      @include bold-24;
+    }
   }
 }

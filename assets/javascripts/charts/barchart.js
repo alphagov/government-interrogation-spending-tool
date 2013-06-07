@@ -72,12 +72,17 @@ gist.charts.barchart = gist.charts.barchart || (function() {
           .attr("height", function(d) { return height - y(d.total); })
           .attr("fill", function(d) { return d.colour ? d.colour : that.opts.default_colour; });
 
-        bars.append("svg:text")
+        var text = bars.append("svg:text")
           .attr("x", (bar_settings.bar_left_m + bar_g_w)/2)
           .attr("y", function(d) { return y(d.total) + bar_settings.label_m; })
           .style("writing-mode", "tb")
-          .attr('fill', function(d) { return d.fontColour ? d.fontColour : that.opts.default_font_colour; })
-          .text(function(d) { return that.to_short_magnitude_string(d.total) + " " + d.name; });
+          .attr('fill', function(d) { return d.fontColour ? d.fontColour : that.opts.default_font_colour; });
+
+        text.append("tspan")
+          .attr('class', 'amount')
+          .text(function(d) { return (height - y(d.total)) > 100 ? that.to_short_magnitude_string(d.total) : ""; });
+        text.append("tspan")
+          .text(function(d) { return (height - y(d.total)) > 150 ? "  " + d.name : ""; });
       }
     }
   });
