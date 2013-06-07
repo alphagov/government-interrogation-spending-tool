@@ -20,7 +20,11 @@ module Jekyll
         	:line_numbers => true).render
         File.open(main_file_path, "wb") {|f| f.write(css) }
       rescue StandardError => e
-        puts "[#{t}] !!! SASS Error - [Line #{e.sass_line}] -- #{e.to_s}"
+        if e.class.method_defined? :sass_line
+          puts "[#{t}] !!! SASS Error - [Line #{e.sass_line}] -- #{e.to_s}"
+        else
+          puts "!!! Error - #{e.to_s}"
+        end
       end
 		end
 	end
