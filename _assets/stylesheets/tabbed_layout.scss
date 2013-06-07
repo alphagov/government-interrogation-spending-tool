@@ -1,0 +1,593 @@
+/* remove GOV.UK default styles */
+.header-wrapper {
+    width: auto;
+}
+
+header hgroup.dashboard {
+    margin: 0;
+    padding: 0;
+}
+
+header hgroup.dashboard h1 {
+    padding: 0;
+}
+
+header hgroup.dashboard h1 span {
+    display: inline;
+}
+
+section.content-group article {
+    margin: 0 0 2em 0;
+}
+
+section.content-group > h1 {
+    border-bottom: 5px solid #108095;
+    padding: 16px 0 8px 0;
+    margin: 16px 0 16px 0;
+}
+
+article.dashboard {
+    min-height: 0;
+}
+
+
+.two-up .module-header, .three-up .module-header {
+    width: 100%;
+}
+
+.datainsight article p, p.small-text {
+    max-width: 100%;
+}
+
+#about-performance-platform p {
+    max-width: 24em;
+}
+
+#reach-legend {
+    width: 200px;
+    float: right;
+    margin-top: 16px;
+}
+
+#reach-legend h2 {
+    margin: 0;
+    width: 70%;
+    float: left;
+    line-height: 1.6em;
+}
+
+#reach-legend ul {
+    float: right;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#reach-legend li {
+    margin: 0;
+    line-height: 1.6em;
+    clear: right;
+    float: right;
+}
+
+#reach-legend li .legend-block {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin-left: 6px;
+    vertical-align: middle;
+}
+
+#reach-legend li .decrease {
+    background-color: #BF1E2D;
+}
+
+#reach-legend li .increase {
+    background-color: #74B74A;
+}
+
+#visits,
+#unique-visitors {
+    max-width: 444px;
+}
+
+@media (max-width: 700px) {
+    section.content-group > h1 {
+        border-bottom: 3px solid #108095;
+        padding-bottom: 8px;
+    }
+}
+
+@media (max-width: 960px) {
+    .module-header {
+        width: 100%;
+    }
+}
+#format-success.placeholder {
+    /* displayed until data for content explorer is available */
+    display:inline-block;
+    width:100%;
+    padding-top:47.071129707%;
+    position:relative;
+    text-align:center;
+}
+
+#format-success.placeholder p.loading {
+    margin:0;
+    position:absolute;
+    padding-left:40px;
+    background: url("<%= asset_path('spinner.gif') %>") no-repeat left .1em;
+    font-size:2em;
+    height:2em;
+    margin-top:-1em;
+    width:210px;
+    margin-left:-125px;
+    top:50%;
+    left:50%;
+    color:#444;
+}
+
+
+/* scatterplot */
+
+#format-success .label-x-right, #format-success .label-y-top, #format-success .label-y-bottom {
+    text-anchor: end;
+}
+
+#format-success .label-x-left {
+    text-anchor: start;
+}
+
+#format-success .title-y {
+    text-anchor: middle;
+}
+
+#format-success-legend {
+    float: right;
+    shape-rendering: geometricPrecision;
+}
+
+#format-success-legend circle.legend {
+    fill: none;
+    stroke: black;
+}
+
+#format-success .label-y-top,
+#format-success .label-y-bottom {
+    text-anchor: middle;
+}
+
+#format-success .label-x-right {
+    text-anchor: end;
+}
+
+#format-success .label-x-left {
+    text-anchor: start;
+}
+
+#format-success .title-y {
+    display: none;
+}
+
+#format-success .axis .domain {
+    shape-rendering: auto;
+}
+
+#format-success circle {
+    opacity: .9;
+}
+
+#format-success-legend {
+    float: right;
+    shape-rendering: geometricPrecision;
+}
+
+#format-success-legend circle.legend {
+    fill: none;
+    stroke: black;
+}
+
+
+
+#format-success-module .tabs {
+    padding-left: 0;
+    width: 100%;
+    margin: 0;
+}
+
+#format-success-module .tabs li {
+    font-size: 1em;
+    padding: 4px 16px;
+    background: #ddd;
+    border: 4px solid white;
+    margin-bottom:0;
+    cursor:pointer;
+    float:left;
+    list-style:none;
+       -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+}
+
+#format-success-module.govuk .tabs li {
+    width:33.3333333%;
+}
+
+#format-success-module.ig .tabs li {
+    width:50%;
+}
+
+#format-success-wrapper {
+    padding-top: 0;
+    clear:left;
+}
+
+#format-success-module .tabs li:hover {
+    text-decoration: underline;
+}
+
+#format-success-module .tabs li.active {
+    border-top: 0;
+    background: white;
+    border: 1px solid #999;
+    border-bottom:0;
+    padding: 7px 16px 10px 19px;
+    margin-bottom:-1px;
+}
+
+
+#format-success-wrapper {
+    border-top: 1px solid #999;
+    padding: .4em;
+    margin-left: -.5em;
+    margin-right: -.5em;
+}
+
+
+
+#format-success-module .graph #format-success {
+    border-top:1px solid #999;
+    padding-top:.5em;
+    margin-top:12px;
+}
+
+
+
+#format-success-module .graph-header {
+    padding: .5em .5em 0 .5em;
+    margin-bottom: .5em;
+}
+
+#format-success-module h3 {
+    margin:0;
+    color:#444;
+    text-align:right;
+    font-size: 24px;
+    font-size: 2.4rem;
+}
+
+#format-success-module h3 em {
+    font-style: normal;
+    color: #097F96;
+}
+
+#format-success-module div.tagline {
+    font-size: .875em;
+    text-align: right;
+    margin-top:.75em;
+    color: #444;
+}
+
+#format-success-module div.legend {
+    width: 100%;
+    display:none;
+}
+
+#format-success-module .graph .legend {
+    display:block;
+}
+
+#format-success-module .legend p {
+    margin: 0;
+    font-size: 0.8em;
+    padding-top: 0.6em;
+}
+
+#format-success-module .legend p.sizes {
+    float:left;
+    padding-left: 6em;
+    background: url("<%= asset_path('icon-circles.svg') %>") no-repeat left top;
+}
+
+#format-success-module .legend p.colour-key {
+    float:right;
+    padding-right: 8.5em;
+    background: url("<%= asset_path('colour-key.svg') %>") no-repeat right .6em;
+}
+
+#format-success-wrapper figcaption {
+    margin-top:.5em;
+}
+
+#format-success-wrapper.graph figcaption {
+    border-top: 1px solid #999;
+}
+
+#format-success-module figcaption p {
+    font-size: .875em;
+    margin-right: 0;
+}
+
+#format-success-module figcaption h4 {
+    margin-top:.5em;
+}
+
+#format-success-module figcaption div.left {
+    width:50%;
+    float:left;
+}
+#format-success-module figcaption div.right {
+    width:50%;
+    float:right;
+}
+
+#format-success-module .stopfloat {
+    float:none;
+    clear:both;
+}
+
+#format-success-module .label-scale-x-left,
+#format-success-module .label-scale-x-right {
+    fill: #343333;
+    font-size:.875em;
+}
+
+#format-success-module .label-scale-x-right {
+    text-anchor: end;
+}
+
+#format-success-module .callout-box .data-point-label {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+#format-success-module .callout-box .data-point-label a span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 168px;
+    float: left;
+    text-decoration: underline;
+}
+
+
+/* filter */
+
+#scatterplot-filter {
+    font-size:1em;
+    width:18em;
+    padding-right:2em;
+    margin:0;
+}
+
+
+#scatterplot-filter-wrapper {
+    float:left;
+    font-size:.875em;
+    margin-right:1em;
+}
+#scatterplot-filter-wrapper label {
+    color:#343333;
+    padding-right:.5em;
+}
+
+#format-success-module .combobox {
+    margin-right: 0.1em;
+}
+
+#format-success-module .combobox_button {
+
+  background: #ddd;
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: block;
+  height: 100%;
+  width: 18px;
+
+}
+
+#format-success-module .combobox_button:hover {
+    text-decoration: none;
+}
+
+#format-success-module .combobox_button {
+    * top: 1px !important;
+}
+
+#format-success-module .combobox_selector {
+    background-color: #EEE;
+    z-index: 1000;
+    max-height: 200px;
+    overflow: auto;
+}
+
+#format-success-module .combobox_selector ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    border:1px solid #CCC;
+}
+
+#format-success-module .combobox_selector li {
+    padding: 2px 5px;
+    font-size: 1em;
+}
+
+#format-success-module .combobox_selector li.selected {
+    background-color: #097F96;
+    color: #FFF;
+}
+
+#format-success-module .combobox .close {
+    width: 16px;
+    height: 16px;
+    background: url("<%= asset_path('icon-close.svg') %>") no-repeat center center;
+    position: absolute;
+    right: 6px;
+    top: 6px;
+    cursor:pointer;
+}
+
+.ie8 #format-success-module .combobox .close {
+    background-image: url("<%= asset_path('icon-close.gif') %>");
+}
+
+.hidden {
+    display: none !important;
+}
+
+
+
+/* visualisation type navigation */
+
+#format-success-type {
+    float:left;
+    margin-top:.75em;
+    padding-left:0;
+}
+
+#format-success-type li {
+    font-size:.875em;
+    cursor:pointer;
+    float:left;
+    list-style:none;
+    padding:0 .5em 0 0;
+    margin-left:.5em;
+    text-decoration:underline;
+    color:#2e3191;
+    border-right: 1px solid #0b0c0c;
+    margin-top:0;
+    margin-bottom:0;
+}
+
+#format-success-type li:first-child {
+    margin-left:0;
+}
+#format-success-type li:last-child {
+    border:0;
+}
+
+#format-success-type li.active {
+    cursor:default;
+    text-decoration:none;
+    color:#0b0c0c;
+}
+
+
+/* table */
+
+
+#format-success table {
+    width: 100%;
+    margin:0;
+}
+
+#format-success table.head {
+    width: 100%;
+    margin:0;
+}
+
+#format-success table thead {
+    background-color:#dee0e2;
+    border-bottom: solid 1px #a1acb2;
+}
+
+#format-success .outer-table-wrapper {
+    border: solid 1px #a1acb2;
+    background-color:#dee0e2;
+}
+
+#format-success .inner-table-wrapper {
+    display: block;
+    height:447px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    
+}
+
+/*#format-success table tbody {
+    display: block;
+    height:447px;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    
+}
+*/
+#format-success table tbody td:first-child {
+    border-left:0;
+}
+
+#format-success table tbody tr:first-child td {
+    border-top:0;
+}
+
+#format-success table tbody tr:last-child td {
+    border-bottom:0;
+}
+
+#format-success table tr {
+}
+
+#format-success table tr.placeholder td {
+    text-align:center;
+}
+
+
+#format-success table .title {
+    width:646px;
+}
+
+#format-success table .entries,
+#format-success table .engagement {
+    width:120px;
+    text-align:right;
+}
+
+#format-success table th {
+    border-top:0;
+    border-bottom:0;
+}
+#format-success table th:first-child {
+    border-left:0;
+}
+
+#format-success table th.sortable {
+    cursor:pointer;
+}
+
+#format-success table th.sortable:hover {
+    text-decoration: underline;
+}
+
+#format-success table th.ascending:after {
+    display: inline-block;
+    font-size: 8px;
+    height: 8px;
+    padding-left: 5px;
+    vertical-align: top;
+    content: " \25B2";
+}
+
+#format-success table th.descending:after {
+    display: inline-block;
+    font-size: 8px;
+    height: 8px;
+    padding-left: 5px;
+    vertical-align: top;
+    content: " \25BC";
+}
+
+#format-success-module .tabs li span{
+    color: black;
+}

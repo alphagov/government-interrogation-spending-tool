@@ -6,66 +6,25 @@
     <script type="text/javascript">document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script><a href="#homepage" class="visuallyhidden">Skip to main content</a>
 
     <div id="wrapper">
-
-{% include nav_header.html %}
-
+      {% include header_nav.html %}
 
       <section id="content" role="main">
-
-
-        {% if page.breadcrumbs %}
-        <header id="global-breadcrumb">
-          <hgroup class="full-width">
-            <nav role="navigation">
-              <ol class="group">
-              {% for link_hash in page.breadcrumbs %}
-                {% for link in link_hash %}
-                <li><a href="{{ link[1] }}">{{ link[0] }}</a></li>
-                {% endfor %}
-              {% endfor %}
-              </ol>
-            </nav>
-          </hgroup>
-        </header>
-        {% endif %}
+        {% include header_breadcrumbs.html %}
 
         <header class="page-header table-page-header group">
           <hgroup class="col-65">
-
-        {% include department_name_logo.html %}
-
             {% if page.header-title %}
             <h2>{{ page.header-title }}</h2>
             {% endif %}
+            {% include department_name_logo.html %}
           </hgroup>
-          <hgroup class="col-35 col-text-right">
-            <h1>{{ page.total }}</h1>
-            {% if page.quarter %}
-            <h2>{{ page.quarter }}</h2>
-            {% endif %}
-            {% if page.available-quarters %}
-            <details>
-              <summary role="button" aria-expanded="false">Historical Data</summary>
-              <ol class="historical-data tabular">
-              {% for link_hash in page.available-quarters %}
-                {% for link in link_hash %}
-                <li><a href="{{ link[1] }}" alt="View data for {{ link[0] }}">{{ link[0] }}</a></li>
-                {% endfor %}
-              {% endfor %}
-              <ol>
-            </details>
-            {% endif %}
-          </hgroup>
+          {% include header_standard.html %}
         </header>
 
         <div class="group">
           <article role="article" class="group">
-            <img id="chart-image" src="chart.png" alt="Static visualisation of data">
-            <div id="chart">
-              <div id="treemap"  class="visualisation treemap"></div>
-              <div id="barchart" class="visualisation barchart"></div>
-              <div id="doughnut" class="visualisation doughnut"></div>
-            </div>
+            {% include chart_with_all.html %}
+
             {% if page.source-label != "" %}
             <p class="source">
               Source: {{ page.source-label }}
@@ -76,31 +35,9 @@
             {% endif %}
             <section class="content-group">
 
-              <table id="data-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Department</th>
-                    <th scope="col" class="amount">Spend
-                      <span class="sort-ind">▼</span>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {{ content }}
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <th class="sorter-false">Total</th>
-                    <th class="amount sorter-false" title="{{ page.total-value }}">{{ page.total }}</th>
-                  </tr>
-                </tfoot>
-              </table>
+              {% include table_with_total.html %}
 
-              <div class="form-download">
-                <p>
-                  <a href="data.csv">Download the full set of data (CSV)</a>
-                </p>
-              </div>
+              {% include download_csv.html %}
             </section>
           </article>
         </div>

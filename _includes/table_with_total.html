@@ -1,0 +1,19 @@
+<table id="data-table">
+  <thead>
+    <tr>
+      <th scope="col">Department</th>
+      <th scope="col" class="amount">Spend
+        <span class="sort-ind">▼</span>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {{ content }}
+  </tbody>
+  <tfoot>
+    <tr>
+      <th class="sorter-false">Total</th>
+      <th class="amount sorter-false" title="{{ page.total-value }}">{{ page.total }}</th>
+    </tr>
+  </tfoot>
+</table>
