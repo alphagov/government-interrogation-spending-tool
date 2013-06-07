@@ -11,7 +11,7 @@ gist.charts.treemap = gist.charts.treemap || (function() {
   $.extend(treemap_d3js, {
     chart_type: 'treemap',
     default_options : {
-      percentile_bar_for_other : 0.3
+      percentile_bar_for_other : 0.5
     }
   });
 
