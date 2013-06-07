@@ -372,6 +372,21 @@ describe "TablePageGenerator" do
         content.should match /layout: table_root/
       end
     end
+
+    context "node with three children, one with zero total" do
+      it "should not include the row for the zero child" do
+        # This is an accounting thing, as we are assuming rows with total zero
+        # are amounts which have been provisioned from previous periods budget
+        node1 = TablePageNode.new("Test1", -100.0)
+        node2 = TablePageNode.new("Test2", 0.0)
+        node3 = TablePageNode.new("Test3", 200.0)
+        root_node = TablePageNode.new("All", 200.0, [node1,node2,node3])
+
+        content = @page_generator.generate_html_content(root_node)
+        content.should match /Test3.*Test1/m
+        content.should_not match /Test2/m
+      end
+    end
   end
 
   describe "generate_csv_content" do

@@ -102,6 +102,7 @@ class TablePageGenerator
   def generate_html_content(table_page_node, options = {})
     rows = []
 
+    filter_zero_rows   = options.has_key?(:filter_zero_rows) ? options[:filter_zero_rows] : true
     parent_slug_list   = options.has_key?(:parent_slug_list) ? options[:parent_slug_list] : []
     parent_title_list  = options.has_key?(:parent_title_list) ? options[:parent_title_list] : []
     department         = options.has_key?(:department) ? options[:department] : nil
@@ -128,6 +129,8 @@ class TablePageGenerator
     end
 
     table_page_node.children.sort { |a,b| b.total <=> a.total }.each do |node|
+      next if filter_zero_rows && node.total == 0.0
+
       data_colour = department_colour
       data_font_colour = department_font_colour
       if node.is_department
