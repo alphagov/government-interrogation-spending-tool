@@ -49,12 +49,15 @@ gist.charts = gist.charts || (function() {
 
     _setupTooltips : function(nodes, self) {
       nodes
-        .on("mouseover", function(d) { tooltip.show(self._get_tooltip_content(d)); })
+        .on("mouseover", function(d) { tooltip.show(self._get_tooltip_content(d, self)); })
         .on('mouseout', function(d) { tooltip.hide(); });
     },
 
-    _get_tooltip_content : function(d) {
-      return "<h3>" + d.name + '</h3>' + '<div class="amount">' + d.total + '</div>'
+    _get_tooltip_content : function(d, self) {
+      return "<h3>" + d.name + '</h3>' +
+        '<div class="amount">' +
+        this.util.format_numeric_string_to_uk_format(d.total, true) +
+        '</div>';
     },
 
     to_short_magnitude_string : function(value)  {

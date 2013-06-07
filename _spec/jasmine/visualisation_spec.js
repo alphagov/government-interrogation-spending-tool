@@ -281,8 +281,19 @@ describe("Util", function() {
     });
   });
 
+  describe("format_numeric_string_to_uk_format", function() {
+    it("should return a uk formatted version of the number string", function() {
+      expect(util.format_numeric_string_to_uk_format("1")).toEqual("1");
+      expect(util.format_numeric_string_to_uk_format("999")).toEqual("999");
+      expect(util.format_numeric_string_to_uk_format("9999")).toEqual("9,999");
+      expect(util.format_numeric_string_to_uk_format("9999999")).toEqual("9,999,999");
+      expect(util.format_numeric_string_to_uk_format("9999999999")).toEqual("9,999,999,999");
+      expect(util.format_numeric_string_to_uk_format("-9999999999")).toEqual("-9,999,999,999");
+    });
+    it("should return a uk formatted currency version of the number string", function() {
+      expect(util.format_numeric_string_to_uk_format("1", true)).toEqual("£1");
+      expect(util.format_numeric_string_to_uk_format("9999999999", true)).toEqual("£9,999,999,999");
+      expect(util.format_numeric_string_to_uk_format("-9999999999", true)).toEqual("-£9,999,999,999");
+    });
+  });
 });
-
-
-
-

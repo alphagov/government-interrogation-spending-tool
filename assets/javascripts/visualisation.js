@@ -165,6 +165,14 @@ gist.utils = gist.utils || (function() {
       }
 
       return { value:magnitude_value, suffix:magnitude.suffix, long_suffix:magnitude.long_suffix };
+    },
+
+    format_numeric_string_to_uk_format : function(numeric_string, is_sterling) {
+      var parts = numeric_string.toString().split(".");
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+      var formatted_value = parts.join(".");
+      return is_sterling ? ("£" + formatted_value).replace("£-", "-£") : formatted_value;
     }
   });
 
