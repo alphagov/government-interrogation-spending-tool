@@ -27,13 +27,19 @@ describe "QdsProcessor" do
 
   describe "root_node_options" do
     context "qds data for a single quarter, one department, with one parent_department" do
-      it "should return options with the quarter in quarters_list" do
+      before :each do
         data_objects = get_qds_data_objects("Quarter 2 - 2012/13", ["DEP"], ["DEP - Core"], ["Spend by Type of Budget"], ["Organisation's Own Budget (DEL)"], ["Capital"])
+        @options = @processor.root_node_options(data_objects)
+      end
 
-        options = @processor.root_node_options(data_objects)
-        options.has_key?(:available_quarters).should be_true
-        options[:available_quarters].length.should eq 1
-        options[:available_quarters][0].should eq({ :title => "Quarter 2 2012", :slug => "q2-2012" })
+      it "should return options with option to format number in millions" do
+        @options.has_key?(:number_formatter_scale).should be_true
+        @options[:number_formatter_scale].should eq "m"
+      end
+      it "should return options with the quarter in quarters_list" do
+        @options.has_key?(:available_quarters).should be_true
+        @options[:available_quarters].length.should eq 1
+        @options[:available_quarters][0].should eq({ :title => "Quarter 2 2012", :slug => "q2-2012" })
       end
     end
     context "qds data for a two quarters, one department, with one parent_department" do

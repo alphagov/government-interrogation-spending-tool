@@ -244,6 +244,22 @@ describe "TablePageGenerator" do
       end
     end
 
+    context "node with one child, with number_formatter_scale set to 'm'" do
+      it "should return table rows with amount formatted and scaled to millions" do
+        root_node = TablePageNode.new("All", 0.0, [TablePageNode.new("Test1", 9990000.0)])
+        content = @page_generator.generate_html_content(root_node, { :number_formatter_scale => "m" })
+        content.should match /<td.*>.*£10m.*<\/td>/m
+      end
+    end
+
+    context "node with one child, with number_formatter_scale set to 'k'" do
+      it "should return table rows with amount formatted and scaled to thousands" do
+        root_node = TablePageNode.new("All", 0.0, [TablePageNode.new("Test1", 9990000.0)])
+        content = @page_generator.generate_html_content(root_node, { :number_formatter_scale => "k" })
+        content.should match /<td.*>.*£9,990k.*<\/td>/m
+      end
+    end
+
     context "node with unknown Department" do
       before :each do
         root_node = TablePageNode.new("All", 0.0, [TablePageNode.new("Test1", 100.0)])

@@ -39,6 +39,18 @@ describe "Float" do
     it "should return -9k for -9049.0" do
       -9049.0.to_magnitude_string.should eq "-9k"
     end
+
+    it "should return scaled to millions when using specific magnitude m" do
+      999000.0.to_magnitude_string('m').should eq "1m"
+      9900000.0.to_magnitude_string('m').should eq "9.9m"
+      9990000.0.to_magnitude_string('m').should eq "10m"
+      9990000000.0.to_magnitude_string('m').should eq "9,990m"
+    end
+    it "should return scaled to thousands when using specific magnitude k" do
+      999000.0.to_magnitude_string('k').should eq "999k"
+      9990000.0.to_magnitude_string('k').should eq "9,990k"
+      9990000000.0.to_magnitude_string('k').should eq "9,990,000k"
+    end
   end
 
   describe "to_sterling_magnitude_string" do
@@ -74,6 +86,20 @@ describe "Float" do
     end
     it "should return -£9,049 for -9049.0" do
       -9049.0.to_uk_formatted_currency_string.should eq "-£9,049"
+    end
+
+    it "should return scaled to millions when using specific magnitude m" do
+      999000.0.to_uk_formatted_currency_string('m').should eq "£1m"
+      9900000.0.to_uk_formatted_currency_string('m').should eq "£9.9m"
+      9990000.0.to_uk_formatted_currency_string('m').should eq "£10m"
+      9990000000.0.to_uk_formatted_currency_string('m').should eq "£9,990m"
+      -9990000.0.to_uk_formatted_currency_string('m').should eq "-£10m"
+    end
+    it "should return scaled to thousands when using specific magnitude k" do
+      999000.0.to_uk_formatted_currency_string('k').should eq "£999k"
+      9990000.0.to_uk_formatted_currency_string('k').should eq "£9,990k"
+      9990000000.0.to_uk_formatted_currency_string('k').should eq "£9,990,000k"
+      -9990000.0.to_uk_formatted_currency_string('k').should eq "-£9,990k"
     end
   end
 end

@@ -102,12 +102,13 @@ class TablePageGenerator
   def generate_html_content(table_page_node, options = {})
     rows = []
 
-    filter_zero_rows   = options.has_key?(:filter_zero_rows) ? options[:filter_zero_rows] : true
-    parent_slug_list   = options.has_key?(:parent_slug_list) ? options[:parent_slug_list] : []
-    parent_title_list  = options.has_key?(:parent_title_list) ? options[:parent_title_list] : []
-    department         = options.has_key?(:department) ? options[:department] : nil
-    quarter            = options.has_key?(:quarter) ? options[:quarter] : nil
-    available_quarters = options.has_key?(:available_quarters) ? options[:available_quarters] : nil
+    filter_zero_rows       = options.has_key?(:filter_zero_rows) ? options[:filter_zero_rows] : true
+    parent_slug_list       = options.has_key?(:parent_slug_list) ? options[:parent_slug_list] : []
+    parent_title_list      = options.has_key?(:parent_title_list) ? options[:parent_title_list] : []
+    department             = options.has_key?(:department) ? options[:department] : nil
+    quarter                = options.has_key?(:quarter) ? options[:quarter] : nil
+    available_quarters     = options.has_key?(:available_quarters) ? options[:available_quarters] : nil
+    number_formatter_scale = options.has_key?(:number_formatter_scale) ? options[:number_formatter_scale] : nil
 
     department_name = ""
     department_css_class = ""
@@ -143,7 +144,7 @@ class TablePageGenerator
 
       row_title = node.has_children ? "<a href='#{node.slug}'>#{node.title}</a>" : node.title
       row = "<tr data-name=\"#{node.title}\" data-total=\"#{node.total.to_attribute_format}\" #{node.has_children ? "data-url=\"" + node.slug + "\"" : ""} data-colour=\"#{data_colour}\" data-font-colour=\"#{data_font_colour}\">
-  <td>#{row_title}</td><td class=\"amount\" title=\"#{node.total.to_attribute_format}\">#{node.total.to_uk_formatted_currency_string}</td>
+  <td>#{row_title}</td><td class=\"amount\" title=\"#{node.total.to_attribute_format}\">#{node.total.to_uk_formatted_currency_string(number_formatter_scale)}</td>
 </tr>"
       rows << row
     end

@@ -27,14 +27,19 @@ describe "OscarProcessor" do
 
   describe "root_node_options" do
     context "oscar data for a single quarter" do
-      it "should return options with the quarter in quarters_list" do
+      before :each do
         quarter = "Qtr2 - 12-13"
         data_objects = get_oscar_data_objects([quarter], ["1"], ["2"], ["3"], ["4"])
-
-        options = @processor.root_node_options(data_objects)
-        options.has_key?(:available_quarters).should be_true
-        options[:available_quarters].length.should eq 1
-        options[:available_quarters][0].should eq({ :title => "Quarter 2 2012", :slug => "q2-2012" })
+        @options = @processor.root_node_options(data_objects)
+      end
+      it "should return options with option to format number in thousands" do
+        @options.has_key?(:number_formatter_scale).should be_true
+        @options[:number_formatter_scale].should eq "k"
+      end
+      it "should return options with the quarter in quarters_list" do
+        @options.has_key?(:available_quarters).should be_true
+        @options[:available_quarters].length.should eq 1
+        @options[:available_quarters][0].should eq({ :title => "Quarter 2 2012", :slug => "q2-2012" })
       end
     end
     context "oscar data for a two quarters" do
