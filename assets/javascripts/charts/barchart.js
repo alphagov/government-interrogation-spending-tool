@@ -70,7 +70,12 @@ gist.charts.barchart = gist.charts.barchart || (function() {
           .attr("y", function(d) { return y(d.total); })
           .attr("width", bar_g_w - bar_settings.bar_left_m)
           .attr("height", function(d) { return height - y(d.total); })
-          .attr("fill", function(d) { return d.colour ? d.colour : that.opts.default_colour; });
+          .attr("fill", function(d) { return d.colour ? d.colour : that.opts.default_colour; })
+          .on("click", function(d) {
+            if (d.url) {
+              window.location = d.url;
+            }
+          });
 
         var text = bars.append("svg:text")
           .attr("x", (bar_settings.bar_left_m + bar_g_w)/2)
