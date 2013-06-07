@@ -1,88 +1,44 @@
-@media (max-width: 960px) {
-    .module-header {
-        width: 100%;
-    }
-}
-#format-success.placeholder {
-    /* displayed until data for content explorer is available */
-    display:inline-block;
-    width:100%;
-    padding-top:47.071129707%;
-    position:relative;
-    text-align:center;
+.tabs {
+  padding-left: 0;
+  width: 100%;
+  margin: 0;
+  clear:both;
 
-    p.loading {
-        margin:0;
-        position:absolute;
-        padding-left:40px;
-        background: url("<%= asset_path('spinner.gif') %>") no-repeat left .1em;
-        font-size:2em;
-        height:2em;
-        margin-top:-1em;
-        width:210px;
-        margin-left:-125px;
-        top:50%;
-        left:50%;
-        color:#444;
-    }
-}
-#format-success-module .tabs {
-    padding-left: 0;
-    width: 100%;
-    margin: 0;
+  li {
+    list-style:none;
+       -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
 
-    li {
-        font-size: 1em;
-        padding: 4px 16px;
-        background: #ddd;
-        border: 4px solid white;
-        margin-bottom:0;
-        cursor:pointer;
-        float:left;
-        list-style:none;
-           -moz-box-sizing: border-box;
-        -webkit-box-sizing: border-box;
-                box-sizing: border-box;
-    }
-}
-
-#format-success-module.govuk .tabs li {
+    float:left;
     width:33.3333333%;
+    border-bottom: 1px solid #999;
+    margin-bottom: 0.8em;
+    cursor:pointer;
+
+    a {
+      float:left;
+      width:100%;
+      padding: 7px 16px 5px 19px;
+      background: #ddd;
+      border: 4px solid white;
+      margin-bottom: 0;
+      @include core-16;
+      color: #0b0c0c;
+      text-decoration: none;
+    }
+    :hover {
+      text-decoration: underline;
+    }
+  }
+
+  li.active {
+    border-bottom: 1px solid #fff;
+    a {
+      background: white;
+      border: 1px solid #999;
+      border-bottom:0;
+      padding: 10px 16px 10px 22px;
+    }
+  }
 }
-
-#format-success-module.ig .tabs li {
-    width:50%;
-}
-
-#format-success-wrapper {
-    padding-top: 0;
-    clear:left;
-}
-
-#format-success-module li:hover {
-    text-decoration: underline;
-}
-
-#format-success-tabs a:visited{
-    color: black
-}
-
-#format-success-module li.active {
-    border-top: 0;
-    background: white;
-    border: 1px solid #999;
-    border-bottom:0;
-    padding: 7px 16px 10px 19px;
-    margin-bottom:-1px;
-}
-
-#format-success-wrapper {
-    border-top: 1px solid #999;
-    padding: .4em;
-    margin-left: -.5em;
-    margin-right: -.5em;
-}
-
-
-
-

@@ -4,57 +4,49 @@
 <!--<![endif]-->{% include head_table.html %}
 <body>
     <script type="text/javascript">document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script><a href="#homepage" class="visuallyhidden">Skip to main content</a>
-    
+
     <div id="wrapper">
-    {% include header_nav.html %}
+      {% include header_nav.html %}
 
       <section id="content" role="main">
         {% include header_breadcrumbs.html %}
 
         <header class="page-header table-page-header group">
           <hgroup class="col-65">
-           
             {% include department_name_logo.html %}
+            {% if page.header-title %}
+            <h2 {% if page.department-name  == nil %} class="standalone" {% else %} class="standard" {% endif %}>{{ page.header-title }}</h2>
+            {% endif %}
           </hgroup>
           {% include header_standard.html %}
         </header>
-        
-        <article id="format-success-module" class="dashboard one-up static govuk">
-          <hgroup class="module-header left">
 
-          {% include qds_section_tabs.html %}   
+        {% include qds_section_tabs.html %}
 
-          <div id="format-success-wrapper" class="graph">
-            <div class="graph-header">
-            </div>
-            <div class="group">
-              <article role="article" class="group">
-                {% include chart_with_all.html %}
+        <div class="group">
+          <article role="article" class="group">
+            {% include chart_with_all.html %}
 
-                {% if page.source-label != "" %}
-                  <p class="source">
-                    Source: {{ page.source-label }}
-                    {% if page.quarter %}
-                     - {{ page.quarter }}
-                    {% endif %}
-                  </p>
-                {% endif %}
-                <section class="content-group">
+            {% if page.source-label != "" %}
+            <p class="source">
+              Source: {{ page.source-label }}
+              {% if page.quarter %}
+               - {{ page.quarter }}
+              {% endif %}
+            </p>
+            {% endif %}
+            <section class="content-group">
 
-                  {% include table_with_total.html %}
+              {% include table_with_total.html %}
 
-                  {% include download_csv.html %}
-                </section>
-              </article>
-            </div>
-
-          </div>
-          </hgroup>
-        </article>
+              {% include download_csv.html %}
+            </section>
+          </article>
+        </div>
 
       </section>
     </div>
 
-  {% include footer.html %}<div id="global-app-error" class="app-error hidden"></div>
+{% include footer.html %}<div id="global-app-error" class="app-error hidden"></div>
   </body>
 </html>

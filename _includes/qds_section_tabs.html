@@ -1,19 +1,19 @@
 <nav>
-  <ul id="format-success-tabs" class="tabs" title="View Spend by Budget Type data">
-    <a href="../spend-by-type-of-budget/">
-      <li data-format="budget" {% if page.url contains "/spend-by-type-of-budget" %} class="active" {% endif %}>
+  <ul class="tabs">
+    <li {% if page.url contains "/spend-by-type-of-budget" %} class="active" {% endif %}>
+      <a href="../spend-by-type-of-budget/"  title="View Spend by Budget Type data">
         <span>Budget</span>
-      </li>
-    </a>
-    <a href="../spend-by-type-of-internal-operation/" title="View Spend by Type of Internal Operations data">
-      <li data-format="operation" {% if page.url contains "/spend-by-type-of-internal-operation" %} class="active" {% endif %}>
+      </a>
+    </li>
+    <li {% if page.url contains "/spend-by-type-of-internal-operation" %} class="active" {% endif %}>
+      <a href="../spend-by-type-of-internal-operation/" title="View Spend by Type of Internal Operations data">
         <span>Operation</span>
-      </li>
-    </a>
-    <a href="../spend-by-type-of-transaction/" title="View Spend by Type of Transaction data">
-      <li data-format="transaction" {% if page.url contains "/spend-by-type-of-transaction" %} class="active" {% endif %}>
+      </a>
+    </li>
+    <li {% if page.url contains "/spend-by-type-of-transaction" %} class="active" {% endif %}>
+      <a href="../spend-by-type-of-transaction/" title="View Spend by Type of Transaction data">
         <span>Transaction</span>
-      </li>
-    </a>
+      </a>
+    </li>
   </ul>
 </nav>
