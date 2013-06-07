@@ -47,6 +47,16 @@ gist.charts = gist.charts || (function() {
       }, 50);
     },
 
+    _setupTooltips : function(nodes, self) {
+      nodes
+        .on("mouseover", function(d) { tooltip.show(self._get_tooltip_content(d)); })
+        .on('mouseout', function(d) { tooltip.hide(); });
+    },
+
+    _get_tooltip_content : function(d) {
+      return "<h3>" + d.name + '</h3>' + '<div class="amount">' + d.total + '</div>'
+    },
+
     to_short_magnitude_string : function(value)  {
       var magnitude_value = this.util.format_number_by_magnitude(value, true);
       return magnitude_value.value + magnitude_value.suffix;

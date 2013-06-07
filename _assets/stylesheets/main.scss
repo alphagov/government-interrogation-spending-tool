@@ -7,6 +7,7 @@ $primary-colour-text: darken($primary-colour, 7%);
 
 @import 'nav';
 @import 'layout';
+@import 'tooltip';
 @import 'treemap';
 @import 'barchart';
 @import 'tables';

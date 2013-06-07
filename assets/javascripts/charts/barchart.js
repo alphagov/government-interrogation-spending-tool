@@ -86,7 +86,7 @@ gist.charts.barchart = gist.charts.barchart || (function() {
         text.append("tspan")
           .text(function(d) { return (d.height) > 150 ? "  " + d.name : ""; });
 
-        bars.append("rect")
+        var hitboxes = bars.append("rect")
           .attr('class', 'hitbox')
           .attr("x", bar_settings.bar_left_m)
           .attr("y", 0)
@@ -98,6 +98,8 @@ gist.charts.barchart = gist.charts.barchart || (function() {
               window.location = d.url;
             }
           });
+
+        that._setupTooltips(hitboxes, that);
       }
     }
   });
