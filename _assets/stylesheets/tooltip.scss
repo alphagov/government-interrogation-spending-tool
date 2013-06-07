@@ -1,0 +1,39 @@
+#tt {position:absolute; display:block;  z-index: 999; }
+#ttcont {
+  font-family: ntatabularnumbers, nta, arial, sans-serif;
+  display:block;
+  border: 2px solid #303030;
+  background:#fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  color:#333
+}
+#ttcont h3 {
+  background: #303030;
+  color: #fff;
+  padding: 5px 10px;
+  margin: 0 0 1em 0;
+}
+#ttcont div {
+  padding: 0 10px 10px;
+}
+#ttcont .volume {
+  font-weight: bold;
+  text-align: right;
+}
+#ttcont .volume span {
+  font-size: 3em;
+  display: block;
+  font-weight: normal;
+  padding-bottom: 10px;
+  text-align: right;
+  white-space: nowrap;
+}
+#ttcont .description {
+  font-size: 0.8em;
+  line-height: 1.1em
+}
+#ttcont .url {
+  font-size: 0.8em;
+  line-height: 1.1em;
+  color: #767676;
+}
