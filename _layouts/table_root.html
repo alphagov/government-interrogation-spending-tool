@@ -9,13 +9,14 @@
       {% include header_nav.html %}
 
       <section id="content" role="main">
+      {% include header_breadcrumbs.html %}
 
         <header class="page-header table-page-header group">
           <hgroup class="col-65">
-            {% if page.header-title %}
-            <h2>{{ page.header-title }}</h2>
-            {% endif %}
             {% include department_name_logo.html %}
+            {% if page.header-title %}
+            <h2 class="standalone">{{ page.header-title }}</h2>
+            {% endif %}
           </hgroup>
 
         </header>

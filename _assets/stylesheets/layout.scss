@@ -99,10 +99,20 @@ header.table-page-header {
 }
 
 header.page-header {
+  min-height: 125px;
+
   hgroup {
     h2 {
       color: $grey-1;
       @include core-24;
+    }
+    h2.standalone{
+      @include bold-36;
+      color: black;
+      margin-top: 20px;
+    }
+    h2.standard{
+      color:black;
     }
   }
   hgroup.gist-image {

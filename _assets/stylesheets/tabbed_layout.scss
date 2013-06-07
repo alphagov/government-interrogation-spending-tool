@@ -222,11 +222,15 @@ article.dashboard {
     clear:left;
 }
 
-#format-success-module .tabs li:hover {
+#format-success-module li:hover {
     text-decoration: underline;
 }
 
-#format-success-module .tabs li.active {
+#format-success-tabs a:visited{
+    color: black
+}
+
+#format-success-module li.active {
     border-top: 0;
     background: white;
     border: 1px solid #999;
@@ -590,4 +594,5 @@ article.dashboard {
 
 #format-success-module .tabs li span{
     color: black;
+    text-decoration-color: black;
 }
