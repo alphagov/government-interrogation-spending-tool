@@ -121,6 +121,17 @@ describe "TablePageGenerator" do
       end
     end
 
+    context "node with no children but force_generate_with_no_children is true" do
+      it "does create an index.html, not a chart.png and data.csv file for the node" do
+        empty_node_with_force_generate = TablePageNode.new("Empty", 100.0, [], "empty", { :force_generate_with_no_children => true })
+
+        @page_generator.generate_for_node(empty_node_with_force_generate)
+        File.exists?("#{@root_directory_path}/empty/index.html").should be_true
+        File.exists?("#{@root_directory_path}/empty/data.csv").should be_true
+        File.exists?("#{@root_directory_path}/empty/chart.png").should be_true
+      end
+    end
+
     context "node under parent slug" do
       it "creates an index.html, chart.png and data.csv file under the parent slug directory" do
         @page_generator.generate_for_node(@root_node, { :parent_slug_list => [@root_directory_path, 'toy'] })

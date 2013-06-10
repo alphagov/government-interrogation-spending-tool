@@ -73,7 +73,7 @@ class TablePageGenerator
   end
 
   def generate_for_node(table_page_node, options = {})
-    return if table_page_node.children.empty?
+    return if table_page_node.children.empty? && !table_page_node.force_generate_with_no_children
 
     parent_slug_list  = options.has_key?(:parent_slug_list) ? options[:parent_slug_list] : []
     parent_title_list = options.has_key?(:parent_title_list) ? options[:parent_title_list] : []

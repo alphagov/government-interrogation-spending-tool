@@ -129,6 +129,16 @@ describe "TablePageNode" do
     end
   end
 
+  describe "force_generate_with_no_children" do
+    it "returns the force_generate_with_no_children or false if not set" do
+      node1 = TablePageNode.new("All Quarters", 100.0, [], "All Quarters", { :force_generate_with_no_children => true })
+      node2 = TablePageNode.new("Toy", 100.0)
+
+      node1.force_generate_with_no_children.should be_true
+      node2.force_generate_with_no_children.should be_false
+    end
+  end
+
   describe "self.slugify_paths_to_url" do
     it "returns a slugified url for an array of path values" do
       TablePageNode.slugify_paths_to_url("qds", "Q1 2012", "TOY", "TOY", "Spend by Type of Budget").should eq "/qds/q1-2012/toy/toy/spend-by-type-of-budget"
