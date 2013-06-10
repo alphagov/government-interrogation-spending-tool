@@ -75,11 +75,10 @@ gist.charts.barchart = gist.charts.barchart || (function() {
           .attr("fill", function(d) { return d.colour ? d.colour : that.opts.default_colour; });
 
         var x_axis_text = bars.append("svg:text")
-          .attr("x", -bar_settings.bar_left_m)
+          .attr("x", -margin.left)
           .attr("y", (bar_settings.bar_bottom_m + bar_g_w)/2)
-          .style("text-anchor", "end")
           .attr('fill', that.opts.black_font_colour)
-          .text(function(d) { return d.name; });
+          .text(function(d) { return that.util.truncate_text_for_available_space(d.name, margin.left - bar_settings.bar_left_m, 16); });
 
         var total_text = bars.append("svg:text")
           .attr("x", function(d) { return d.x + bar_settings.bar_left_m; })

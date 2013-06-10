@@ -173,6 +173,22 @@ gist.utils = gist.utils || (function() {
 
       var formatted_value = parts.join(".");
       return is_sterling ? ("£" + formatted_value).replace("£-", "-£") : formatted_value;
+    },
+
+    truncate_text_for_available_space : function(s, width, font_size) {
+      // calculated for NTA only
+      var avg_font_sizes = {
+        "16":7.37,
+        "19":8.22
+      },
+      avg_font_size = avg_font_sizes[font_size.toString()];
+
+      if (avg_font_size*s.length > width) {
+        max_characters = Math.floor(width/avg_font_size)
+        s = s.substring(0, max_characters-3) + "..."
+      }
+
+      return s;
     }
   });
 

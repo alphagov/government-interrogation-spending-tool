@@ -296,4 +296,11 @@ describe("Util", function() {
       expect(util.format_numeric_string_to_uk_format("-9999999999", true)).toEqual("-£9,999,999,999");
     });
   });
+
+  describe("truncate_text_for_available_space", function() {
+    it("should return a truncated string for a given string, width and font-size", function() {
+      expect(util.truncate_text_for_available_space("1", 100, 16)).toEqual("1");
+      expect(util.truncate_text_for_available_space("Expenditure Managed by the Organisation (AME)", 195, 16)).toEqual("Expenditure Managed by ...");
+    });
+  });
 });
