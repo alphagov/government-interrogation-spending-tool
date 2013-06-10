@@ -17,10 +17,10 @@ gist.charts.barchart = gist.charts.barchart || (function() {
     draw : function(w, h) {
       var that = this,
           node_id = this.node.id,
-          margin = {top: 10, right: 0, bottom: 10, left: 70},
+          margin = {top: 0, right: 60, bottom: 20, left: 200},
           width = w - margin.left - margin.right,
           height = h - margin.top - margin.bottom,
-          bar_settings = { min_bar_g_w: 50, max_bar_g_w: 100, bar_left_m: 5, label_m: 10 };
+          bar_settings = { min_bar_g_w: 50, max_bar_g_w: 50, bar_left_m: 5, bar_bottom_m: 5, label_m: 10 };
 
       this.width = w;
       this.height = h;
@@ -28,34 +28,33 @@ gist.charts.barchart = gist.charts.barchart || (function() {
       if (this.opts.chart_data) {
         $("#" + node_id).empty();
 
-        var max_number_of_bars = Math.floor(width/(bar_settings.min_bar_g_w*1.0)),
+        var max_number_of_bars = Math.floor(height/(bar_settings.min_bar_g_w*1.0)),
             data = this.util.filter_sort_data(this.opts.chart_data),
             data = this.util.group_data_to_max_num_items_by_lowest(data, max_number_of_bars),
-            bar_g_w = Math.floor(width /(data.length*1.0)),
+            bar_g_w = Math.floor(height /(data.length*1.0)),
             bar_g_w = (bar_g_w < bar_settings.max_bar_g_w)? bar_g_w : bar_settings.max_bar_g_w,
-            bar_w = bar_g_w - bar_settings.bar_left_m,
-            max_y = d3.max(data, function(d) { return d.total }),
-            y = d3.scale.linear().domain([0, max_y]).range([height, 0]);
+            bar_w = bar_g_w - bar_settings.bar_bottom_m,
+            max_x = d3.max(data, function(d) { return d.total }),
+            x = d3.scale.linear().domain([0, max_x]).range([0, width]);
 
-        data.forEach(function(d) { d.y = y(d.total); d.height = height - d.y; });
+        data.forEach(function(d) { d.x = x(d.total); });
 
         var svg = d3.select("#" + node_id).append("svg:svg")
           .attr("width", w)
           .attr("height", h);
 
-        var y_axis = d3.svg.axis()
-          .scale(y)
-          .orient("left")
+        var x_axis = d3.svg.axis()
+          .scale(x)
           .ticks(5)
-          .tickSize(-width)
+          .tickSize(height)
           .tickFormat(function(value) {
             return that.to_short_magnitude_string(value);
           });
 
         svg.append("g")
-          .attr("class", "y axis")
+          .attr("class", "x axis")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-          .call(y_axis);
+          .call(x_axis);
 
         var bars = svg.append('g')
           .attr('class','bars')
@@ -65,33 +64,35 @@ gist.charts.barchart = gist.charts.barchart || (function() {
           .append("g")
           .attr('class','bar')
           .attr("transform", function(d, i) {
-            return "translate(" + (margin.left + i*bar_g_w) + "," + margin.top + ")"; });
+            return "translate(" + margin.left + "," + (margin.top + i*bar_g_w) + ")"; });
 
         var bar = bars.append("rect")
-          .attr("x", bar_settings.bar_left_m)
-          .attr("y", function(d) { return d.y; })
-          .attr("width", bar_w)
-          .attr("height", function(d) { return d.height; })
+          .attr("x", 0)
+          .attr("y", 0)
+          .attr("width", function(d) { return d.x; })
+          .attr("height", bar_w)
           .attr("fill", function(d) { return d.colour ? d.colour : that.opts.default_colour; });
 
-        var text = bars.append("svg:text")
-          .attr("x", (bar_settings.bar_left_m + bar_g_w)/2)
-          .attr("y", function(d) { return d.y + bar_settings.label_m; })
-          .style("writing-mode", "tb")
-          .attr('fill', function(d) { return d.fontColour ? d.fontColour : that.opts.default_font_colour; });
+        var x_axis_text = bars.append("svg:text")
+          .attr("x", -bar_settings.bar_left_m)
+          .attr("y", (bar_settings.bar_bottom_m + bar_g_w)/2)
+          .style("text-anchor", "end")
+          .attr('fill', that.opts.black_font_colour)
+          .text(function(d) { return d.name; });
 
-        text.append("tspan")
+        var total_text = bars.append("svg:text")
+          .attr("x", function(d) { return d.x + bar_settings.bar_left_m; })
+          .attr("y", (bar_settings.bar_bottom_m + bar_g_w)/2)
+          .attr('fill', that.opts.black_font_colour)
           .attr('class', 'amount')
-          .text(function(d) { return (d.height) > 100 ? that.to_short_magnitude_string(d.total) : ""; });
-        text.append("tspan")
-          .text(function(d) { return (d.height) > 150 ? "  " + d.name : ""; });
+          .text(function(d) { return that.to_short_magnitude_string(d.total); });
 
         var hitboxes = bars.append("rect")
           .attr('class', 'hitbox')
-          .attr("x", bar_settings.bar_left_m)
+          .attr("x", 0)
           .attr("y", 0)
-          .attr('width', bar_w)
-          .attr('height', height)
+          .attr('width', width)
+          .attr('height', bar_w)
           .style("cursor", function(d) { return d.url ? "pointer" : ""; })
           .on("click", function(d) {
             if (d.url) {

@@ -16,7 +16,8 @@ gist.charts = gist.charts || (function() {
       chart_data : null,
       auto_resize : true,
       default_colour: "#2e358b",
-      default_font_colour: "#fff"
+      default_font_colour: "#fff",
+      black_font_colour: "#0A0C0C",
     }
   });
 

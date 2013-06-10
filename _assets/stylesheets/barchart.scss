@@ -11,12 +11,11 @@ svg {
   }
   .bars {
     text {
-      @include core-24;
+      @include core-16;
 
       .amount {
-        @include bold-24;
+        @include bold-16;
       }
-
 
     }
     rect.hitbox {
