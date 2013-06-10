@@ -40,6 +40,10 @@ article {
     margin: 0;
     background: url(/static/icon-file-download.png) no-repeat scroll 98% 1em #d5e8f3;
   }
+  .help-notice {
+    margin: 1em 0 1em 0;
+    background: url(/static/icon-important.png) no-repeat scroll 98% 1em #eaedef;
+  }
 }
 header#global-breadcrumb {
   border-bottom: none;

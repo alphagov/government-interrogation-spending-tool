@@ -38,6 +38,10 @@
               {% include table_with_total.html %}
 
               {% include download_csv.html %}
+
+              {% if page.display-foi %}
+              {% include foi_request.html %}
+              {% endif %}
             </section>
           </article>
         </div>
