@@ -92,7 +92,7 @@ class OscarProcessor < BaseProcessor
           segment_department_long_name_total,
           segment_department_long_name_children,
           segment_department_long_name,
-          { :is_department => true, :alternative_title => "" })
+          { :is_department => true, :alternative_title => "", :table_header_name_label => "Department/Organisation" })
       end
 
       root_children << TablePageNode.new(
@@ -100,7 +100,7 @@ class OscarProcessor < BaseProcessor
           quarter_total,
           quarter_children,
           OscarData.quarter_short(quarter),
-          { :is_quarter => true, :alternative_title => "All Departments" })
+          { :is_quarter => true, :alternative_title => "All Departments", :table_header_name_label => "Department" })
     end
 
     root = TablePageNode.new(
@@ -108,7 +108,7 @@ class OscarProcessor < BaseProcessor
       0.0,
       root_children,
       "",
-      { :alternative_layout => ROOT_NODE_LAYOUT })
+      { :alternative_layout => ROOT_NODE_LAYOUT, :table_header_name_label => "Quarter" })
   end
 
 end

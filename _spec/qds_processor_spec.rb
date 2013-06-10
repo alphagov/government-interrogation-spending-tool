@@ -101,6 +101,12 @@ describe "QdsProcessor" do
       it "should use alternative_layout table_qds_section at the section level" do
         @root_node.children[0].children[0].children[0].children[0].alternative_layout.should eq "table_qds_section"
       end
+
+      it "should use table header name label at root, quarter, department level" do
+        @root_node.table_header_name_label.should eq "Quarter"
+        @root_node.children[0].table_header_name_label.should eq "Department"
+        @root_node.children[0].children[0].table_header_name_label.should eq "Department/Organisation"
+      end
     end
     context "qds data for a single quarter, one scope abbr, two parent_departments, one section, one headline" do
       before(:each) do

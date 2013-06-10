@@ -1,7 +1,13 @@
 <table id="data-table">
   <thead>
     <tr>
-      <th scope="col">Department</th>
+      <th scope="col">
+        {% if page.table-header-name-label %}
+        {{ page.table-header-name-label }}
+        {% else %}
+        Name
+        {% endif %}
+      </th>
       <th scope="col" class="amount">Spend
         <span class="sort-ind">▼</span>
       </th>

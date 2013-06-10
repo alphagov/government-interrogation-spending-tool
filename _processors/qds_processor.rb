@@ -137,7 +137,7 @@ class QdsProcessor < BaseProcessor
           abbr_total,
           abbr_children,
           abbr,
-          { :is_department => true, :alternative_title => "" })
+          { :is_department => true, :alternative_title => "", :table_header_name_label => "Department/Organisation" })
       end
 
       root_children << TablePageNode.new(
@@ -145,7 +145,7 @@ class QdsProcessor < BaseProcessor
         report_date_total,
         report_date_children,
         QdsData.quarter_short(report_date),
-        { :is_quarter => true, :alternative_title => "All Departments" })
+        { :is_quarter => true, :alternative_title => "All Departments", :table_header_name_label => "Department" })
     end
 
     root = TablePageNode.new(
@@ -153,6 +153,6 @@ class QdsProcessor < BaseProcessor
       0.0,
       root_children,
       "",
-      { :alternative_layout => ROOT_NODE_LAYOUT })
+      { :alternative_layout => ROOT_NODE_LAYOUT, :table_header_name_label => "Quarter" })
   end
 end

@@ -74,8 +74,12 @@ describe "OscarProcessor" do
         @root_node.should be_an_instance_of TablePageNode
       end
 
-      it "the root node should used the alternative layout table_root" do
+      it "the root node should use the alternative layout table_root" do
         @root_node.alternative_layout.should eq "table_root"
+      end
+
+      it "the root node should use table header label Quarter" do
+        @root_node.table_header_name_label.should eq "Quarter"
       end
 
       it "should create a node tree with a single node for quarter, department, org, control code, the 2 econ category names" do
@@ -85,15 +89,17 @@ describe "OscarProcessor" do
         @root_node.children[0].children[0].children[0].children.should have(1).items
         @root_node.children[0].children[0].children[0].children[0].children.should have(2).items
       end
-      it "should have a child node for quarter with generic quarter slug and title, alternative title" do
+      it "should have a child node for quarter with generic quarter slug and title, alternative title, table header name label" do
         @root_node.children[0].is_quarter.should be_true
         @root_node.children[0].slug.should eq "q2-2012"
         @root_node.children[0].title.should eq "Quarter 2 2012"
         @root_node.children[0].alternative_title_or_title.should eq "All Departments"
+        @root_node.children[0].table_header_name_label.should eq "Department"
       end
       it "should have a child node for department" do
         @root_node.children[0].children[0].is_department.should be_true
         @root_node.children[0].children[0].alternative_title_or_title.should eq ""
+        @root_node.children[0].children[0].table_header_name_label.should eq "Department/Organisation"
       end
     end
   end
