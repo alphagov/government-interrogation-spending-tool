@@ -17,7 +17,7 @@ gist.charts.barchart = gist.charts.barchart || (function() {
     draw : function(w, h) {
       var that = this,
           node_id = this.node.id,
-          margin = {top: 0, right: 60, bottom: 20, left: 200},
+          margin = {top: 0, right: 65, bottom: 20, left: 200},
           width = w - margin.left - margin.right,
           height = h - margin.top - margin.bottom,
           bar_settings = { min_bar_g_w: 50, max_bar_g_w: 50, bar_left_m: 5, bar_bottom_m: 5, label_m: 10 };
@@ -36,25 +36,27 @@ gist.charts.barchart = gist.charts.barchart || (function() {
             bar_w = bar_g_w - bar_settings.bar_bottom_m,
             max_x = d3.max(data, function(d) { return d.total }),
             x = d3.scale.linear().domain([0, max_x]).range([0, width]),
-            ticks_scale = d3.scale.linear().domain([150, 700]).range([2, 5]);
+            ticks_scale = d3.scale.linear().domain([150, 700]).range([2, 5]),
+            number_of_bars = data.length,
+            actual_height = (number_of_bars * bar_g_w) + margin.top + margin.bottom;
 
         data.forEach(function(d) { d.x = x(d.total); });
 
         var svg = d3.select("#" + node_id).append("svg:svg")
           .attr("width", w)
-          .attr("height", h);
+          .attr("height", actual_height);
 
         var x_axis = d3.svg.axis()
           .scale(x)
           .ticks(ticks_scale(width))
-          .tickSize(height)
+          .tickSize(actual_height - margin.bottom)
           .tickFormat(function(value) {
             return that.to_short_magnitude_string(value);
           });
 
         svg.append("g")
           .attr("class", "x axis")
-          .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+          .attr("transform", "translate(" + margin.left + ",0)")
           .call(x_axis);
 
         var bars = svg.append('g')
@@ -75,8 +77,9 @@ gist.charts.barchart = gist.charts.barchart || (function() {
           .attr("fill", function(d) { return d.colour ? d.colour : that.opts.default_colour; });
 
         var x_axis_text = bars.append("svg:text")
-          .attr("x", -margin.left)
+          .attr("x", -bar_settings.bar_left_m)
           .attr("y", (bar_settings.bar_bottom_m + bar_g_w)/2)
+          .attr("text-anchor", "end")
           .attr('fill', that.opts.black_font_colour)
           .text(function(d) { return that.util.truncate_text_for_available_space(d.name, margin.left - bar_settings.bar_left_m, 16); });
 
