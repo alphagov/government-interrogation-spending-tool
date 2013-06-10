@@ -18,6 +18,7 @@ class TablePageGenerator
   TOTAL_VALUE_REPLACE_TAG = "<!--TOTAL_VALUE-->"
   HEADER_TITLE_REPLACE_TAG = "<!--HEADER_TITLE-->"
   SOURCE_LABEL_REPLACE_TAG = "<!--SOURCE_LABEL-->"
+  DISPLAY_FOI_REPLACE_TAG = "<!--DISPLAY_FOI-->"
   TABLE_HEADER_NAME_LABEL_REPLACE_TAG = "<!--TABLE_HEADER_NAME_LABEL-->"
   BREADCRUMBS_LIST_REPLACE_TAG = "<!--BREADCRUMB_LIST-->"
   QUARTER_REPLACE_TAG = "<!--QUARTER-->"
@@ -166,6 +167,9 @@ class TablePageGenerator
 
     table_header_name_label = table_page_node.table_header_name_label ? table_page_node.table_header_name_label : DEFAULT_TABLE_HEADER_NAME_LABEL
     content.sub!(TABLE_HEADER_NAME_LABEL_REPLACE_TAG, "\"" + table_header_name_label + "\"")
+
+    display_foi = table_page_node.display_foi ? table_page_node.display_foi.to_s : "false"
+    content.sub!(DISPLAY_FOI_REPLACE_TAG, display_foi)
 
     if !parent_slug_list.empty? && !parent_title_list.empty?
       breadcrumbs_list = ""

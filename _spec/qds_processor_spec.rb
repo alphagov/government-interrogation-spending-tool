@@ -94,6 +94,10 @@ describe "QdsProcessor" do
         @root_node.children[0].children[0].alternative_title_or_title.should eq ""
       end
 
+      it "Data headline nodes should have display_foi set to true" do
+        @root_node.children[0].children[0].children[0].children[0].children[0].display_foi.should be_true
+      end
+
       it "should have redirect url set at parent_department level to redirect to spend-by-type-of-budget" do
         @root_node.children[0].children[0].children[0].redirect_url.should eq "/qds/q2-2012/dep/dep/spend-by-type-of-budget"
       end

@@ -129,6 +129,16 @@ describe "TablePageNode" do
     end
   end
 
+  describe "display_foi" do
+    it "returns the display_foi or false if not set" do
+      node1 = TablePageNode.new("All Quarters", 100.0, [], "All Quarters", { :display_foi => true })
+      node2 = TablePageNode.new("Toy", 100.0)
+
+      node1.display_foi.should be_true
+      node2.display_foi.should be_false
+    end
+  end
+
   describe "force_generate_with_no_children" do
     it "returns the force_generate_with_no_children or false if not set" do
       node1 = TablePageNode.new("All Quarters", 100.0, [], "All Quarters", { :force_generate_with_no_children => true })

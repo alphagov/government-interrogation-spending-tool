@@ -99,7 +99,9 @@ class QdsProcessor < BaseProcessor
               section_children << TablePageNode.new(
                 data_headline,
                 data_headline_total,
-                data_headline_children)
+                data_headline_children,
+                data_headline,
+                { :display_foi => true })
             end
 
             begin

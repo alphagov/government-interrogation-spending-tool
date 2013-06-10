@@ -76,7 +76,9 @@ class OscarProcessor < BaseProcessor
             organisation_children << TablePageNode.new(
               control_budget_code,
               control_budget_code_total,
-              control_budget_code_children)
+              control_budget_code_children,
+              control_budget_code,
+              { :display_foi => true })
           end
 
           segment_department_long_name_total += organisation_total

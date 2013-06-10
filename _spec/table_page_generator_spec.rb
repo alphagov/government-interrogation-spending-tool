@@ -226,6 +226,9 @@ describe "TablePageGenerator" do
       it "should set the page variable 'source-label'" do
         @content.should match "source-label: #{@source_label}"
       end
+      it "should set the page variable 'display-foi'" do
+        @content.should match "display-foi: false"
+      end
       it "should set the page variable 'total'" do
         @content.should match /total: £300/
       end

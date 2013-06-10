@@ -68,6 +68,10 @@ class TablePageNode
     @options.has_key?(:force_generate_with_no_children) ? @options[:force_generate_with_no_children] : false
   end
 
+  def display_foi
+    @options.has_key?(:display_foi) ? @options[:display_foi] : false
+  end
+
   def to_s
     "TablePageNode: title = #{title}, total = #{total.to_s}, slug = #{slug}, children = #{children.to_s}"
   end
