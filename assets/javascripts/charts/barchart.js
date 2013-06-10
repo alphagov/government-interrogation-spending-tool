@@ -35,7 +35,8 @@ gist.charts.barchart = gist.charts.barchart || (function() {
             bar_g_w = (bar_g_w < bar_settings.max_bar_g_w)? bar_g_w : bar_settings.max_bar_g_w,
             bar_w = bar_g_w - bar_settings.bar_bottom_m,
             max_x = d3.max(data, function(d) { return d.total }),
-            x = d3.scale.linear().domain([0, max_x]).range([0, width]);
+            x = d3.scale.linear().domain([0, max_x]).range([0, width]),
+            ticks_scale = d3.scale.linear().domain([150, 700]).range([2, 5]);
 
         data.forEach(function(d) { d.x = x(d.total); });
 
@@ -45,7 +46,7 @@ gist.charts.barchart = gist.charts.barchart || (function() {
 
         var x_axis = d3.svg.axis()
           .scale(x)
-          .ticks(5)
+          .ticks(ticks_scale(width))
           .tickSize(height)
           .tickFormat(function(value) {
             return that.to_short_magnitude_string(value);
