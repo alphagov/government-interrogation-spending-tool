@@ -1,6 +1,17 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>GIST - Government Interrogation Spending Tool</title>
+<title>
+  {% if page.breadcrumbs %}
+    GIST
+    {% for link_hash in page.breadcrumbs %}
+      {% for link in link_hash %}
+        - {{ link[0] }}
+      {% endfor %}
+    {% endfor %}
+  {% else %}
+    GIST - Government Interrogation Spending Tool
+  {% endif %}
+</title>
 <script type="text/javascript">
   (function(){if(navigator.userAgent.match(/IEMobile\/10\.0/)){var d=document,c="appendChild",a=d.createElement("style");a[c](d.createTextNode("@-ms-viewport{width:auto!important}"));d.getElementsByTagName("head")[0][c](a);}})();
 </script><!--[if gt IE 8]><!--><link href="/static/application.css" media="screen" rel="stylesheet" type="text/css">
