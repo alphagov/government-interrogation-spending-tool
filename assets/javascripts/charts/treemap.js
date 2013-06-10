@@ -41,7 +41,10 @@ gist.charts.treemap = gist.charts.treemap || (function() {
         var treemap = d3.layout.treemap()
               .size([width, height])
               .sticky(true)
-              .value(function(d) { return d.total; }),
+              .value(function(d) { return d.total; })
+              .sort(function(a, b) {
+                return a.value - b.value;
+              }),
             div = d3.select("#" + node_id).append("div")
               .style("position", "relative")
               .style("width", (width + margin.left + margin.right) + "px")
