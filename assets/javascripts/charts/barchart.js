@@ -17,10 +17,17 @@ gist.charts.barchart = gist.charts.barchart || (function() {
     draw : function(w, h) {
       var that = this,
           node_id = this.node.id,
-          margin = {top: 0, right: 65, bottom: 20, left: 200},
+          margin = {top: 0, right: 65, bottom: 20, left: 0},
+          max_x_axis_size = 200,
           width = w - margin.left - margin.right,
           height = h - margin.top - margin.bottom,
-          bar_settings = { min_bar_g_w: 50, max_bar_g_w: 50, bar_left_m: 5, bar_bottom_m: 5, label_m: 10 };
+          bar_settings = {
+            font_size: 16,
+            min_bar_g_w: 50,
+            max_bar_g_w: 50,
+            bar_left_m: 5,
+            bar_bottom_m: 5,
+            label_m: 10 };
 
       this.width = w;
       this.height = h;
@@ -31,6 +38,9 @@ gist.charts.barchart = gist.charts.barchart || (function() {
         var max_number_of_bars = Math.floor(height/(bar_settings.min_bar_g_w*1.0)),
             data = this.util.filter_sort_data(this.opts.chart_data),
             data = this.util.group_data_to_max_num_items_by_lowest(data, max_number_of_bars),
+            largest_x_axis_size = d3.max(data, function(d) { return that.util.calculate_text_size(d.name, bar_settings.font_size); }),
+            x_axis_margin = (largest_x_axis_size + 20) < max_x_axis_size ? largest_x_axis_size + 20 : max_x_axis_size,
+            width = width - x_axis_margin,
             bar_g_w = Math.floor(height /(data.length*1.0)),
             bar_g_w = (bar_g_w < bar_settings.max_bar_g_w)? bar_g_w : bar_settings.max_bar_g_w,
             bar_w = bar_g_w - bar_settings.bar_bottom_m,
@@ -56,7 +66,7 @@ gist.charts.barchart = gist.charts.barchart || (function() {
 
         svg.append("g")
           .attr("class", "x axis")
-          .attr("transform", "translate(" + margin.left + ",0)")
+          .attr("transform", "translate(" + margin.left + x_axis_margin + ",0)")
           .call(x_axis);
 
         var bars = svg.append('g')
@@ -67,7 +77,7 @@ gist.charts.barchart = gist.charts.barchart || (function() {
           .append("g")
           .attr('class','bar')
           .attr("transform", function(d, i) {
-            return "translate(" + margin.left + "," + (margin.top + i*bar_g_w) + ")"; });
+            return "translate(" + margin.left + x_axis_margin + "," + (margin.top + i*bar_g_w) + ")"; });
 
         var bar = bars.append("rect")
           .attr("x", 0)
@@ -81,7 +91,7 @@ gist.charts.barchart = gist.charts.barchart || (function() {
           .attr("y", (bar_settings.bar_bottom_m + bar_g_w)/2)
           .attr("text-anchor", "end")
           .attr('fill', that.opts.black_font_colour)
-          .text(function(d) { return that.util.truncate_text_for_available_space(d.name, margin.left - bar_settings.bar_left_m, 16); });
+          .text(function(d) { return that.util.truncate_text_for_available_space(d.name, x_axis_margin - bar_settings.bar_left_m, bar_settings.font_size); });
 
         var total_text = bars.append("svg:text")
           .attr("x", function(d) { return d.x + bar_settings.bar_left_m; })
@@ -92,7 +102,7 @@ gist.charts.barchart = gist.charts.barchart || (function() {
 
         var hitboxes = bars.append("rect")
           .attr('class', 'hitbox')
-          .attr("x", -margin.left)
+          .attr("x", -x_axis_margin)
           .attr("y", 0)
           .attr('width', w)
           .attr('height', bar_w)

@@ -175,13 +175,13 @@ gist.utils = gist.utils || (function() {
       return is_sterling ? ("£" + formatted_value).replace("£-", "-£") : formatted_value;
     },
 
+    calculate_text_size : function(text, font_size) {
+      return Math.ceil(gist.utils.avg_font_sizes[font_size.toString()] * text.length);
+    },
+
     truncate_text_for_available_space : function(s, width, font_size) {
       // calculated for NTA only
-      var avg_font_sizes = {
-        "16":7.37,
-        "19":8.22
-      },
-      avg_font_size = avg_font_sizes[font_size.toString()];
+      var avg_font_size = gist.utils.avg_font_sizes[font_size.toString()];
 
       if (avg_font_size*s.length > width) {
         max_characters = Math.floor(width/avg_font_size)
@@ -193,6 +193,10 @@ gist.utils = gist.utils || (function() {
   });
 
   return {
+    avg_font_sizes : {
+        "16":8.6,
+        "19":10.8
+    },
     Util : util_obj
   };
 })();
