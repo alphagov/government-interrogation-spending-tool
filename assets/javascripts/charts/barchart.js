@@ -90,9 +90,9 @@ gist.charts.barchart = gist.charts.barchart || (function() {
 
         var hitboxes = bars.append("rect")
           .attr('class', 'hitbox')
-          .attr("x", 0)
+          .attr("x", -margin.left)
           .attr("y", 0)
-          .attr('width', width)
+          .attr('width', w)
           .attr('height', bar_w)
           .style("cursor", function(d) { return d.url ? "pointer" : ""; })
           .on("click", function(d) {
