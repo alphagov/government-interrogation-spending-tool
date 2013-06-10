@@ -120,8 +120,8 @@ class QdsProcessor < BaseProcessor
           begin
             top_total = grouped_totals[report_date][abbr][parent_department][SPEND_BY_TYPE_OF_BUDGET][QdsData::TOP_TOTAL].first.value
           rescue Exception => e
-            # use the spend type of budget total
-            top_total = parent_department_children[0].total
+            # use the largest section total
+            top_total = parent_department_children.max_by(&:total).total
           end
 
           add_qds_sections_if_missing(parent_department_children)
