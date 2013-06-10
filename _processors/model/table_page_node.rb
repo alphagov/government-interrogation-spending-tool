@@ -60,6 +60,10 @@ class TablePageNode
     @options.has_key?(:alternative_layout) ? @options[:alternative_layout] : nil
   end
 
+  def table_header_name_label
+    @options.has_key?(:table_header_name_label) ? @options[:table_header_name_label] : nil
+  end
+
   def to_s
     "TablePageNode: title = #{title}, total = #{total.to_s}, slug = #{slug}, children = #{children.to_s}"
   end

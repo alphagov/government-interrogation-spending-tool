@@ -389,6 +389,28 @@ describe "TablePageGenerator" do
       end
     end
 
+    context "node without table header name label" do
+      it "should return using default table header name label" do
+        node2 = TablePageNode.new("Test2", 100.0)
+        root_node = TablePageNode.new(
+          "All", 200.0, [node2])
+
+        content = @page_generator.generate_html_content(root_node)
+        content.should match /table-header-name-label: \"Name\"/
+      end
+    end
+
+    context "node with table header name label" do
+      it "should return using table header name label option" do
+        node2 = TablePageNode.new("Test2", 100.0)
+        root_node = TablePageNode.new(
+          "All", 200.0, [node2], "all", { :table_header_name_label => "Department/Body" })
+
+        content = @page_generator.generate_html_content(root_node)
+        content.should match /table-header-name-label: \"Department\/Body\"/
+      end
+    end
+
     context "node with three children, one with zero total" do
       it "should not include the row for the zero child" do
         # This is an accounting thing, as we are assuming rows with total zero

@@ -119,6 +119,16 @@ describe "TablePageNode" do
     end
   end
 
+  describe "table_header_name_label" do
+    it "returns the table_header_name_label or nil if not set" do
+      node1 = TablePageNode.new("All Quarters", 100.0, [], "All Quarters", { :table_header_name_label => "Department" })
+      node2 = TablePageNode.new("Toy", 100.0)
+
+      node1.table_header_name_label.should eq "Department"
+      node2.table_header_name_label.should eq nil
+    end
+  end
+
   describe "self.slugify_paths_to_url" do
     it "returns a slugified url for an array of path values" do
       TablePageNode.slugify_paths_to_url("qds", "Q1 2012", "TOY", "TOY", "Spend by Type of Budget").should eq "/qds/q1-2012/toy/toy/spend-by-type-of-budget"

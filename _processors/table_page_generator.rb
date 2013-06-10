@@ -10,6 +10,7 @@ class TablePageGenerator
   REDIRECT_PAGE_TEMPLATE_FILE_PATH = File.expand_path("#{File.dirname(__FILE__)}/templates/redirect_page.html")
 
   DEFAULT_LAYOUT = "table"
+  DEFAULT_TABLE_HEADER_NAME_LABEL = "Name"
 
   LAYOUT_REPLACE_TAG = "<!--LAYOUT-->"
   TABLE_ROWS_REPLACE_TAG = "<!--TABLE_CONTENT-->"
@@ -17,6 +18,7 @@ class TablePageGenerator
   TOTAL_VALUE_REPLACE_TAG = "<!--TOTAL_VALUE-->"
   HEADER_TITLE_REPLACE_TAG = "<!--HEADER_TITLE-->"
   SOURCE_LABEL_REPLACE_TAG = "<!--SOURCE_LABEL-->"
+  TABLE_HEADER_NAME_LABEL_REPLACE_TAG = "<!--TABLE_HEADER_NAME_LABEL-->"
   BREADCRUMBS_LIST_REPLACE_TAG = "<!--BREADCRUMB_LIST-->"
   QUARTER_REPLACE_TAG = "<!--QUARTER-->"
   AVAILABLE_QUARTERS_REPLACE_TAG = "<!--AVAILABLE_QUARTERS-->"
@@ -152,14 +154,18 @@ class TablePageGenerator
     table_rows = rows.join("\n")
 
     content = @table_page_template_content.clone
-    layout = table_page_node.alternative_layout ? table_page_node.alternative_layout : DEFAULT_LAYOUT
 
+    layout = table_page_node.alternative_layout ? table_page_node.alternative_layout : DEFAULT_LAYOUT
     content.sub!(LAYOUT_REPLACE_TAG, layout)
+
     content.sub!(TABLE_ROWS_REPLACE_TAG, table_rows)
     content.sub!(TOTAL_REPLACE_TAG, "#{table_page_node.total.to_sterling_magnitude_string}")
     content.sub!(TOTAL_VALUE_REPLACE_TAG, table_page_node.total.to_attribute_format)
     content.sub!(HEADER_TITLE_REPLACE_TAG, table_page_node.alternative_title_or_title.sub(':', ''))
     content.sub!(SOURCE_LABEL_REPLACE_TAG, @source_label)
+
+    table_header_name_label = table_page_node.table_header_name_label ? table_page_node.table_header_name_label : DEFAULT_TABLE_HEADER_NAME_LABEL
+    content.sub!(TABLE_HEADER_NAME_LABEL_REPLACE_TAG, "\"" + table_header_name_label + "\"")
 
     if !parent_slug_list.empty? && !parent_title_list.empty?
       breadcrumbs_list = ""
