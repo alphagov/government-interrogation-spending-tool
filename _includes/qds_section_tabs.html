@@ -1,17 +1,20 @@
 <nav>
   <ul class="tabs">
+    <li class="label">
+        <span>Group spends by:</span>
+    </li>
     <li {% if page.url contains "/spend-by-type-of-budget" %} class="active" {% endif %}>
-      <a href="../spend-by-type-of-budget/"  title="View Spend by Budget Type data">
+      <a href="../spend-by-type-of-budget/"  title="view spend by budget type data">
         <span>Budget</span>
       </a>
     </li>
     <li {% if page.url contains "/spend-by-type-of-internal-operation" %} class="active" {% endif %}>
-      <a href="../spend-by-type-of-internal-operation/" title="View Spend by Type of Internal Operations data">
+      <a href="../spend-by-type-of-internal-operation/" title="view spend by type of internal operations data">
         <span>Operation</span>
       </a>
     </li>
     <li {% if page.url contains "/spend-by-type-of-transaction" %} class="active" {% endif %}>
-      <a href="../spend-by-type-of-transaction/" title="View Spend by Type of Transaction data">
+      <a href="../spend-by-type-of-transaction/" title="view spend by type of transaction data">
         <span>Transaction</span>
       </a>
     </li>

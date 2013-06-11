@@ -11,10 +11,9 @@
             box-sizing: border-box;
 
     float:left;
-    width:33.3333333%;
+    width:25%;
     border-bottom: 1px solid #999;
     margin-bottom: 0.8em;
-    cursor:pointer;
 
     a {
       float:left;
@@ -26,11 +25,26 @@
       @include core-16;
       color: #0b0c0c;
       text-decoration: none;
+      cursor:pointer;
     }
     :hover {
       text-decoration: underline;
     }
   }
+  li.label {
+    margin-bottom: 0px;
+    border-bottom-width: 1px;
+    padding-bottom: 5px;
+    margin-top: 8px;
+
+    span{
+      font-size: 18px;
+      text-decoration: none;
+      cursor: default;
+      margin: 0 auto;
+    }
+  }
+
 
   li.active {
     border-bottom: 1px solid #fff;
