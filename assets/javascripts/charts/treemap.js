@@ -11,7 +11,8 @@ gist.charts.treemap = gist.charts.treemap || (function() {
   $.extend(treemap_d3js, {
     chart_type: 'treemap',
     default_options : {
-      percentile_bar_for_other : 0.5
+      max_percentile_bar_for_other : 0.5,
+      min_percentile_bar_for_other : 0.7
     }
   });
 
@@ -30,7 +31,9 @@ gist.charts.treemap = gist.charts.treemap || (function() {
         $("#" + node_id).empty();
 
         var data = this.util.filter_sort_data(this.opts.chart_data),
-            data = this.util.group_data_by_percentile_lowest(data, this.opts.percentile_bar_for_other);
+            percentile_bar_for_other_scale = d3.scale.linear().domain([368, 956]).range([this.opts.min_percentile_bar_for_other, this.opts.max_percentile_bar_for_other]),
+            percentile_bar_for_other = percentile_bar_for_other_scale(width),
+            data = this.util.group_data_by_percentile_lowest(data, percentile_bar_for_other);
 
         var root = {
           name: "",
@@ -79,13 +82,23 @@ gist.charts.treemap = gist.charts.treemap || (function() {
     },
 
     generate_label_html : function(d) {
-      var dy_font = d3.scale.threshold().domain([80,130,220]).range(["small","medium","large","x-large"]),
-          font_class = dy_font(d.dy),
-          magnitude_value = this.util.format_number_by_magnitude(d.total, true),
+      var dx_font = d3.scale.threshold().domain([20,40,80,130,220]).range(["none","ellipsis","small","medium","large","x-large"]),
+          dy_number_of_lines = d3.scale.threshold().domain([20,40,80,100]).range([0,1,2,3,99]),
+          font_class = dx_font(d.dx),
+          number_of_lines = dy_number_of_lines(d.dy)
+          label_div = "";
+
+      if (number_of_lines == 0 || font_class == "none") {
+        label_div = "";
+      } else if (font_class == "ellipsis") {
+        label_div = "...";
+      } else {
+        var magnitude_value = this.util.format_number_by_magnitude(d.total, true);
           name_div = "<div>" + d.name + "</div>",
           value_div = "<div class='amount'>" + magnitude_value.value + "</div>",
           magnitude_div = "<div>" + magnitude_value.long_suffix + "</div>"
           label_div = "<div class='" + font_class + "'>" + name_div + value_div + magnitude_div + "</div>";
+      }
 
       return label_div;
     }
