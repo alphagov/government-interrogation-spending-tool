@@ -32,16 +32,18 @@
     }
   }
   li.label {
-    margin-bottom: 0px;
     border-bottom-width: 1px;
-    padding-bottom: 5px;
-    margin-top: 8px;
+    padding-bottom: 7px;
+    margin-top: 9px;
 
     span{
-      font-size: 18px;
       text-decoration: none;
       cursor: default;
-      margin: 0 auto;
+
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      display: block;
+      overflow: hidden
     }
   }
 
