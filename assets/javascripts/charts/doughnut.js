@@ -39,7 +39,7 @@ gist.charts.doughnut = gist.charts.doughnut || (function() {
             percentile_bar_for_other = percentile_bar_for_other_scale(radius),
             data = this.util.group_data_by_percentile_lowest(filtered_data, percentile_bar_for_other),
             total_spend_label = "Total Spend",
-            total_spend_text = "£100bn";
+            total_spend_text = this.get_total_spend_text(data);
 
         var chart_div = d3.select("#" + node_id)
           .append("div")
@@ -113,18 +113,31 @@ gist.charts.doughnut = gist.charts.doughnut || (function() {
 
     setupTooltips : function(tooltip_div, paths) {
       var that = this;
-      paths.on("mouseover", function(d) { that.draw_tooltip(tooltip_div, d.name, d.total); })
+      paths.on("mouseover", function(d) { that.draw_tooltip(tooltip_div, d.name, d.totalLabel); })
     },
 
-    draw_tooltip : function(tooltip_div, name, value) {
+    draw_tooltip : function(tooltip_div, name, total) {
       tooltip_div.selectAll("ul").remove();
 
       var list = tooltip_div.append('ul');
       list.append('li').attr('class', 'label').text("Name");
       list.append('li').text(name);
       list.append('li').attr('class', 'label').text("Spend");
-      list.append('li').text(value);
+      list.append('li').text(total);
+    },
+
+    get_total_spend_text : function(data) {
+      var total_elem_text = $('#total').text();
+
+      if (total_elem_text == '') {
+        var total = d3.sum(data, function(d) { return d.total; }),
+            magnitude_value = this.util.format_number_by_magnitude(total, true);
+        total_elem_text = magnitude_value.value + magnitude_value.suffix;
+      }
+
+      return total_elem_text;
     }
+
   });
 
   return {

@@ -17,7 +17,7 @@ gist.charts.barchart = gist.charts.barchart || (function() {
     draw : function(w, h) {
       var that = this,
           node_id = this.node.id,
-          margin = {top: 0, right: 65, bottom: 20, left: 0},
+          margin = {top: 0, right: 0, bottom: 20, left: 0},
           width = w - margin.left - margin.right,
           height = h - margin.top - margin.bottom,
           bar_settings = {
@@ -37,16 +37,18 @@ gist.charts.barchart = gist.charts.barchart || (function() {
         var max_number_of_bars = Math.floor(height/(bar_settings.min_bar_g_w*1.0)),
             data = this.util.filter_sort_data(this.opts.chart_data),
             data = this.util.group_data_to_max_num_items_by_lowest(data, max_number_of_bars),
-            x_axis_m_scale = d3.scale.linear().domain([368, 956]).range([200, 428]),
-            max_x_axis_size = x_axis_m_scale(width),
+            largest_total_label_size = d3.max(data, function(d) { return that.util.calculate_text_size(d.totalLabel, bar_settings.font_size); }),
+            chart_width = width - (largest_total_label_size + bar_settings.bar_left_m + 5 ),
+            x_axis_m_scale = d3.scale.linear().domain([368, 856]).range([200, 428]),
+            max_x_axis_size = x_axis_m_scale(chart_width),
             largest_x_axis_size = d3.max(data, function(d) { return that.util.calculate_text_size(d.name, bar_settings.font_size); }),
             x_axis_margin = (largest_x_axis_size + 20) < max_x_axis_size ? largest_x_axis_size + 20 : max_x_axis_size,
-            width = width - x_axis_margin,
+            max_bar_width = chart_width - x_axis_margin,
             bar_g_w = Math.floor(height /(data.length*1.0)),
             bar_g_w = (bar_g_w < bar_settings.max_bar_g_w)? bar_g_w : bar_settings.max_bar_g_w,
             bar_w = bar_g_w - bar_settings.bar_bottom_m,
             max_x = d3.max(data, function(d) { return d.total }),
-            x = d3.scale.linear().domain([0, max_x]).range([0, width]),
+            x = d3.scale.linear().domain([0, max_x]).range([0, max_bar_width]),
             ticks_scale = d3.scale.linear().domain([150, 500]).range([2, 5]),
             number_of_bars = data.length,
             actual_height = (number_of_bars * bar_g_w) + margin.top + margin.bottom;
@@ -59,7 +61,7 @@ gist.charts.barchart = gist.charts.barchart || (function() {
 
         var x_axis = d3.svg.axis()
           .scale(x)
-          .ticks(ticks_scale(width))
+          .ticks(ticks_scale(max_bar_width))
           .tickSize(actual_height - margin.bottom)
           .tickFormat(function(value) {
             return that.to_short_magnitude_string(value);
@@ -99,7 +101,7 @@ gist.charts.barchart = gist.charts.barchart || (function() {
           .attr("y", (bar_settings.bar_bottom_m + bar_g_w)/2)
           .attr('fill', that.opts.black_font_colour)
           .attr('class', 'amount')
-          .text(function(d) { return that.to_short_magnitude_string(d.total); });
+          .text(function(d) { return d.totalLabel; });
 
         var hitboxes = bars.append("rect")
           .attr('class', 'hitbox')

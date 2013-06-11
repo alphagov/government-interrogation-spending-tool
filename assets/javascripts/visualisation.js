@@ -101,12 +101,14 @@ gist.utils = gist.utils || (function() {
       } else {
         var sorted = data.sort(function(a,b) {return (a.total < b.total)? 1 : (a.total == b.total)? 0 : -1; }),
             other_group = sorted.slice(max_number_of_items-1),
-            other_item = { name: "Other", total: 0, colour: "#e2e2e2", fontColour: "#231f20" };
+            other_item = { name: "Other", total: 0, totalLabel: 0, colour: "#e2e2e2", fontColour: "#231f20" };
 
         other_group.forEach(function(item) {
           other_item.total += item.total;
         });
         var result = sorted.slice(0, max_number_of_items-1);
+        var totalLabel_mag = (new gist.utils.Util()).format_number_by_magnitude(other_item.total, true);
+        other_item.totalLabel = totalLabel_mag.value + totalLabel_mag.suffix;
         result.push(other_item);
 
         return result;
@@ -121,7 +123,7 @@ gist.utils = gist.utils || (function() {
             sorted_values = values.sort(d3.ascending),
             quantile = d3.quantile(sorted_values, percentile_bar),
             result = [],
-            other_item = { name: "Other", total: 0, colour: "#e2e2e2", fontColour: "#231f20" },
+            other_item = { name: "Other", total: 0, totalLabel: 0, colour: "#e2e2e2", fontColour: "#231f20" },
             other_count = 0;
 
         data.forEach(function(d) {
@@ -132,6 +134,8 @@ gist.utils = gist.utils || (function() {
             other_count += 1;
           }
         });
+        var totalLabel_mag = (new gist.utils.Util()).format_number_by_magnitude(other_item.total, true);
+        other_item.totalLabel = totalLabel_mag.value + totalLabel_mag.suffix;
         result.push(other_item);
 
         return (other_count > 1)? result : data;
@@ -175,7 +179,7 @@ gist.utils = gist.utils || (function() {
       return is_sterling ? ("£" + formatted_value).replace("£-", "-£") : formatted_value;
     },
 
-    calculate_text_size : function(text, font_size) {
+    calculate_text_size : function(text, font_size, is_numeric) {
       return Math.ceil(gist.utils.avg_font_sizes[font_size.toString()] * text.length);
     },
 

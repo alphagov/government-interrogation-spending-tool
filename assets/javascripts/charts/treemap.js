@@ -96,8 +96,7 @@ gist.charts.treemap = gist.charts.treemap || (function() {
           font_class = dx_font(d.dx),
           number_of_lines = dy_number_of_lines(d.dy)
           label_div = "",
-          height = (Math.max(0, d.dy - 1)),
-          magnitude_value = this.util.format_number_by_magnitude(d.total, true);
+          height = (Math.max(0, d.dy - 1));
 
       if (number_of_lines == 0 || font_class == "none") {
         label_div = "";
@@ -105,14 +104,12 @@ gist.charts.treemap = gist.charts.treemap || (function() {
         label_div = "<div style='text-align:center'>...</div>";
       } else if (number_of_lines == 1) {
             font_class = "small";
-        name_div = "<div class='name'>" + d.name + " - <em>" + magnitude_value.value + magnitude_value.suffix + "</em></div>";
-        label_div = "<div class='" + font_class + "'>" + name_div + "</div>";
+        label_div = "<div class='" + font_class + "'>" + d.name + " - <em>" + d.totalLabel + "</em></div>";
       } else {
-        name_div = "<div class='name'>" + d.name + "</div>";
-        value_div = "<div class='amount'>" + magnitude_value.value + "</div>";
-        magnitude_div = "<div>" + magnitude_value.long_suffix + "</div>";
+        name_div = "<div>" + d.name + "</div>";
+        value_div = "<div class='amount'>" + d.totalLabel + "</div>";
 
-        label_div = "<div class='" + font_class + "'>" + name_div + value_div + magnitude_div + "</div>";
+        label_div = "<div class='" + font_class + "'>" + name_div + value_div + "</div>";
       }
 
       return label_div;
