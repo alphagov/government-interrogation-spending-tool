@@ -71,33 +71,48 @@ gist.charts.treemap = gist.charts.treemap || (function() {
                 }
               })
               .style("background", function(d) { return d.children ? null : d.colour ? d.colour : that.opts.default_colour; });
-            spans = nodes
-              .append('span')
+
+            divs = nodes
+              .append('div')
+                .attr("class", "treemap-label")
+                .style("width", function(d) { return Math.max(0, d.dx - 1) + "px"; })
+                .style("height", function(d) { return Math.max(0, d.dy - 1) + "px"; })
                 .style("color", function(d) { return d.children ? null : d.fontColour ? d.fontColour : that.opts.default_font_colour; })
                 .html(function(d) {
                   return that.generate_label_html(d); });
 
         that._setupTooltips(nodes, that);
+
+        // ellipsis treemap labels
+        $(".treemap-label").dotdotdot({ ellipsis: '...', wrap: 'letter' });
       }
     },
 
     generate_label_html : function(d) {
-      var dx_font = d3.scale.threshold().domain([20,40,80,130,220]).range(["none","ellipsis","small","medium","large","x-large"]),
+      var font_classes = ["none","ellipsis","small","medium","large","x-large"],
+          dx_font = d3.scale.threshold().domain([20,50,130,200,250]).range(font_classes),
+          dy_font = d3.scale.threshold().domain([20,50,130,200,250]).range(font_classes),
           dy_number_of_lines = d3.scale.threshold().domain([20,40,80,100]).range([0,1,2,3,99]),
           font_class = dx_font(d.dx),
           number_of_lines = dy_number_of_lines(d.dy)
-          label_div = "";
+          label_div = "",
+          height = (Math.max(0, d.dy - 1)),
+          magnitude_value = this.util.format_number_by_magnitude(d.total, true);
 
       if (number_of_lines == 0 || font_class == "none") {
         label_div = "";
       } else if (font_class == "ellipsis") {
-        label_div = "...";
+        label_div = "<div style='text-align:center'>...</div>";
+      } else if (number_of_lines == 1) {
+            font_class = "small";
+        name_div = "<div class='name'>" + d.name + " - <em>" + magnitude_value.value + magnitude_value.suffix + "</em></div>";
+        label_div = "<div class='" + font_class + "'>" + name_div + "</div>";
       } else {
-        var magnitude_value = this.util.format_number_by_magnitude(d.total, true);
-          name_div = "<div>" + d.name + "</div>",
-          value_div = "<div class='amount'>" + magnitude_value.value + "</div>",
-          magnitude_div = "<div>" + magnitude_value.long_suffix + "</div>"
-          label_div = "<div class='" + font_class + "'>" + name_div + value_div + magnitude_div + "</div>";
+        name_div = "<div class='name'>" + d.name + "</div>";
+        value_div = "<div class='amount'>" + magnitude_value.value + "</div>";
+        magnitude_div = "<div>" + magnitude_value.long_suffix + "</div>";
+
+        label_div = "<div class='" + font_class + "'>" + name_div + value_div + magnitude_div + "</div>";
       }
 
       return label_div;
