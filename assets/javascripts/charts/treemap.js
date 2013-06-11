@@ -90,8 +90,13 @@ gist.charts.treemap = gist.charts.treemap || (function() {
 
     generate_label_html : function(d) {
       var font_classes = ["none","ellipsis","small","medium","large","x-large"],
+          font_sizes = {
+            "small" : 16,
+            "medium" : 19,
+            "large" : 24,
+            "x-large" : 24,
+          },
           dx_font = d3.scale.threshold().domain([20,50,130,200,250]).range(font_classes),
-          dy_font = d3.scale.threshold().domain([20,50,130,200,250]).range(font_classes),
           dy_number_of_lines = d3.scale.threshold().domain([20,40,80,100]).range([0,1,2,3,99]),
           font_class = dx_font(d.dx),
           number_of_lines = dy_number_of_lines(d.dy)
@@ -103,11 +108,13 @@ gist.charts.treemap = gist.charts.treemap || (function() {
       } else if (font_class == "ellipsis") {
         label_div = "<div style='text-align:center'>...</div>";
       } else if (number_of_lines == 1) {
-            font_class = "small";
+        font_class = "small";
         label_div = "<div class='" + font_class + "'>" + d.name + " - <em>" + d.totalLabel + "</em></div>";
       } else {
+        var font_size = font_sizes[font_class],
+            truncated_total = this.util.truncate_text_for_available_space(d.totalLabel? d.totalLabel: "", d.dx, font_size);
         name_div = "<div>" + d.name + "</div>";
-        value_div = "<div class='amount'>" + d.totalLabel + "</div>";
+        value_div = "<div class='amount'>" + truncated_total + "</div>";
 
         label_div = "<div class='" + font_class + "'>" + name_div + value_div + "</div>";
       }

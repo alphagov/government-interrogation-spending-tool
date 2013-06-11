@@ -199,7 +199,8 @@ gist.utils = gist.utils || (function() {
   return {
     avg_font_sizes : {
         "16":8.85,
-        "19":10.8
+        "19":10.8,
+        "24":12.8
     },
     Util : util_obj
   };
