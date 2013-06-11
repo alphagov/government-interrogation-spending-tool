@@ -210,9 +210,11 @@ describe "TablePageGenerator" do
       it "should set the data attributes for the row" do
         @content.should match /data-name="Toy"/
         @content.should match /data-total="100"/
+        @content.should match /data-total-label="£100"/
 
         @content.should match /data-name="Test"/
         @content.should match /data-total="200"/
+        @content.should match /data-total-label="£200"/
 
         @content.should_not match /data-url=/
       end
@@ -259,18 +261,22 @@ describe "TablePageGenerator" do
     end
 
     context "node with one child, with number_formatter_scale set to 'm'" do
-      it "should return table rows with amount formatted and scaled to millions" do
+      it "should return table rows with amount formatted and scaled to millions, with data total label set to match" do
         root_node = TablePageNode.new("All", 0.0, [TablePageNode.new("Test1", 9990000.0)])
         content = @page_generator.generate_html_content(root_node, { :number_formatter_scale => "m" })
         content.should match /<td.*>.*£10m.*<\/td>/m
+
+        content.should match /data-total-label="£10m"/
       end
     end
 
     context "node with one child, with number_formatter_scale set to 'k'" do
-      it "should return table rows with amount formatted and scaled to thousands" do
+      it "should return table rows with amount formatted and scaled to thousands, with data total label set to match" do
         root_node = TablePageNode.new("All", 0.0, [TablePageNode.new("Test1", 9990000.0)])
         content = @page_generator.generate_html_content(root_node, { :number_formatter_scale => "k" })
         content.should match /<td.*>.*£9,990k.*<\/td>/m
+
+        content.should match /data-total-label="£9,990k"/
       end
     end
 
