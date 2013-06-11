@@ -101,7 +101,7 @@ gist.utils = gist.utils || (function() {
       } else {
         var sorted = data.sort(function(a,b) {return (a.total < b.total)? 1 : (a.total == b.total)? 0 : -1; }),
             other_group = sorted.slice(max_number_of_items-1),
-            other_item = { name: "Other Departments", total: 0, colour: "#e2e2e2", fontColour: "#231f20" };
+            other_item = { name: "Departments", total: 0, colour: "#e2e2e2", fontColour: "#231f20" };
 
         other_group.forEach(function(item) {
           other_item.total += item.total;
@@ -121,7 +121,7 @@ gist.utils = gist.utils || (function() {
             sorted_values = values.sort(d3.ascending),
             quantile = d3.quantile(sorted_values, percentile_bar),
             result = [],
-            other_item = { name: "Other Departments", total: 0, colour: "#e2e2e2", fontColour: "#231f20" },
+            other_item = { name: "Departments", total: 0, colour: "#e2e2e2", fontColour: "#231f20" },
             other_count = 0;
 
         data.forEach(function(d) {
