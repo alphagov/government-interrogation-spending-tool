@@ -21,28 +21,11 @@
           {% include header_standard.html %}
         </header>
 
+        {% include qds_section_tabs.html %}
+
         <div class="group">
           <article role="article" class="group">
-            {% include chart_with_all.html %}
-
-            {% if page.source-label != "" %}
-            <p class="source">
-              Source: {{ page.source-label }}
-              {% if page.quarter %}
-               - {{ page.quarter }}
-              {% endif %}
-            </p>
-            {% endif %}
-            <section class="content-group">
-
-              {% include table_with_total.html %}
-
-              {% include download_csv.html %}
-
-              {% if page.display-foi %}
-              {% include foi_request.html %}
-              {% endif %}
-            </section>
+            <h2>No data available for this QDS Section</h2>
           </article>
         </div>
 

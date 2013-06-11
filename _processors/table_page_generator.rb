@@ -18,6 +18,7 @@ class TablePageGenerator
   TOTAL_VALUE_REPLACE_TAG = "<!--TOTAL_VALUE-->"
   HEADER_TITLE_REPLACE_TAG = "<!--HEADER_TITLE-->"
   SOURCE_LABEL_REPLACE_TAG = "<!--SOURCE_LABEL-->"
+  DISPLAY_FOI_REPLACE_TAG = "<!--DISPLAY_FOI-->"
   TABLE_HEADER_NAME_LABEL_REPLACE_TAG = "<!--TABLE_HEADER_NAME_LABEL-->"
   BREADCRUMBS_LIST_REPLACE_TAG = "<!--BREADCRUMB_LIST-->"
   QUARTER_REPLACE_TAG = "<!--QUARTER-->"
@@ -73,7 +74,7 @@ class TablePageGenerator
   end
 
   def generate_for_node(table_page_node, options = {})
-    return if table_page_node.children.empty?
+    return if table_page_node.children.empty? && !table_page_node.force_generate_with_no_children
 
     parent_slug_list  = options.has_key?(:parent_slug_list) ? options[:parent_slug_list] : []
     parent_title_list = options.has_key?(:parent_title_list) ? options[:parent_title_list] : []
@@ -166,6 +167,9 @@ class TablePageGenerator
 
     table_header_name_label = table_page_node.table_header_name_label ? table_page_node.table_header_name_label : DEFAULT_TABLE_HEADER_NAME_LABEL
     content.sub!(TABLE_HEADER_NAME_LABEL_REPLACE_TAG, "\"" + table_header_name_label + "\"")
+
+    display_foi = table_page_node.display_foi ? table_page_node.display_foi.to_s : "false"
+    content.sub!(DISPLAY_FOI_REPLACE_TAG, display_foi)
 
     if !parent_slug_list.empty? && !parent_title_list.empty?
       breadcrumbs_list = ""

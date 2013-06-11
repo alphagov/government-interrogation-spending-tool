@@ -101,6 +101,9 @@ describe "OscarProcessor" do
         @root_node.children[0].children[0].alternative_title_or_title.should eq ""
         @root_node.children[0].children[0].table_header_name_label.should eq "Department/Organisation"
       end
+      it "control code nodes should have display_foi set to true" do
+        @root_node.children[0].children[0].children[0].children[0].display_foi.should be_true
+      end
     end
   end
 

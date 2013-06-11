@@ -77,8 +77,8 @@ describe "QdsProcessor" do
 
         @root_node.children[0].children.should have(1).items
         @root_node.children[0].children[0].children.should have(1).items
-        @root_node.children[0].children[0].children[0].children.should have(1).items
-        @root_node.children[0].children[0].children[0].children[0].children.should have(1).items
+        @root_node.children[0].children[0].children[0].children.should have_at_least(1).items
+        @root_node.children[0].children[0].children[0].children[0].children.should have_at_least(1).items
         @root_node.children[0].children[0].children[0].children[0].children[0].children.should have(1).items
       end
 
@@ -94,6 +94,10 @@ describe "QdsProcessor" do
         @root_node.children[0].children[0].alternative_title_or_title.should eq ""
       end
 
+      it "Data headline nodes should have display_foi set to true" do
+        @root_node.children[0].children[0].children[0].children[0].children[0].display_foi.should be_true
+      end
+
       it "should have redirect url set at parent_department level to redirect to spend-by-type-of-budget" do
         @root_node.children[0].children[0].children[0].redirect_url.should eq "/qds/q2-2012/dep/dep/spend-by-type-of-budget"
       end
@@ -106,6 +110,16 @@ describe "QdsProcessor" do
         @root_node.table_header_name_label.should eq "Quarter"
         @root_node.children[0].table_header_name_label.should eq "Department"
         @root_node.children[0].children[0].table_header_name_label.should eq "Department/Organisation"
+      end
+
+      it "should include nodes for all three QDS sections, with nodes using alternative_layout table_qds_section_nodata for sections with no data" do
+        @root_node.children[0].children[0].children[0].children.should have(3).items
+        section_nodes = @root_node.children[0].children[0].children[0].children
+        no_data_layout = "table_qds_section_no_data"
+
+        section_nodes.any? { |section_node| section_node.slug == "spend-by-type-of-budget" && section_node.alternative_layout == "table_qds_section" }.should be_true
+        section_nodes.any? { |section_node| section_node.slug == "spend-by-type-of-internal-operation" && section_node.alternative_layout == no_data_layout }.should be_true
+        section_nodes.any? { |section_node| section_node.slug == "spend-by-type-of-transaction" && section_node.alternative_layout == no_data_layout }.should be_true
       end
     end
     context "qds data for a single quarter, one scope abbr, two parent_departments, one section, one headline" do

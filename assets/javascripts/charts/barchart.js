@@ -17,10 +17,16 @@ gist.charts.barchart = gist.charts.barchart || (function() {
     draw : function(w, h) {
       var that = this,
           node_id = this.node.id,
-          margin = {top: 10, right: 0, bottom: 10, left: 70},
+          margin = {top: 0, right: 65, bottom: 20, left: 0},
           width = w - margin.left - margin.right,
           height = h - margin.top - margin.bottom,
-          bar_settings = { min_bar_g_w: 50, max_bar_g_w: 100, bar_left_m: 5, label_m: 10 };
+          bar_settings = {
+            font_size: 16,
+            min_bar_g_w: 50,
+            max_bar_g_w: 50,
+            bar_left_m: 5,
+            bar_bottom_m: 5,
+            label_m: 10 };
 
       this.width = w;
       this.height = h;
@@ -28,34 +34,41 @@ gist.charts.barchart = gist.charts.barchart || (function() {
       if (this.opts.chart_data) {
         $("#" + node_id).empty();
 
-        var max_number_of_bars = Math.floor(width/(bar_settings.min_bar_g_w*1.0)),
+        var max_number_of_bars = Math.floor(height/(bar_settings.min_bar_g_w*1.0)),
             data = this.util.filter_sort_data(this.opts.chart_data),
             data = this.util.group_data_to_max_num_items_by_lowest(data, max_number_of_bars),
-            bar_g_w = Math.floor(width /(data.length*1.0)),
+            x_axis_m_scale = d3.scale.linear().domain([368, 956]).range([200, 428]),
+            max_x_axis_size = x_axis_m_scale(width),
+            largest_x_axis_size = d3.max(data, function(d) { return that.util.calculate_text_size(d.name, bar_settings.font_size); }),
+            x_axis_margin = (largest_x_axis_size + 20) < max_x_axis_size ? largest_x_axis_size + 20 : max_x_axis_size,
+            width = width - x_axis_margin,
+            bar_g_w = Math.floor(height /(data.length*1.0)),
             bar_g_w = (bar_g_w < bar_settings.max_bar_g_w)? bar_g_w : bar_settings.max_bar_g_w,
-            bar_w = bar_g_w - bar_settings.bar_left_m,
-            max_y = d3.max(data, function(d) { return d.total }),
-            y = d3.scale.linear().domain([0, max_y]).range([height, 0]);
+            bar_w = bar_g_w - bar_settings.bar_bottom_m,
+            max_x = d3.max(data, function(d) { return d.total }),
+            x = d3.scale.linear().domain([0, max_x]).range([0, width]),
+            ticks_scale = d3.scale.linear().domain([150, 500]).range([2, 5]),
+            number_of_bars = data.length,
+            actual_height = (number_of_bars * bar_g_w) + margin.top + margin.bottom;
 
-        data.forEach(function(d) { d.y = y(d.total); d.height = height - d.y; });
+        data.forEach(function(d) { d.x = x(d.total); });
 
         var svg = d3.select("#" + node_id).append("svg:svg")
           .attr("width", w)
-          .attr("height", h);
+          .attr("height", actual_height);
 
-        var y_axis = d3.svg.axis()
-          .scale(y)
-          .orient("left")
-          .ticks(5)
-          .tickSize(-width)
+        var x_axis = d3.svg.axis()
+          .scale(x)
+          .ticks(ticks_scale(width))
+          .tickSize(actual_height - margin.bottom)
           .tickFormat(function(value) {
             return that.to_short_magnitude_string(value);
           });
 
         svg.append("g")
-          .attr("class", "y axis")
-          .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-          .call(y_axis);
+          .attr("class", "x axis")
+          .attr("transform", "translate(" + margin.left + x_axis_margin + ",0)")
+          .call(x_axis);
 
         var bars = svg.append('g')
           .attr('class','bars')
@@ -65,33 +78,35 @@ gist.charts.barchart = gist.charts.barchart || (function() {
           .append("g")
           .attr('class','bar')
           .attr("transform", function(d, i) {
-            return "translate(" + (margin.left + i*bar_g_w) + "," + margin.top + ")"; });
+            return "translate(" + margin.left + x_axis_margin + "," + (margin.top + i*bar_g_w) + ")"; });
 
         var bar = bars.append("rect")
-          .attr("x", bar_settings.bar_left_m)
-          .attr("y", function(d) { return d.y; })
-          .attr("width", bar_w)
-          .attr("height", function(d) { return d.height; })
+          .attr("x", 0)
+          .attr("y", 0)
+          .attr("width", function(d) { return d.x; })
+          .attr("height", bar_w)
           .attr("fill", function(d) { return d.colour ? d.colour : that.opts.default_colour; });
 
-        var text = bars.append("svg:text")
-          .attr("x", (bar_settings.bar_left_m + bar_g_w)/2)
-          .attr("y", function(d) { return d.y + bar_settings.label_m; })
-          .style("writing-mode", "tb")
-          .attr('fill', function(d) { return d.fontColour ? d.fontColour : that.opts.default_font_colour; });
+        var x_axis_text = bars.append("svg:text")
+          .attr("x", -bar_settings.bar_left_m)
+          .attr("y", (bar_settings.bar_bottom_m + bar_g_w)/2)
+          .attr("text-anchor", "end")
+          .attr('fill', that.opts.black_font_colour)
+          .text(function(d) { return that.util.truncate_text_for_available_space(d.name, x_axis_margin - bar_settings.bar_left_m, bar_settings.font_size); });
 
-        text.append("tspan")
+        var total_text = bars.append("svg:text")
+          .attr("x", function(d) { return d.x + bar_settings.bar_left_m; })
+          .attr("y", (bar_settings.bar_bottom_m + bar_g_w)/2)
+          .attr('fill', that.opts.black_font_colour)
           .attr('class', 'amount')
-          .text(function(d) { return (d.height) > 100 ? that.to_short_magnitude_string(d.total) : ""; });
-        text.append("tspan")
-          .text(function(d) { return (d.height) > 150 ? "  " + d.name : ""; });
+          .text(function(d) { return that.to_short_magnitude_string(d.total); });
 
         var hitboxes = bars.append("rect")
           .attr('class', 'hitbox')
-          .attr("x", bar_settings.bar_left_m)
+          .attr("x", -x_axis_margin)
           .attr("y", 0)
-          .attr('width', bar_w)
-          .attr('height', height)
+          .attr('width', w)
+          .attr('height', bar_w)
           .style("cursor", function(d) { return d.url ? "pointer" : ""; })
           .on("click", function(d) {
             if (d.url) {

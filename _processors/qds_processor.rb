@@ -8,6 +8,8 @@ require_relative "model/table_page_node.rb"
 class QdsProcessor < BaseProcessor
 
   SPEND_BY_TYPE_OF_BUDGET = "Spend by Type of Budget"
+  SPEND_BY_TYPE_OF_INTERNAL_OPERATION = "Spend by Type of Internal Operation"
+  SPEND_BY_TYPE_OF_TRANSACTION = "Spend by Type of Transaction"
 
   def csv_parser
     QdsCsvParser.new
@@ -97,7 +99,9 @@ class QdsProcessor < BaseProcessor
               section_children << TablePageNode.new(
                 data_headline,
                 data_headline_total,
-                data_headline_children)
+                data_headline_children,
+                data_headline,
+                { :display_foi => true })
             end
 
             begin
@@ -118,9 +122,11 @@ class QdsProcessor < BaseProcessor
           begin
             top_total = grouped_totals[report_date][abbr][parent_department][SPEND_BY_TYPE_OF_BUDGET][QdsData::TOP_TOTAL].first.value
           rescue Exception => e
-            # use the spend type of budget total
-            top_total = parent_department_children[0].total
+            # use the largest section total
+            top_total = parent_department_children.max_by(&:total).total
           end
+
+          add_qds_sections_if_missing(parent_department_children)
 
           abbr_total += top_total
           abbr_children << TablePageNode.new(
@@ -154,5 +160,23 @@ class QdsProcessor < BaseProcessor
       root_children,
       "",
       { :alternative_layout => ROOT_NODE_LAYOUT, :table_header_name_label => "Quarter" })
+  end
+
+  def add_qds_sections_if_missing(parent_department_children)
+    sections = [SPEND_BY_TYPE_OF_BUDGET, SPEND_BY_TYPE_OF_TRANSACTION, SPEND_BY_TYPE_OF_INTERNAL_OPERATION]
+    sections.each do |section|
+      if !parent_department_children.any? { |section_node| section_node.title == section }
+        parent_department_children << missing_qds_section_table_node(section)
+      end
+    end
+  end
+
+  def missing_qds_section_table_node(section)
+    TablePageNode.new(
+      section,
+      0.0,
+      [],
+      section,
+      { :alternative_layout => "table_qds_section_no_data", :force_generate_with_no_children => true })
   end
 end
