@@ -56,7 +56,7 @@ class TablePageGenerator
   end
 
   def generate_for_nodes(table_page_node, options = {})
-    options[:quarter]    = table_page_node.title if table_page_node.is_quarter
+    options[:quarter]    = table_page_node.title.to_s.downcase if table_page_node.is_quarter
     options[:department] = table_page_node.title if table_page_node.is_department
 
     generate_for_node(table_page_node, options)
@@ -109,7 +109,7 @@ class TablePageGenerator
     parent_slug_list       = options.has_key?(:parent_slug_list) ? options[:parent_slug_list] : []
     parent_title_list      = options.has_key?(:parent_title_list) ? options[:parent_title_list] : []
     department             = options.has_key?(:department) ? options[:department] : nil
-    quarter                = options.has_key?(:quarter) ? options[:quarter] : nil
+    quarter                = options.has_key?(:quarter).to_s.downcase ? options[:quarter] : nil
     available_quarters     = options.has_key?(:available_quarters) ? options[:available_quarters] : nil
     number_formatter_scale = options.has_key?(:number_formatter_scale) ? options[:number_formatter_scale] : nil
 
