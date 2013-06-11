@@ -113,17 +113,17 @@ gist.charts.doughnut = gist.charts.doughnut || (function() {
 
     setupTooltips : function(tooltip_div, paths) {
       var that = this;
-      paths.on("mouseover", function(d) { that.draw_tooltip(tooltip_div, d.name, d.total); })
+      paths.on("mouseover", function(d) { that.draw_tooltip(tooltip_div, d.name, d.totalLabel); })
     },
 
-    draw_tooltip : function(tooltip_div, name, value) {
+    draw_tooltip : function(tooltip_div, name, total) {
       tooltip_div.selectAll("ul").remove();
 
       var list = tooltip_div.append('ul');
       list.append('li').attr('class', 'label').text("Name");
       list.append('li').text(name);
       list.append('li').attr('class', 'label').text("Spend");
-      list.append('li').text(value);
+      list.append('li').text(total);
     },
 
     get_total_spend_text : function(data) {

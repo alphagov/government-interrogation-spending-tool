@@ -17,7 +17,7 @@ gist.charts.barchart = gist.charts.barchart || (function() {
     draw : function(w, h) {
       var that = this,
           node_id = this.node.id,
-          margin = {top: 0, right: 65, bottom: 20, left: 0},
+          margin = {top: 0, right: 80, bottom: 20, left: 0},
           width = w - margin.left - margin.right,
           height = h - margin.top - margin.bottom,
           bar_settings = {
@@ -99,7 +99,7 @@ gist.charts.barchart = gist.charts.barchart || (function() {
           .attr("y", (bar_settings.bar_bottom_m + bar_g_w)/2)
           .attr('fill', that.opts.black_font_colour)
           .attr('class', 'amount')
-          .text(function(d) { return that.to_short_magnitude_string(d.total); });
+          .text(function(d) { return d.totalLabel; });
 
         var hitboxes = bars.append("rect")
           .attr('class', 'hitbox')
