@@ -47,7 +47,7 @@ gist.charts.barchart = gist.charts.barchart || (function() {
             bar_w = bar_g_w - bar_settings.bar_bottom_m,
             max_x = d3.max(data, function(d) { return d.total }),
             x = d3.scale.linear().domain([0, max_x]).range([0, width]),
-            ticks_scale = d3.scale.linear().domain([150, 700]).range([2, 5]),
+            ticks_scale = d3.scale.linear().domain([150, 500]).range([2, 5]),
             number_of_bars = data.length,
             actual_height = (number_of_bars * bar_g_w) + margin.top + margin.bottom;
 
