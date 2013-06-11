@@ -1,0 +1,20 @@
+.doughnut {
+  @include core-27;
+
+  .header {
+    @include bold-48;
+  }
+
+  .doughnut-tooltips {
+    ul {
+      list-style:none;
+
+      li {
+        @include bold-27;
+      }
+      li.label {
+        @include core-24;
+      }
+    }
+  }
+}
