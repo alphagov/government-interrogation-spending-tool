@@ -10,7 +10,10 @@
 
     .small {
       @include core-14;
-      em { @include bold-14; }
+      em {
+        font-style: normal;
+        @include bold-14;
+      }
 
       .amount {
         @include bold-16;
