@@ -86,7 +86,13 @@ gist.charts.doughnut = gist.charts.doughnut || (function() {
             .attr("d", arc)
             .attr("fill-rule", "evenodd")
             .style("stroke", "#fff")
-            .style("fill", function(d) { return d.colour ? d.colour : that.opts.default_colour; });
+            .style("fill", function(d) { return d.colour ? d.colour : that.opts.default_colour; })
+            .style("cursor", function(d) { return d.url ? "pointer" : ""; })
+            .on("click", function(d) {
+              if (d.url) {
+                window.location = d.url;
+              }
+            });
 
         var ring_text = vis.append("g")
         ring_text.append("text")
@@ -100,12 +106,19 @@ gist.charts.doughnut = gist.charts.doughnut || (function() {
           .attr('y', 20)
           .text(total_spend_text);
 
+        this.setupTooltips(tooltip_div, vis.selectAll("path"));
         this.draw_tooltip(tooltip_div, total_spend_label, total_spend_text);
       }
     },
 
+    setupTooltips : function(tooltip_div, paths) {
+      var that = this;
+      paths.on("mouseover", function(d) { that.draw_tooltip(tooltip_div, d.name, d.total); })
+    },
+
     draw_tooltip : function(tooltip_div, name, value) {
-      tooltip_div.empty();
+      tooltip_div.selectAll("ul").remove();
+
       var list = tooltip_div.append('ul');
       list.append('li').attr('class', 'label').text("Name");
       list.append('li').text(name);

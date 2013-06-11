@@ -10,10 +10,10 @@
       list-style:none;
 
       li {
-        @include bold-48;
+        @include bold-27;
       }
       li.label {
-        @include core-27;
+        @include core-24;
       }
     }
   }
