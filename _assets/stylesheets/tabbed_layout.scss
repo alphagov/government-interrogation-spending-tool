@@ -58,3 +58,14 @@
     }
   }
 }
+
+@media (max-width: 640px) {
+  .tabs {
+    li {
+      width:33.3333%;
+    }
+    li.label {
+      display: none;
+    }
+  }
+}
