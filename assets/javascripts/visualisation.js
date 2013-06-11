@@ -107,6 +107,8 @@ gist.utils = gist.utils || (function() {
           other_item.total += item.total;
         });
         var result = sorted.slice(0, max_number_of_items-1);
+        var totalLabel_mag = (new gist.utils.Util()).format_number_by_magnitude(other_item.total, true);
+        other_item.totalLabel = totalLabel_mag.value + totalLabel_mag.suffix;
         result.push(other_item);
 
         return result;
@@ -132,6 +134,8 @@ gist.utils = gist.utils || (function() {
             other_count += 1;
           }
         });
+        var totalLabel_mag = (new gist.utils.Util()).format_number_by_magnitude(other_item.total, true);
+        other_item.totalLabel = totalLabel_mag.value + totalLabel_mag.suffix;
         result.push(other_item);
 
         return (other_count > 1)? result : data;
@@ -175,7 +179,7 @@ gist.utils = gist.utils || (function() {
       return is_sterling ? ("£" + formatted_value).replace("£-", "-£") : formatted_value;
     },
 
-    calculate_text_size : function(text, font_size) {
+    calculate_text_size : function(text, font_size, is_numeric) {
       return Math.ceil(gist.utils.avg_font_sizes[font_size.toString()] * text.length);
     },
 

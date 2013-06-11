@@ -16,25 +16,25 @@
       }
 
       .amount {
-        @include bold-16;
+        @include bold-14;
       }
     }
     .medium {
       @include core-19;
       .amount {
-        @include bold-27;
+        @include bold-24;
       }
     }
     .large {
-      @include core-24;
+      @include core-19;
       .amount {
-        @include bold-48;
+        @include bold-24;
       }
     }
     .x-large {
-      @include core-27;
+      @include core-19;
       .amount {
-        @include bold-80;
+        @include bold-24;
       }
     }
 
