@@ -101,10 +101,11 @@ gist.utils = gist.utils || (function() {
       } else {
         var sorted = data.sort(function(a,b) {return (a.total < b.total)? 1 : (a.total == b.total)? 0 : -1; }),
             other_group = sorted.slice(max_number_of_items-1),
-            other_item = { name: "Other", total: 0, totalLabel: 0, colour: "#e2e2e2", fontColour: "#231f20" };
+            other_item = { name: "Other", total: 0, totalLabel: 0, colour: "#e2e2e2", fontColour: "#231f20", breakdown: [] };
 
         other_group.forEach(function(item) {
           other_item.total += item.total;
+          other_item.breakdown.push(item);
         });
         var result = sorted.slice(0, max_number_of_items-1);
         var totalLabel_mag = (new gist.utils.Util()).format_number_by_magnitude(other_item.total, true);
@@ -123,7 +124,7 @@ gist.utils = gist.utils || (function() {
             sorted_values = values.sort(d3.ascending),
             quantile = d3.quantile(sorted_values, percentile_bar),
             result = [],
-            other_item = { name: "Other", total: 0, totalLabel: 0, colour: "#e2e2e2", fontColour: "#231f20" },
+            other_item = { name: "Other", total: 0, totalLabel: 0, colour: "#e2e2e2", fontColour: "#231f20", breakdown: [] },
             other_count = 0;
 
         data.forEach(function(d) {
@@ -131,6 +132,7 @@ gist.utils = gist.utils || (function() {
             result.push(d);
           } else {
             other_item.total += d.total;
+            other_item.breakdown.push(d);
             other_count += 1;
           }
         });

@@ -55,10 +55,23 @@ gist.charts = gist.charts || (function() {
     },
 
     _get_tooltip_content : function(d, self) {
+      var that = this,
+          breakdown = "";
+      if (d.breakdown) {
+        breakdown += "<ul>";
+        d.breakdown.forEach(function(b) {
+          breakdown += "<li>"
+          breakdown += "<div class='label'>" + b.name + "</div>";
+          breakdown += "<div>" + that.util.format_numeric_string_to_uk_format(b.total, true) + "</div>";
+          breakdown += "</li>"
+        });
+        breakdown += "</ul>";
+      }
+
       return "<h3>" + d.name + '</h3>' +
         '<div class="amount">' +
         this.util.format_numeric_string_to_uk_format(d.total, true) +
-        '</div>';
+        '</div>' + breakdown;
     },
 
     to_short_magnitude_string : function(value)  {

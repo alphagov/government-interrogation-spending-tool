@@ -16,6 +16,18 @@
 #ttcont div {
   padding: 0 10px 10px;
 }
+#ttcont {
+  ul li {
+    div {
+      padding: 0 10px;
+      margin: 0;
+      font-weight: bold;
+    }
+    div.label {
+      font-weight: normal;
+    }
+  }
+}
 #ttcont .volume {
   font-weight: bold;
   text-align: right;
