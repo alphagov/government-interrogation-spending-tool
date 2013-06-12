@@ -29,13 +29,21 @@ gist.utils = gist.utils || (function() {
         this.remove_chart_image();
 
         $(".visualisation").each(function(index, node) {
-          if ($(node).hasClass('treemap')) { that.draw_tree_map(node, table_data);  selections.push({ id: node.id, label: "area", title: "view data as an area map"}); }
-          if ($(node).hasClass('barchart')) { that.draw_barchart(node, table_data); selections.push({ id: node.id, label: "bar", title: "view data as a bar chart" }); }
-          if ($(node).hasClass('doughnut')) { that.draw_doughnut(node, table_data); selections.push({ id: node.id, label: "doughnut", title: "view data as a doughnut chart" }); }
+          if ($(node).hasClass('treemap')) { that.draw_tree_map(node, table_data);  selections.push({ id: node.id, label: "area", hash:"area", title: "view data as an area map"}); }
+          if ($(node).hasClass('barchart')) { that.draw_barchart(node, table_data); selections.push({ id: node.id, label: "bar", hash:"bar", title: "view data as a bar chart" }); }
+          if ($(node).hasClass('doughnut')) { that.draw_doughnut(node, table_data); selections.push({ id: node.id, label: "doughnut", hash:"pie", title: "view data as a doughnut chart" }); }
         });
 
         if (selections.length > 0) {
           this.draw_chart_selector(chart_id, selections);
+          that.update_links_with_chart_selection();
+          if (location.hash == '#bar' && $(".barchart").length) {
+            $(".visualisation").hide();
+            $(".barchart").show();
+          } else if (location.hash == '#pie' && $(".doughnut").length) {
+            $(".visualisation").hide();
+            $(".doughnut").show();
+          }
         }
       }
     },
@@ -78,12 +86,13 @@ gist.utils = gist.utils || (function() {
     },
 
     draw_chart_selector : function(chart_div_id, selections) {
-      var chart_div = $("#" + chart_div_id),
+      var that = this,
+          chart_div = $("#" + chart_div_id),
           selector_div = $("<div class='chart-selector'>");
 
       for (var i = 0; i < selections.length; i++) {
         selector_div.append(
-          $("<a href='#'>")
+          $("<a href='#" + selections[i].hash +"'>")
             .attr("title", selections[i].title)
             .attr("data-show-id", selections[i].id)
             .text(selections[i].label)
@@ -92,6 +101,7 @@ gist.utils = gist.utils || (function() {
               var node = $("#" + $(this).attr("data-show-id"));
               node.trigger('draw');
               node.show();
+              that.update_links_with_chart_selection();
             })
         );
         if (i < selections.length-1) {
@@ -100,6 +110,20 @@ gist.utils = gist.utils || (function() {
         if (i != 0) { $("#" + selections[i].id).hide(); }
       }
       chart_div.prepend(selector_div);
+    },
+
+    update_links_with_chart_selection : function() {
+
+      var link_onclick = function() {
+        var selected_visualisation = (location.hash == '#bar' || location.hash == '#pie') ? location.hash : '#area',
+            a = $(this),
+            href = this.getAttribute('href');
+        if (!a.hasClass('nostate') && href.indexOf('#') !== 0 && href.indexOf('://') === -1) {
+            window.location = href.replace(/'#.*$'/gi, '') + selected_visualisation;
+            return false;
+        }
+      };
+      $('#content').on('click', 'a', link_onclick);
     },
 
     filter_sort_data : function(data) {
