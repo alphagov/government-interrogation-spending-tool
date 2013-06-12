@@ -56,16 +56,24 @@ gist.charts = gist.charts || (function() {
 
     _get_tooltip_content : function(d, self) {
       var that = this,
-          breakdown = "";
+          breakdown = "",
+          has_breakdown_ellipsis = false;
       if (d.breakdown) {
         breakdown += "<ul>";
         d.breakdown.forEach(function(b) {
-          breakdown += "<li>"
-          breakdown += "<div class='label'>" + b.name + "</div>";
-          breakdown += "<div>" + that.util.format_numeric_string_to_uk_format(b.total, true) + "</div>";
-          breakdown += "</li>"
+          if (b.name != "...") {
+            breakdown += "<li>"
+            breakdown += "<div class='label'>" + b.name + "</div>";
+            breakdown += "<div>" + that.util.format_numeric_string_to_uk_format(b.total, true) + "</div>";
+            breakdown += "</li>"
+          } else {
+            has_breakdown_ellipsis = true;
+          }
         });
         breakdown += "</ul>";
+        if (has_breakdown_ellipsis) {
+          breakdown += "<div class='ellipsis'>...</div>";
+        }
       }
 
       return "<h3>" + d.name + '</h3>' +

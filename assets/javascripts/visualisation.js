@@ -107,6 +107,12 @@ gist.utils = gist.utils || (function() {
           other_item.total += item.total;
           other_item.breakdown.push(item);
         });
+        var breakdown_limit = 4;
+        if (other_item.breakdown.length > breakdown_limit) {
+          other_item.breakdown = other_item.breakdown.slice(0, breakdown_limit-1);
+          other_item.breakdown.push({ name: "...", total: 0, totalLabel:"" });
+        }
+
         var result = sorted.slice(0, max_number_of_items-1);
         var totalLabel_mag = (new gist.utils.Util()).format_number_by_magnitude(other_item.total, true);
         other_item.totalLabel = totalLabel_mag.value + totalLabel_mag.suffix;
@@ -136,6 +142,12 @@ gist.utils = gist.utils || (function() {
             other_count += 1;
           }
         });
+        var breakdown_limit = 4;
+        if (other_item.breakdown.length > breakdown_limit) {
+          other_item.breakdown = other_item.breakdown.slice(0, breakdown_limit-1);
+          other_item.breakdown.push({ name: "...", total: 0, totalLabel:"" });
+        }
+
         var totalLabel_mag = (new gist.utils.Util()).format_number_by_magnitude(other_item.total, true);
         other_item.totalLabel = totalLabel_mag.value + totalLabel_mag.suffix;
         result.push(other_item);
