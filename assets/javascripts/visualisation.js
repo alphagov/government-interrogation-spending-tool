@@ -57,15 +57,24 @@ gist.utils = gist.utils || (function() {
     },
 
     draw_tree_map : function(node, chart_data) {
-      new gist.charts.treemap.Widget(node, { chart_data: chart_data }).draw(node.offsetWidth, 407);
+      $(node).bind('draw',function() {
+        new gist.charts.treemap.Widget(node, { chart_data: chart_data }).draw(node.parentNode.offsetWidth, 407);
+      });
+      $(node).trigger('draw');
     },
 
     draw_barchart : function(node, chart_data) {
-      new gist.charts.barchart.Widget(node, { chart_data: chart_data }).draw(node.offsetWidth, 400);
+      $(node).bind('draw',function() {
+        new gist.charts.barchart.Widget(node, { chart_data: chart_data }).draw(node.parentNode.offsetWidth, 400);
+      });
+      $(node).trigger('draw');
     },
 
     draw_doughnut : function(node, chart_data) {
-      new gist.charts.doughnut.Widget(node, { chart_data: chart_data }).draw(node.offsetWidth, 400);
+      $(node).bind('draw',function() {
+        new gist.charts.doughnut.Widget(node, { chart_data: chart_data }).draw(node.parentNode.offsetWidth, 400);
+      });
+      $(node).trigger('draw');
     },
 
     draw_chart_selector : function(chart_div_id, selections) {
@@ -80,7 +89,9 @@ gist.utils = gist.utils || (function() {
             .text(selections[i].label)
             .click(function() {
               $(".visualisation").hide();
-              $("#" + $(this).attr("data-show-id")).show();
+              var node = $("#" + $(this).attr("data-show-id"));
+              node.trigger('draw');
+              node.show();
             })
         );
         if (i < selections.length-1) {
