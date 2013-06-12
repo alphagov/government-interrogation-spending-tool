@@ -6,20 +6,32 @@ class Float < Numeric
 
   def to_magnitude_string(magnitude=nil)
     val = self.to_f
+    mag_val = val
+    suffix = ""
+    decimal_points = 1
     abs = val.abs
     result = sprintf('%.1f', val)
 
     if    magnitude == "tn" || (magnitude.nil? && abs >= 1000000000000)
-      result = sprintf('%.1f', val/1000000000000).reverse.gsub(REG_EX_REVERSE_ADD_COMMAS, REG_EX_REVERSE_ADD_COMMAS_REPLACE).reverse + "tn"
+      mag_val = val/1000000000000
+      suffix = "tn"
     elsif magnitude == "bn" || (magnitude.nil? && abs >= 1000000000)
-      result = sprintf('%.1f', val/1000000000).reverse.gsub(REG_EX_REVERSE_ADD_COMMAS, REG_EX_REVERSE_ADD_COMMAS_REPLACE).reverse + "bn"
+      mag_val = val/1000000000
+      suffix = "bn"
     elsif magnitude == "m" ||  (magnitude.nil? && abs >= 1000000)
-      result = sprintf('%.1f', val/1000000).reverse.gsub(REG_EX_REVERSE_ADD_COMMAS, REG_EX_REVERSE_ADD_COMMAS_REPLACE).reverse + "m"
+      mag_val = val/1000000
+      suffix = "m"
     elsif magnitude == "k" ||  (magnitude.nil? && abs >= 1000)
-      result = sprintf('%.1f', val/1000).reverse.gsub(REG_EX_REVERSE_ADD_COMMAS, REG_EX_REVERSE_ADD_COMMAS_REPLACE).reverse + "k"
+      mag_val = val/1000
+      suffix = "k"
     end
 
-    result.gsub(/([0-9]{3})(\.[0-9]+)([a-z]*)/, '\1\3').sub(".0","")
+    decimal_points = mag_val.abs < 1 ? 3 : mag_val.abs < 10 ? 2 : mag_val.abs < 100 ? 1 : 0
+    result = sprintf("%.#{decimal_points}f", mag_val)
+    result.sub!(/(?:(\..*[^0])0+|\.0+)$/, '\1')
+    result = result.reverse.gsub(REG_EX_REVERSE_ADD_COMMAS, REG_EX_REVERSE_ADD_COMMAS_REPLACE).reverse + suffix
+
+    result
   end
 
   def to_sterling_magnitude_string
