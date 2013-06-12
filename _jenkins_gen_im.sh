@@ -6,10 +6,8 @@ bundle
 echo "Starting Jekyll server ...."
 bundle exec jekyll serve &
 
-sleep 3
-
 echo "Generating images ...."
-sleep 20 && /bin/bash _phantomjs_generate_chart_images.sh
+sleep 40 && /bin/bash _phantomjs_generate_chart_images.sh
 
 bundle exec jekyll build
 
