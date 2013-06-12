@@ -53,6 +53,10 @@ gist.charts.barchart = gist.charts.barchart || (function() {
             number_of_bars = data.length,
             actual_height = (number_of_bars * bar_g_w) + margin.top + margin.bottom;
 
+        if (!data || data.length == 0) {
+          return null;
+        }
+
         data.forEach(function(d) { d.x = x(d.total); });
 
         var svg = d3.select("#" + node_id).append("svg:svg")

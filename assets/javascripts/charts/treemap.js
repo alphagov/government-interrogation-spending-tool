@@ -35,6 +35,10 @@ gist.charts.treemap = gist.charts.treemap || (function() {
             percentile_bar_for_other = percentile_bar_for_other_scale(width),
             data = this.util.group_data_by_percentile_lowest(data, percentile_bar_for_other);
 
+        if (!data || data.length == 0) {
+          return null;
+        }
+
         var root = {
           name: "",
           total: 0.0,

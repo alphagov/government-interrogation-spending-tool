@@ -41,6 +41,10 @@ gist.charts.doughnut = gist.charts.doughnut || (function() {
             total_spend_label = "Total Spend",
             total_spend_text = this.get_total_spend_text(data);
 
+        if (!data || data.length == 0) {
+          return null;
+        }
+
         var chart_div = d3.select("#" + node_id)
           .append("div")
           .attr("class", "col-50-no-media");
