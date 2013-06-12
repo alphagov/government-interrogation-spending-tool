@@ -2,8 +2,6 @@ env
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
-unzip workspace.zip
-
 bundle
 echo "Starting Jekyll server ...."
 bundle exec jekyll serve &
