@@ -111,23 +111,41 @@ gist.charts.doughnut = gist.charts.doughnut || (function() {
           .text(total_spend_text);
 
         this.setupTooltips(tooltip_div, vis.selectAll("path"));
-        this.draw_tooltip(tooltip_div, total_spend_label, total_spend_text);
+        this.draw_tooltip(tooltip_div, { name: total_spend_label, totalLabel: total_spend_text });
       }
     },
 
     setupTooltips : function(tooltip_div, paths) {
       var that = this;
-      paths.on("mouseover", function(d) { that.draw_tooltip(tooltip_div, d.name, d.totalLabel); })
+      paths.on("mouseover", function(d) { that.draw_tooltip(tooltip_div, d); })
     },
 
-    draw_tooltip : function(tooltip_div, name, total) {
+    draw_tooltip : function(tooltip_div, d) {
       tooltip_div.selectAll("ul").remove();
 
-      var list = tooltip_div.append('ul');
-      list.append('li').attr('class', 'label').text("Name");
-      list.append('li').text(name);
-      list.append('li').attr('class', 'label').text("Spend");
-      list.append('li').text(total);
+      var list = tooltip_div.append('ul'),
+          has_breakdown_ellipsis = false;
+      var name_li = list.append('li');
+      name_li.append('div').attr('class', 'label').text("Name");
+      name_li.append('div').text(d.name);
+      var total_li = list.append('li');
+      total_li.append('div').attr('class', 'label').text("Spend");
+      total_li.append('div').text(d.totalLabel);
+
+      if (d.breakdown) {
+        list.append('li').append('div').attr('class', 'label').text("Breakdown");
+        var ul = list.append('li').append('ul').attr('class', 'breakdown'),
+            li = null;
+        d.breakdown.forEach(function(b) {
+          if (b.name != "...") {
+            li = ul.append('li')
+            li.append('span').attr('class', 'label').text(b.name);
+            li.append('span').text(b.totalLabel);
+          } else {
+            li = ul.append('li').attr('class', 'ellipsis').text('...')
+          }
+        });
+      }
     },
 
     get_total_spend_text : function(data) {

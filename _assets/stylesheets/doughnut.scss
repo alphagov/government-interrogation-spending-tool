@@ -7,13 +7,59 @@
 
   .doughnut-tooltips {
     ul {
+      margin:0;
       list-style:none;
 
       li {
-        @include bold-27;
+        div.label {
+          @include core-27;
+        }
+        div {
+          @include bold-27;
+        }
+
+        ul.breakdown {
+          li span {
+            @include bold-16;
+          }
+          li span.label {
+            display: inline-block;
+            width: 70%;
+            @include core-16;
+          }
+          li.ellipsis {
+            list-style:none;
+            @include core-16;
+          }
+        }
       }
-      li.label {
-        @include core-24;
+    }
+  }
+}
+
+
+@media (max-width: 700px) {
+  .doughnut {
+    .doughnut-tooltips {
+      ul {
+        li {
+          div {
+            display: inline-block;
+          }
+          div.label{
+            margin-right: 10px;
+          }
+
+          ul.breakdown {
+            li span, li span.label {
+              display: block;
+              width: auto;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+          }
+        }
       }
     }
   }

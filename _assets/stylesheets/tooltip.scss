@@ -17,14 +17,21 @@
   padding: 0 10px 10px;
 }
 #ttcont {
-  ul li {
-    div {
-      padding: 0 10px;
-      margin: 0;
-      font-weight: bold;
-    }
-    div.label {
-      font-weight: normal;
+  ul {
+    padding: 0;
+    margin: 0;
+    li {
+      div {
+        padding: 0 10px;
+        margin: 0;
+        font-weight: bold;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      div.label {
+        font-weight: normal;
+      }
     }
   }
 }
