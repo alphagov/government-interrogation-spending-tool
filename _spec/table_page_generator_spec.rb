@@ -264,9 +264,9 @@ describe "TablePageGenerator" do
       it "should return table rows with amount formatted and scaled to millions, with data total label set to match" do
         root_node = TablePageNode.new("All", 0.0, [TablePageNode.new("Test1", 9990000.0)])
         content = @page_generator.generate_html_content(root_node, { :number_formatter_scale => "m" })
-        content.should match /<td.*>.*£10m.*<\/td>/m
+        content.should match /<td.*>.*£9.99m.*<\/td>/m
 
-        content.should match /data-total-label="£10m"/
+        content.should match /data-total-label="£9.99m"/
       end
     end
 
