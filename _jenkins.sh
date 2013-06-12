@@ -15,23 +15,7 @@ cp -R _submodules/static/app/assets/javascripts/* static/
 echo "Running rspec ...."
 rspec -f d -c _spec/
 
-
-
 echo "Building application ...."
-bundle exec jekyll build && sleep 2
+bundle exec jekyll build
 
-echo "Starting Jekyll server ...."
-jekyll serve &
-sleep 2
-
-echo "Generating images ...."
-/bin/bash _phantomjs_generate_chart_images.sh
-sleep 2
-jekyll build
-
-echo "Stopping Jekyll ...."
-PID=`sudo ps aux | tr -s " " | grep -v grep | grep -E */jekyll | cut -d " " -f 2`
-kill $PID
-
-echo "Creating artifact"
-zip -r _site.zip _site
+zip -r workspace.zip *
