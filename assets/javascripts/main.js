@@ -36,8 +36,6 @@ table_sorter.sort = table_sorter.Sort || (function() {
       });
     },
     change_direction_arrow_for_acending_decending : function(){
-      console.log("clicked within the origin file");
-      
       $("#data-table").bind("sortEnd",function() {
         $(".sort-ind").remove();
         $('#data-table thead th').each(function(index){
