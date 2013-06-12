@@ -32,9 +32,9 @@ describe "OscarProcessor" do
         data_objects = get_oscar_data_objects([quarter], ["1"], ["2"], ["3"], ["4"])
         @options = @processor.root_node_options(data_objects)
       end
-      it "should return options with option to format number in thousands" do
+      it "should return options with option to format number in millions" do
         @options.has_key?(:number_formatter_scale).should be_true
-        @options[:number_formatter_scale].should eq "k"
+        @options[:number_formatter_scale].should eq "m"
       end
       it "should return options with the quarter in quarters_list" do
         @options.has_key?(:available_quarters).should be_true
