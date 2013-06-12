@@ -14,6 +14,9 @@
         <header class="page-header table-page-header group">
           <hgroup class="col-65">
             {% include department_name_logo.html %}
+            {% if page.header-title %}
+            <h2 {% if page.department-name  == nil %} class="standalone" {% else %} class="standard" {% endif %}>{{ page.header-title }}</h2>
+            {% endif %}
           </hgroup>
           {% include header_standard.html %}
         </header>

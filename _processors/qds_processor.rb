@@ -101,7 +101,7 @@ class QdsProcessor < BaseProcessor
                 data_headline_total,
                 data_headline_children,
                 data_headline,
-                { :display_foi => true })
+                { :alternative_title => parent_department + " - " + data_headline, :display_foi => true })
             end
 
             begin
@@ -116,7 +116,7 @@ class QdsProcessor < BaseProcessor
               section_total,
               section_children,
               section,
-              { :alternative_layout => "table_qds_section" })
+              { :alternative_title => parent_department, :alternative_layout => "table_qds_section" })
           end
 
           begin
