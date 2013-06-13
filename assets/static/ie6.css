@@ -1,6 +1,6 @@
 ul#navigation li.sub-level a.current{
 	margin-right: 0px !important;
-	margin-bottom: 0px;
+	border-bottom: solid 1px black;
 }
 ul.tabs li{
 	width: 21.7%;
@@ -15,6 +15,3 @@ header#global{
 	margin: 0 auto;
 	width: 1024px;
 }
-
-
-
