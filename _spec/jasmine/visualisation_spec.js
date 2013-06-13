@@ -279,6 +279,21 @@ describe("Util", function() {
       expect(mag_neg_sterling_9990.suffix).toEqual("k");
       expect(mag_neg_sterling_9990.long_suffix).toEqual("thousand");
     });
+
+    it("should return a number with a fixed magnitude when one is provided", function() {
+      var fixed_mag_999_k   = util.format_number_by_magnitude(999.0, false, "k"),
+          fixed_mag_99_k    = util.format_number_by_magnitude(99.0, false, "k"),
+          fixed_mag_9_k     = util.format_number_by_magnitude(9.0, false, "k");
+          fixed_mag_91111_m = util.format_number_by_magnitude(91111.0, false, "m"),
+          specific1         = util.format_number_by_magnitude(13581853647.0, false, "m");
+
+      expect(fixed_mag_999_k.value).toEqual("0.999");   expect(fixed_mag_999_k.suffix).toEqual("k");
+      expect(fixed_mag_99_k.value).toEqual("0.099");    expect(fixed_mag_999_k.suffix).toEqual("k");
+      expect(fixed_mag_9_k.value).toEqual("0.009");     expect(fixed_mag_999_k.suffix).toEqual("k");
+      expect(fixed_mag_91111_m.value).toEqual("0.091"); expect(fixed_mag_91111_m.suffix).toEqual("m");
+
+      expect(specific1.value).toEqual("13,582");        expect(specific1.suffix).toEqual("m");
+    });
   });
 
   describe("format_numeric_string_to_uk_format", function() {

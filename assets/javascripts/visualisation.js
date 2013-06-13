@@ -136,7 +136,9 @@ gist.utils = gist.utils || (function() {
       } else {
         var sorted = data.sort(function(a,b) {return (a.total < b.total)? 1 : (a.total == b.total)? 0 : -1; }),
             other_group = sorted.slice(max_number_of_items-1),
-            other_item = { name: "Other", total: 0, totalLabel: 0, colour: "#e2e2e2", fontColour: "#231f20", breakdown: [] };
+            other_item = { name: "Other", total: 0, totalLabel: 0, colour: "#e2e2e2", fontColour: "#231f20", breakdown: [] },
+            fixed_magnitude_for_other = "m";
+
 
         other_group.forEach(function(item) {
           other_item.total += item.total;
@@ -149,7 +151,7 @@ gist.utils = gist.utils || (function() {
         }
 
         var result = sorted.slice(0, max_number_of_items-1);
-        var totalLabel_mag = (new gist.utils.Util()).format_number_by_magnitude(other_item.total, true);
+        var totalLabel_mag = (new gist.utils.Util()).format_number_by_magnitude(other_item.total, true, fixed_magnitude_for_other);
         other_item.totalLabel = totalLabel_mag.value + totalLabel_mag.suffix;
         result.push(other_item);
 
@@ -166,7 +168,8 @@ gist.utils = gist.utils || (function() {
             quantile = d3.quantile(sorted_values, percentile_bar),
             result = [],
             other_item = { name: "Other", total: 0, totalLabel: 0, colour: "#e2e2e2", fontColour: "#231f20", breakdown: [] },
-            other_count = 0;
+            other_count = 0,
+            fixed_magnitude_for_other = "m";
 
         data.forEach(function(d) {
           if (d.total >= quantile) {
@@ -183,7 +186,7 @@ gist.utils = gist.utils || (function() {
           other_item.breakdown.push({ name: "...", total: 0, totalLabel:"" });
         }
 
-        var totalLabel_mag = (new gist.utils.Util()).format_number_by_magnitude(other_item.total, true);
+        var totalLabel_mag = (new gist.utils.Util()).format_number_by_magnitude(other_item.total, true, fixed_magnitude_for_other);
         other_item.totalLabel = totalLabel_mag.value + totalLabel_mag.suffix;
         result.push(other_item);
 
@@ -191,7 +194,7 @@ gist.utils = gist.utils || (function() {
       }
     },
 
-    format_number_by_magnitude : function(value, is_sterling) {
+    format_number_by_magnitude : function(value, is_sterling, fixed_magnitude) {
       var magnitudes = {
         trillion: { value:1e12, suffix:"tn", long_suffix:"trillion" },
         billion:  { value:1e9,  suffix:"bn", long_suffix:"billion" },
@@ -207,11 +210,31 @@ gist.utils = gist.utils || (function() {
         if (abs >= 1e6)  return magnitudes.million;
         if (abs >= 1e3)  return magnitudes.thousand;
         return magnitudes.unit;
-      },
-      magnitude = magnitudeFor(value),
-      scaled_value = (value / magnitude.value),
-      scaled_value_3_sigs = scaled_value.toPrecision(3),
-      magnitude_value = scaled_value_3_sigs.toString().replace(/\.0+$/,"");
+      };
+      var magnitude = magnitudeFor(value);
+      if (fixed_magnitude) {
+        for (var key in magnitudes) {
+          var m = magnitudes[key];
+          if (m.suffix == fixed_magnitude) {
+            magnitude = m;
+          }
+        }
+      }
+
+      var scaled_value = (value / magnitude.value),
+          abs_scaled_value = Math.abs(scaled_value),
+          scaled_value_sig_figures = scaled_value.toFixed(0);
+      if (abs_scaled_value < 1) {
+        scaled_value_sig_figures = scaled_value.toFixed(3);
+      } else if (abs_scaled_value < 10) {
+        scaled_value_sig_figures = scaled_value.toFixed(2)
+      } else if (abs_scaled_value < 100) {
+        scaled_value_sig_figures = scaled_value.toFixed(1)
+      } else if (abs_scaled_value >= 1000) {
+        scaled_value_sig_figures = (new gist.utils.Util()).format_numeric_string_to_uk_format(scaled_value_sig_figures, false);
+      }
+
+      var magnitude_value = scaled_value_sig_figures.toString().replace(/\.0+$/,"");
 
       if (is_sterling) {
         magnitude_value = ("£" + magnitude_value).replace("£-", "-£");
