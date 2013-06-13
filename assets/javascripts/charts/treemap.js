@@ -6,10 +6,10 @@ gist.charts.treemap = gist.charts.treemap || (function() {
 
   var treemap_d3js = util.inherit(function treemap(_node, opts) {
     treemap_d3js._super.constructor.call(this, _node, $.extend({}, gist.charts.treemap.Widget.default_options, opts));
+    this.chart_type = 'treemap';
   }, gist.charts.BaseChart);
 
   $.extend(treemap_d3js, {
-    chart_type: 'treemap',
     default_options : {
       max_percentile_bar_for_other : 0.5,
       min_percentile_bar_for_other : 0.7
@@ -71,7 +71,7 @@ gist.charts.treemap = gist.charts.treemap || (function() {
               })
               .on("click", function(d) {
                 if (d.url) {
-                  window.location = d.url;
+                  that._click_link(d.url);
                 }
               })
               .style("background", function(d) { return d.children ? null : d.colour ? d.colour : that.opts.default_colour; });

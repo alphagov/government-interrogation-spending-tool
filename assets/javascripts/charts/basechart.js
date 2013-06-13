@@ -48,6 +48,18 @@ gist.charts = gist.charts || (function() {
       }, 50);
     },
 
+    _click_link : function(url) {
+      var selected_visualisation = '';
+      if (this.chart_type && $('.visualisation').length > 1) {
+        selected_visualisation = {
+          'treemap' : '#area',
+          'barchart' : '#bar',
+          'doughnut' : '#pie' }[this.chart_type];
+      }
+      url_with_hash = url.replace(/'#.*$'/gi, '') + selected_visualisation;
+      window.location = url_with_hash;
+    },
+
     _setupTooltips : function(nodes, self) {
       nodes
         .on("mouseover", function(d) { tooltip.show(self._get_tooltip_content(d, self)); })

@@ -6,10 +6,10 @@ gist.charts.barchart = gist.charts.barchart || (function() {
 
   var barchart_d3js = util.inherit(function barchart(_node, opts) {
     barchart_d3js._super.constructor.call(this, _node, $.extend({}, gist.charts.barchart.Widget.default_options, opts));
+    this.chart_type = 'barchart';
   }, gist.charts.BaseChart);
 
   $.extend(barchart_d3js, {
-    chart_type: 'barchart',
     default_options : {}
   });
 
@@ -116,7 +116,7 @@ gist.charts.barchart = gist.charts.barchart || (function() {
           .style("cursor", function(d) { return d.url ? "pointer" : ""; })
           .on("click", function(d) {
             if (d.url) {
-              window.location = d.url;
+              that._click_link(d.url);
             }
           });
 

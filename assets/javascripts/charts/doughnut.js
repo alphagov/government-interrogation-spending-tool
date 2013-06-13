@@ -7,10 +7,10 @@ gist.charts.doughnut = gist.charts.doughnut || (function() {
 
   var doughnut_d3js = util.inherit(function doughnut(_node, opts) {
     doughnut_d3js._super.constructor.call(this, _node, $.extend({}, gist.charts.doughnut.Widget.default_options, opts));
+    this.chart_type = 'doughnut';
   }, gist.charts.BaseChart);
 
   $.extend(doughnut_d3js, {
-    chart_type: 'doughnut',
     default_options : {
       max_percentile_bar_for_other : 0.6,
       min_percentile_bar_for_other : 0.8
@@ -94,7 +94,7 @@ gist.charts.doughnut = gist.charts.doughnut || (function() {
             .style("cursor", function(d) { return d.url ? "pointer" : ""; })
             .on("click", function(d) {
               if (d.url) {
-                window.location = d.url;
+                that._click_link(d.url);
               }
             });
 
