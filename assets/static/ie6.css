@@ -1,0 +1,17 @@
+ul#navigation li.sub-level a.current{
+	margin-right: 0px !important;
+	border-bottom: solid 1px black;
+}
+ul.tabs li{
+	width: 21.7%;
+}
+
+header.page-header hgroup.full-width h1{
+	width: 70%;
+}
+
+header#global{
+	display: block;
+	margin: 0 auto;
+	width: 1024px;
+}
