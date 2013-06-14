@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Visualisation tool for viewing government spending data.
+Visualisation tool for viewing UK government spending data taken from the OSCAR (Online System for Central Accounting and Reporting) and QDS (Quarterly Data Summary) datasets.
 
 ## Requirements
 
@@ -18,10 +18,14 @@ To setup first clone the repo and run bunder to get the required gems:
 Run the script to setup the GOV.UK styles taken from submodules:
 > ./_copy_govuk_styles.sh
 
+Run the tests:
+> ./_run_tests.sh
+
 Run a process script to generate template files from the raw csv data
 files:
 > ./_process_test_data.sh
-Or use files stored in _processor/data
+
+Or use files stored in _processor/data:
 > ./_process_data.sh
 
 Run Jekyll to generate the static html for the site:
@@ -31,6 +35,7 @@ Run Jekyll to generate the static html for the site:
 
 This project includes scripts to automatically deploy to Amazon S3 using
 the [jekyll-s3 gem](https://github.com/laurilehmijoki/jekyll-s3).
+NOTE: With the full OSCAR/QDS dataset this can take up to 45mins to copy all files to S3. Instead of Jekyll-S3 we use [JetS3t](http://jets3t.s3.amazonaws.com/downloads.html) for production deployments which takes 15mins.
 
 First generate the *\_jekyll\_s3.yml* config file:
 > jekyll-s3
