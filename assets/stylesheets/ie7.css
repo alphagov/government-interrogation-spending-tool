@@ -1,0 +1,13 @@
+ul#navigation li.sub-level a.current{
+	margin-right: 0px !important;
+}
+ul.tabs li{
+  width: 25%;
+  display: inline-block;
+}
+ul.tabs li a{
+	width: 83%;
+}
+ul#navigation li.sub-level a{
+   display: block;
+}
