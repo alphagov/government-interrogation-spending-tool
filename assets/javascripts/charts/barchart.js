@@ -106,7 +106,10 @@ gist.charts.barchart = gist.charts.barchart || (function() {
           .attr("y", (bar_settings.bar_bottom_m + bar_g_w)/2)
           .attr('fill', that.opts.black_font_colour)
           .attr('class', 'amount')
-          .text(function(d) { return d.totalLabel; });
+          .text(function(d) {
+            var total_magnitude = that.util.format_number_by_magnitude(d.total, true);
+            return total_magnitude.value + total_magnitude.suffix;
+          });
 
         var hitboxes = bars.append("rect")
           .attr('class', 'hitbox')

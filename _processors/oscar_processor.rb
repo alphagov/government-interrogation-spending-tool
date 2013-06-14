@@ -18,7 +18,7 @@ class OscarProcessor < BaseProcessor
   def root_node_options(data_objects)
     options = super
 
-    #options[:number_formatter_scale] = "m"
+    options[:number_formatter_scale] = "m"
 
     quarters_hash = data_objects.group_by{ |oscar_data| oscar_data.quarter }
     available_quarters = []

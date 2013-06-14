@@ -22,7 +22,7 @@ class QdsProcessor < BaseProcessor
   def root_node_options(data_objects)
     options = super
 
-    #options[:number_formatter_scale] = "m"
+    options[:number_formatter_scale] = "m"
 
     report_date_hash = data_objects.group_by{ |qds_data| qds_data.report_date }
     available_quarters = []
