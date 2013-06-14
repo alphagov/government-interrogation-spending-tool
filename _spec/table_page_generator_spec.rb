@@ -299,22 +299,25 @@ describe "TablePageGenerator" do
     context "node with department level child nodes" do
       before :each do
         co_node = TablePageNode.new("CO", 100.0, [], "co", { :is_department => true, :alternative_title => "" })
-        dcms_node = TablePageNode.new("Department for Education", 100.0, [], "Department for Education", { :is_department => true, :alternative_title => "" })
+        dfe_node = TablePageNode.new("Department for Education", 100.0, [], "Department for Education", { :is_department => true, :alternative_title => "" })
         hmrc_node = TablePageNode.new("HMRC", 100.0, [], "hmrc", { :is_department => true, :alternative_title => "" })
 
-        root_node = TablePageNode.new("All", 0.0, [co_node, dcms_node, hmrc_node])
+        root_node = TablePageNode.new("All", 0.0, [co_node, dfe_node, hmrc_node])
         @content = @page_generator.generate_html_content(root_node, {})
       end
-      it "should return rows containing data attributes for department colours" do
+      it "should return rows containing data attributes for department colours and abbr" do
         #CO
         @content.should match /data-colour="#0078ba"/
         @content.should match /data-font-colour="#fff"/
-        #HO
+        @content.should match /data-abbr="CO"/
+        #DfE
         @content.should match /data-colour="#003969"/
         @content.should match /data-font-colour="#fff"/
+        @content.should match /data-abbr="DFE"/
         #HMRC
         @content.should match /data-colour=""/
         @content.should match /data-font-colour=""/
+        @content.should match /data-abbr="HMRC"/
       end
     end
 

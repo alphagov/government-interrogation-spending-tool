@@ -135,11 +135,13 @@ class TablePageGenerator
     table_page_node.children.sort { |a,b| b.total <=> a.total }.each do |node|
       next if filter_zero_rows && node.total == 0.0
 
+      data_abbr = nil
       data_colour = department_colour
       data_font_colour = department_font_colour
       if node.is_department
         child_department_hash = DepartmentMapper.map_raw_to_css_hash(node.title)
         if child_department_hash
+          data_abbr        = child_department_hash[:abbr] if child_department_hash.has_key?(:abbr)
           data_colour      = child_department_hash[:colour] if child_department_hash.has_key?(:colour)
           data_font_colour = child_department_hash[:font_colour] if child_department_hash.has_key?(:font_colour)
         end
@@ -147,7 +149,13 @@ class TablePageGenerator
 
       row_title = node.has_children ? "<a href='#{node.slug}'>#{node.title}</a>" : node.title
       row_total_label = node.total.to_uk_formatted_currency_string(number_formatter_scale)
-      row = "<tr data-name=\"#{node.title}\" data-total=\"#{node.total.to_attribute_format}\" data-total-label=\"#{row_total_label}\" #{node.has_children ? "data-url=\"" + node.slug + "\"" : ""} data-colour=\"#{data_colour}\" data-font-colour=\"#{data_font_colour}\">
+      row = "<tr data-name=\"#{node.title}\" "\
+                "data-total=\"#{node.total.to_attribute_format}\" "\
+                "data-total-label=\"#{row_total_label}\" "\
+                "data-colour=\"#{data_colour}\" data-font-colour=\"#{data_font_colour}\""\
+                "#{node.has_children ? "data-url=\"" + node.slug + "\"" : ""} "\
+                "#{!data_abbr.nil? ? "data-abbr=\"" + data_abbr + "\"" : ""} "\
+                ">
   <td>#{row_title}</td><td class=\"amount\" title=\"#{node.total.to_attribute_format}\">#{row_total_label}</td>
 </tr>"
       rows << row
