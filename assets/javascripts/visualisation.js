@@ -137,7 +137,7 @@ gist.utils = gist.utils || (function() {
         var sorted = data.sort(function(a,b) {return (a.total < b.total)? 1 : (a.total == b.total)? 0 : -1; }),
             other_group = sorted.slice(max_number_of_items-1),
             other_item = { name: "Other", total: 0, totalLabel: 0, colour: "#e2e2e2", fontColour: "#231f20", breakdown: [] },
-            fixed_magnitude_for_other = "m";
+            fixed_magnitude_for_other = null;
 
 
         other_group.forEach(function(item) {
@@ -169,7 +169,7 @@ gist.utils = gist.utils || (function() {
             result = [],
             other_item = { name: "Other", total: 0, totalLabel: 0, colour: "#e2e2e2", fontColour: "#231f20", breakdown: [] },
             other_count = 0,
-            fixed_magnitude_for_other = "m";
+            fixed_magnitude_for_other = null;
 
         data.forEach(function(d) {
           if (d.total >= quantile) {

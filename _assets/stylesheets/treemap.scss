@@ -8,33 +8,50 @@
 
     div { padding: 0; }
 
+    .nowrap, .amount {
+      white-space:nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     .small {
       @include core-14;
       em {
         font-style: normal;
         @include bold-14;
       }
-
-      .amount {
+      .bold {
         @include bold-14;
+      }
+      .amount {
+        @include bold-16;
       }
     }
     .medium {
       @include core-19;
-      .amount {
+      .bold {
         @include bold-19;
+      }
+      .amount {
+        @include bold-27;
       }
     }
     .large {
-      @include core-19;
-      .amount {
+      @include core-24;
+      .bold {
         @include bold-24;
+      }
+      .amount {
+        @include bold-48;
       }
     }
     .x-large {
-      @include core-19;
+      @include core-27;
+      .bold {
+        @include bold-27;
+      }
       .amount {
-        @include bold-24;
+        @include bold-80;
       }
     }
 

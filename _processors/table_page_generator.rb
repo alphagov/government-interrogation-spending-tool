@@ -146,9 +146,11 @@ class TablePageGenerator
       end
 
       row_title = node.has_children ? "<a href='#{node.slug}'>#{node.title}</a>" : node.title
-      row_total_label = node.total.to_uk_formatted_currency_string(number_formatter_scale)
+      #row_total_label = node.total.to_uk_formatted_currency_string(number_formatter_scale)
+      row_total_label = node.total.to_sterling_magnitude_string
+      row_total = node.total.to_uk_formatted_currency_string
       row = "<tr data-name=\"#{node.title}\" data-total=\"#{node.total.to_attribute_format}\" data-total-label=\"#{row_total_label}\" #{node.has_children ? "data-url=\"" + node.slug + "\"" : ""} data-colour=\"#{data_colour}\" data-font-colour=\"#{data_font_colour}\">
-  <td>#{row_title}</td><td class=\"amount\" title=\"#{node.total.to_attribute_format}\">#{row_total_label}</td>
+  <td>#{row_title}</td><td class=\"amount\" title=\"#{node.total.to_attribute_format}\">#{row_total}</td>
 </tr>"
       rows << row
     end
