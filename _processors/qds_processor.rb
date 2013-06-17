@@ -76,10 +76,14 @@ class QdsProcessor < BaseProcessor
           sections_hash.each_pair do |section, data_headlines_hash|
             data_headline_totals = 0.0
             section_children = []
+            section_alternative_title = parent_department
+            section_alternative_title = '' if parent_department == abbr
 
             data_headlines_hash.each_pair do |data_headline, spends|
               data_sub_types_total = 0.0
               data_headline_children = []
+              data_headlines_alternative_title = parent_department + " - " + data_headline
+              data_headlines_alternative_title = data_headline if parent_department == abbr
 
               spends.each do |s|
                 data_sub_types_total += s.value
@@ -101,7 +105,7 @@ class QdsProcessor < BaseProcessor
                 data_headline_total,
                 data_headline_children,
                 data_headline,
-                { :alternative_title => parent_department + " - " + data_headline, :display_foi => true })
+                { :alternative_title => data_headlines_alternative_title, :display_foi => true })
             end
 
             begin
@@ -116,7 +120,7 @@ class QdsProcessor < BaseProcessor
               section_total,
               section_children,
               section,
-              { :alternative_title => parent_department, :alternative_layout => "table_qds_section" })
+              { :alternative_title => section_alternative_title, :alternative_layout => "table_qds_section" })
           end
 
           begin
@@ -138,12 +142,19 @@ class QdsProcessor < BaseProcessor
         end
 
         report_date_total += abbr_total
-        report_date_children << TablePageNode.new(
-          abbr,
-          abbr_total,
-          abbr_children,
-          abbr,
-          { :is_department => true, :alternative_title => "", :table_header_name_label => "Department/Organisation" })
+        if abbr_children.length == 1 && abbr_children[0].title == abbr
+          abbr_children[0].options = {
+            :is_department => true,
+            :redirect_url => TablePageNode.slugify_paths_to_url("qds", QdsData.quarter_short(report_date), abbr, SPEND_BY_TYPE_OF_BUDGET) }
+          report_date_children << abbr_children[0]
+        else
+          report_date_children << TablePageNode.new(
+            abbr,
+            abbr_total,
+            abbr_children,
+            abbr,
+            { :is_department => true, :alternative_title => "", :table_header_name_label => "Department/Organisation" })
+        end
       end
 
       root_children << TablePageNode.new(
