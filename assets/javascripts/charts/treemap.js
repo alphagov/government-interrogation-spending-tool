@@ -106,7 +106,8 @@ gist.charts.treemap = gist.charts.treemap || (function() {
         label_div = "<div style='text-align:center'>...</div>";
       } else {
         var total_by_magnitude = this.util.format_number_by_magnitude(d.total, true),
-            name_div = font_class_y > 2 ? "<div>" + d.name + "</div>" : "<div class='nowrap'>" + d.name + "</div>",
+            label_text = d.abbr ? d.abbr : d.name,
+            name_div = font_class_y > 2 ? "<div>" + label_text + "</div>" : "<div class='nowrap'>" + label_text + "</div>",
             value_div = "<div class='amount'>" + total_by_magnitude.value + total_by_magnitude.suffix + "</div>";
         if (font_class_y > 3) {
           value_div = "<div class='amount'>" + total_by_magnitude.value + "</div>" +

@@ -41,7 +41,7 @@ gist.charts.barchart = gist.charts.barchart || (function() {
             chart_width = width - (largest_total_label_size + bar_settings.bar_left_m + 5 ),
             x_axis_m_scale = d3.scale.linear().domain([368, 856]).range([200, 428]),
             max_x_axis_size = x_axis_m_scale(chart_width),
-            largest_x_axis_size = d3.max(data, function(d) { return that.util.calculate_text_size(d.name, bar_settings.font_size); }),
+            largest_x_axis_size = d3.max(data, function(d) { return that.util.calculate_text_size(d.abbr ? d.abbr : d.name, bar_settings.font_size); }),
             x_axis_margin = (largest_x_axis_size + 20) < max_x_axis_size ? largest_x_axis_size + 20 : max_x_axis_size,
             max_bar_width = chart_width - x_axis_margin,
             bar_g_w = Math.floor(height /(data.length*1.0)),
@@ -98,7 +98,7 @@ gist.charts.barchart = gist.charts.barchart || (function() {
           .attr("y", (bar_settings.bar_bottom_m + bar_g_w)/2)
           .attr("text-anchor", "end")
           .attr('fill', that.opts.black_font_colour)
-          .text(function(d) { return that.util.truncate_text_for_available_space(d.name, x_axis_margin - bar_settings.bar_left_m, bar_settings.font_size); });
+          .text(function(d) { return that.util.truncate_text_for_available_space(d.abbr ? d.abbr : d.name, x_axis_margin - bar_settings.bar_left_m, bar_settings.font_size); });
 
         var total_text = bars.append("svg:text")
           .attr("x", function(d) { return d.x + bar_settings.bar_left_m; })
