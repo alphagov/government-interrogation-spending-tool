@@ -38,6 +38,7 @@ gist.charts.treemap = gist.charts.treemap || (function() {
         if (!data || data.length == 0) {
           return null;
         }
+        data.forEach(function(d) { d.children = null; });
 
         var root = {
           name: "",

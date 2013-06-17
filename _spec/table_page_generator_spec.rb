@@ -1,4 +1,5 @@
 # encoding: utf-8
+require "json"
 require_relative "../_processors/table_page_generator.rb"
 require_relative "../_processors/model/table_page_node.rb"
 
@@ -343,8 +344,11 @@ describe "TablePageGenerator" do
 
         @content = @page_generator.generate_html_content(root_node)
       end
-      it "should contain a data-url set" do
+      it "should set the data attribute for data-url" do
         @content.should match /data-url="test2"/
+      end
+      it "should set the data attribute for data-children containing json for child nodes" do
+        @content.should include "data-children='[{\"name\":\"Test1\",\"total\":100.0,\"totalLabel\":\"£100\"}]'"
       end
       it "should contain a link" do
         @content.should match /<a href='test2'/
@@ -449,6 +453,33 @@ describe "TablePageGenerator" do
         content = @page_generator.generate_html_content(root_node)
         content.should match /Test3.*Test1/m
         content.should_not match /Test2/m
+      end
+    end
+  end
+
+  describe "generate_table_page_node_children_json" do
+    context "node with two children, both empty" do
+      before :each do
+        @children_json = @page_generator.generate_table_page_node_children_json(@root_node)
+      end
+      it "should return a json string" do
+        @children_json.should be_an_instance_of(String)
+        parsed = JSON.parse(@children_json)
+        parsed.should have(2).items
+
+        parsed[0]["name"].should eq("Toy")
+        parsed[0]["total"].should eq(100.0)
+        parsed[0]["totalLabel"].should eq("£100")
+
+        parsed[1]["name"].should eq("Test")
+        parsed[1]["total"].should eq(200.0)
+        parsed[1]["totalLabel"].should eq("£200")
+      end
+    end
+    context "node with no children" do
+      it "should return empty string" do
+        children_json = @page_generator.generate_table_page_node_children_json(@empty_node)
+        children_json.should eq("")
       end
     end
   end

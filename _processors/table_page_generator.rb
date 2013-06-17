@@ -1,5 +1,6 @@
 # encoding: utf-8
 require "fileutils"
+require "json"
 require_relative "extensions/float"
 require_relative "department_mapper"
 
@@ -154,7 +155,9 @@ class TablePageGenerator
       row = "<tr data-name=\"#{node.title}\" "\
                 "data-total=\"#{node.total.to_attribute_format}\" "\
                 "data-total-label=\"#{row_total_label}\" "\
-                "data-colour=\"#{data_colour}\" data-font-colour=\"#{data_font_colour}\""\
+                "data-children='#{generate_table_page_node_children_json(node, number_formatter_scale, number_formatter_decimal_places)}' "\
+                "data-colour=\"#{data_colour}\" "\
+                "data-font-colour=\"#{data_font_colour}\""\
                 "#{node.has_children ? "data-url=\"" + node.slug + "\"" : ""} "\
                 "#{!data_abbr.nil? ? "data-abbr=\"" + data_abbr + "\"" : ""} "\
                 ">
@@ -214,6 +217,21 @@ class TablePageGenerator
     content.sub!(AVAILABLE_QUARTERS_REPLACE_TAG, available_quarters_list)
 
     content
+  end
+
+  def generate_table_page_node_children_json(table_page_node, number_formatter_scale=nil, number_formatter_decimal_places=0)
+    return "" if table_page_node.children.nil? || table_page_node.children.length == 0
+
+    children_array = []
+    table_page_node.children.each do |node|
+      children_array << {
+        "name" => node.title,
+        "total" => node.total,
+        "totalLabel" => node.total.to_uk_formatted_currency_string(number_formatter_scale, number_formatter_decimal_places)
+      }
+    end
+
+    children_array.to_json
   end
 
   def generate_csv_content(table_page_node, options = {})
