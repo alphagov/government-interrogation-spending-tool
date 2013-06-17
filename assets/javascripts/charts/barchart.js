@@ -22,11 +22,12 @@ gist.charts.barchart = gist.charts.barchart || (function() {
           height = h - margin.top - margin.bottom,
           bar_settings = {
             font_size: 16,
-            min_bar_g_w: 50,
+            min_bar_g_w: 25,
             max_bar_g_w: 50,
             bar_left_m: 5,
             bar_bottom_m: 5,
-            label_m: 10 };
+            label_m: 10,
+            max_number_of_bars: 20 };
 
       this.width = w;
       this.height = h;
@@ -34,9 +35,8 @@ gist.charts.barchart = gist.charts.barchart || (function() {
       if (this.opts.chart_data) {
         $("#" + node_id).empty();
 
-        var max_number_of_bars = Math.floor(height/(bar_settings.min_bar_g_w*1.0)),
-            data = this.util.filter_sort_data(this.opts.chart_data),
-            data = this.util.group_data_to_max_num_items_by_lowest(data, max_number_of_bars),
+        var filtered_sorted_data = this.util.filter_sort_data(this.opts.chart_data),
+            data = this.util.group_data_to_max_num_items_by_lowest(filtered_sorted_data, bar_settings.max_number_of_bars),
             largest_total_label_size = 60,
             chart_width = width - (largest_total_label_size + bar_settings.bar_left_m + 5 ),
             x_axis_m_scale = d3.scale.linear().domain([368, 856]).range([200, 428]),
@@ -44,8 +44,8 @@ gist.charts.barchart = gist.charts.barchart || (function() {
             largest_x_axis_size = d3.max(data, function(d) { return that.util.calculate_text_size(d.abbr ? d.abbr : d.name, bar_settings.font_size); }),
             x_axis_margin = (largest_x_axis_size + 20) < max_x_axis_size ? largest_x_axis_size + 20 : max_x_axis_size,
             max_bar_width = chart_width - x_axis_margin,
-            bar_g_w = Math.floor(height /(data.length*1.0)),
-            bar_g_w = (bar_g_w < bar_settings.max_bar_g_w)? bar_g_w : bar_settings.max_bar_g_w,
+            height_based_bar_g_w = Math.floor(height /(data.length*1.0)),
+            bar_g_w = height_based_bar_g_w > bar_settings.max_bar_g_w ? bar_settings.max_bar_g_w : height_based_bar_g_w > bar_settings.min_bar_g_w ? height_based_bar_g_w : bar_settings.min_bar_g_w,
             bar_w = bar_g_w - bar_settings.bar_bottom_m,
             max_x = d3.max(data, function(d) { return d.total }),
             x = d3.scale.linear().domain([0, max_x]).range([0, max_bar_width]),
