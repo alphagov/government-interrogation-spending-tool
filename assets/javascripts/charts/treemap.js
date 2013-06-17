@@ -12,7 +12,7 @@ gist.charts.treemap = gist.charts.treemap || (function() {
   $.extend(treemap_d3js, {
     default_options : {
       max_percentile_bar_for_other : 0.5,
-      min_percentile_bar_for_other : 0.7
+      min_percentile_bar_for_other : 0.0
     }
   });
 
@@ -30,10 +30,10 @@ gist.charts.treemap = gist.charts.treemap || (function() {
       if (this.opts.chart_data) {
         $("#" + node_id).empty();
 
-        var data = this.util.filter_sort_data(this.opts.chart_data),
-            percentile_bar_for_other_scale = d3.scale.linear().domain([368, 956]).range([this.opts.min_percentile_bar_for_other, this.opts.max_percentile_bar_for_other]),
+        var sorted_filtered_data = this.util.filter_sort_data(this.opts.chart_data),
+            percentile_bar_for_other_scale = d3.scale.linear().domain([956, 368]).range([this.opts.min_percentile_bar_for_other, this.opts.max_percentile_bar_for_other]),
             percentile_bar_for_other = percentile_bar_for_other_scale(width),
-            data = this.util.group_data_by_percentile_lowest(data, percentile_bar_for_other);
+            data = this.util.group_data_by_percentile_lowest(sorted_filtered_data, percentile_bar_for_other);
 
         if (!data || data.length == 0) {
           return null;
