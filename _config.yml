@@ -1,5 +1,38 @@
 safe:        false
-
-destination: ./_site
-plugins:     ./_plugins
 exclude:     ["GemFile", "Gemfile.lock", "README.md"]
+
+submission_date_qds_q1_2012_13: '31/01/2012'
+submission_date_qds_q2_2012_13: '31/04/2012'
+submission_date_qds_q3_2012_13: '31/07/2012'
+submission_date_qds_q4_2012_13: '31/10/2012'
+submission_date_qds_q1_2013_14: '31/01/2013'
+submission_date_qds_q2_2013_14: '31/04/2013'
+submission_date_qds_q3_2013_14: '31/07/2013'
+submission_date_qds_q4_2013_14: '31/10/2013'
+
+submission_date_oscar_q1_2012_13: '31/01/2012'
+submission_date_oscar_q2_2012_13: '31/04/2012'
+submission_date_oscar_q3_2012_13: '31/07/2012'
+submission_date_oscar_q4_2012_13: '31/10/2012'
+submission_date_oscar_q1_2013_14: '31/01/2013'
+submission_date_oscar_q2_2013_14: '31/04/2013'
+submission_date_oscar_q3_2013_14: '31/07/2013'
+submission_date_oscar_q4_2013_14: '31/10/2013'
+
+total_population_q1_2012_13: 63200000
+total_population_q2_2012_13: 63200000
+total_population_q3_2012_13: 63200000
+total_population_q4_2012_13: 63200000
+total_population_q1_2013_14: 63200000
+total_population_q2_2013_14: 63200000
+total_population_q3_2013_14: 63200000
+total_population_q4_2013_14: 63200000
+
+total_expenditure_q1_2012_13: 689459000000
+total_expenditure_q2_2012_13: 689459000000
+total_expenditure_q3_2012_13: 689459000000
+total_expenditure_q4_2012_13: 689459000000
+total_expenditure_q1_2013_14: 689459000000
+total_expenditure_q2_2013_14: 689459000000
+total_expenditure_q3_2013_14: 689459000000
+total_expenditure_q4_2013_14: 689459000000

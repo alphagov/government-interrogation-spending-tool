@@ -26,15 +26,7 @@
         <div class="group">
           <article role="article" class="group">
             {% include chart_with_all.html %}
-
-            {% if page.source-label != "" %}
-            <p class="source">
-              Source: {{ page.source-label }}
-              {% if page.quarter %}
-               - {{ page.quarter }}
-              {% endif %}
-            </p>
-            {% endif %}
+            {% include source_label.html %}
             <section class="content-group">
 
               {% include table_with_total.html %}

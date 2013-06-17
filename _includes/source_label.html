@@ -1,0 +1,50 @@
+{% if page.source-label != "" %}
+<p class="source">
+  Source: {{ page.source-label }}
+  {% if page.quarter %}
+   - {{ page.quarter }}
+    {% if page.source-label == 'OSCAR' %}
+, date:
+{% case page.quarter %}
+  {% when 'quarter 1 2012' %}
+{{ site.submission_date_oscar_q1_2012_13 }}
+  {% when 'quarter 2 2012' %}
+{{ site.submission_date_oscar_q2_2012_13 }}
+  {% when 'quarter 3 2012' %}
+{{ site.submission_date_oscar_q3_2012_13 }}
+  {% when 'quarter 4 2012' %}
+{{ site.submission_date_oscar_q4_2012_13 }}
+  {% when 'quarter 1 2013' %}
+{{ site.submission_date_oscar_q1_2013_14 }}
+  {% when 'quarter 2 2013' %}
+{{ site.submission_date_oscar_q2_2013_14 }}
+  {% when 'quarter 3 2013' %}
+{{ site.submission_date_oscar_q3_2013_14 }}
+  {% when 'quarter 4 2013' %}
+{{ site.submission_date_oscar_q4_2013_14 }}
+{% endcase %}
+    {% endif %}
+    {% if page.source-label == 'QDS' %}
+, date:
+{% case page.quarter %}
+  {% when 'quarter 1 2012' %}
+{{ site.submission_date_qds_q1_2012_13 }}
+  {% when 'quarter 2 2012' %}
+{{ site.submission_date_qds_q2_2012_13 }}
+  {% when 'quarter 3 2012' %}
+{{ site.submission_date_qds_q3_2012_13 }}
+  {% when 'quarter 4 2012' %}
+{{ site.submission_date_qds_q4_2012_13 }}
+  {% when 'quarter 1 2013' %}
+{{ site.submission_date_qds_q1_2013_14 }}
+  {% when 'quarter 2 2013' %}
+{{ site.submission_date_qds_q2_2013_14 }}
+  {% when 'quarter 3 2013' %}
+{{ site.submission_date_qds_q3_2013_14 }}
+  {% when 'quarter 4 2013' %}
+{{ site.submission_date_qds_q4_2013_14 }}
+{% endcase %}
+    {% endif %}
+  {% endif %}
+</p>
+{% endif %}
