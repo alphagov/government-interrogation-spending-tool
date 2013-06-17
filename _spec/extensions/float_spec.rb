@@ -46,10 +46,18 @@ describe "Float" do
       9990000.0.to_magnitude_string('m').should eq "9.99m"
       9990000000.0.to_magnitude_string('m').should eq "9,990m"
     end
+
     it "should return scaled to thousands when using specific magnitude k" do
       999000.0.to_magnitude_string('k').should eq "999k"
       9990000.0.to_magnitude_string('k').should eq "9,990k"
       9990000000.0.to_magnitude_string('k').should eq "9,990,000k"
+    end
+
+    it "should return value with specific max decimal places" do
+      0.101.to_magnitude_string(nil, 1).should eq "0.1"
+      0.101.to_magnitude_string(nil, 0).should eq "0"
+      999000.0.to_magnitude_string('m', 0).should eq "1m"
+      9900000.0.to_magnitude_string('m', 1).should eq "9.9m"
     end
   end
 
@@ -100,6 +108,13 @@ describe "Float" do
       9990000.0.to_uk_formatted_currency_string('k').should eq "£9,990k"
       9990000000.0.to_uk_formatted_currency_string('k').should eq "£9,990,000k"
       -9990000.0.to_uk_formatted_currency_string('k').should eq "-£9,990k"
+    end
+    it "should return scaled to millions with zero decimal places when using specific magnitude m and set decimal places" do
+      999000.0.to_uk_formatted_currency_string('m', 0).should eq "£1m"
+      9900000.0.to_uk_formatted_currency_string('m', 0).should eq "£10m"
+      9990000.0.to_uk_formatted_currency_string('m', 0).should eq "£10m"
+      9990000000.0.to_uk_formatted_currency_string('m', 0).should eq "£9,990m"
+      -9990000.0.to_uk_formatted_currency_string('m', 0).should eq "-£10m"
     end
   end
 end

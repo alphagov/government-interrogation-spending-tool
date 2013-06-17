@@ -106,13 +106,14 @@ class TablePageGenerator
   def generate_html_content(table_page_node, options = {})
     rows = []
 
-    filter_zero_rows       = options.has_key?(:filter_zero_rows) ? options[:filter_zero_rows] : true
-    parent_slug_list       = options.has_key?(:parent_slug_list) ? options[:parent_slug_list] : []
-    parent_title_list      = options.has_key?(:parent_title_list) ? options[:parent_title_list] : []
-    department             = options.has_key?(:department) ? options[:department] : nil
-    quarter                = options.has_key?(:quarter).to_s.downcase ? options[:quarter] : nil
-    available_quarters     = options.has_key?(:available_quarters) ? options[:available_quarters] : nil
-    number_formatter_scale = options.has_key?(:number_formatter_scale) ? options[:number_formatter_scale] : nil
+    filter_zero_rows                = options.has_key?(:filter_zero_rows) ? options[:filter_zero_rows] : true
+    parent_slug_list                = options.has_key?(:parent_slug_list) ? options[:parent_slug_list] : []
+    parent_title_list               = options.has_key?(:parent_title_list) ? options[:parent_title_list] : []
+    department                      = options.has_key?(:department) ? options[:department] : nil
+    quarter                         = options.has_key?(:quarter).to_s.downcase ? options[:quarter] : nil
+    available_quarters              = options.has_key?(:available_quarters) ? options[:available_quarters] : nil
+    number_formatter_scale          = options.has_key?(:number_formatter_scale) ? options[:number_formatter_scale] : nil
+    number_formatter_decimal_places = options.has_key?(:number_formatter_decimal_places) ? options[:number_formatter_decimal_places] : 0
 
     department_name = ""
     department_css_class = ""
@@ -149,7 +150,7 @@ class TablePageGenerator
       end
 
       row_title = node.has_children ? "<a href='#{node.slug}'>#{node.title}</a>" : node.title
-      row_total_label = node.total.to_uk_formatted_currency_string(number_formatter_scale)
+      row_total_label = node.total.to_uk_formatted_currency_string(number_formatter_scale, number_formatter_decimal_places)
       row = "<tr data-name=\"#{node.title}\" "\
                 "data-total=\"#{node.total.to_attribute_format}\" "\
                 "data-total-label=\"#{row_total_label}\" "\
@@ -171,7 +172,7 @@ class TablePageGenerator
 
     content.sub!(TABLE_ROWS_REPLACE_TAG, table_rows)
     content.sub!(TOTAL_REPLACE_TAG, "#{table_page_node.total.to_sterling_magnitude_string}")
-    content.sub!(TOTAL_ROW_LABEL_REPLACE_TAG, "#{table_page_node.total.to_uk_formatted_currency_string(number_formatter_scale)}")
+    content.sub!(TOTAL_ROW_LABEL_REPLACE_TAG, "#{table_page_node.total.to_uk_formatted_currency_string(number_formatter_scale, number_formatter_decimal_places)}")
     content.sub!(TOTAL_VALUE_REPLACE_TAG, table_page_node.total.to_attribute_format)
     content.sub!(HEADER_TITLE_REPLACE_TAG, table_page_node.alternative_title_or_title.sub(':', ''))
     content.sub!(SOURCE_LABEL_REPLACE_TAG, @source_label)
