@@ -15,6 +15,7 @@ class TablePageGenerator
   LAYOUT_REPLACE_TAG = "<!--LAYOUT-->"
   TABLE_ROWS_REPLACE_TAG = "<!--TABLE_CONTENT-->"
   TOTAL_REPLACE_TAG = "<!--TOTAL-->"
+  TOTAL_ROW_LABEL_REPLACE_TAG = "<!--TOTAL_ROW_LABEL-->"
   TOTAL_VALUE_REPLACE_TAG = "<!--TOTAL_VALUE-->"
   HEADER_TITLE_REPLACE_TAG = "<!--HEADER_TITLE-->"
   SOURCE_LABEL_REPLACE_TAG = "<!--SOURCE_LABEL-->"
@@ -170,6 +171,7 @@ class TablePageGenerator
 
     content.sub!(TABLE_ROWS_REPLACE_TAG, table_rows)
     content.sub!(TOTAL_REPLACE_TAG, "#{table_page_node.total.to_sterling_magnitude_string}")
+    content.sub!(TOTAL_ROW_LABEL_REPLACE_TAG, "#{table_page_node.total.to_uk_formatted_currency_string(number_formatter_scale)}")
     content.sub!(TOTAL_VALUE_REPLACE_TAG, table_page_node.total.to_attribute_format)
     content.sub!(HEADER_TITLE_REPLACE_TAG, table_page_node.alternative_title_or_title.sub(':', ''))
     content.sub!(SOURCE_LABEL_REPLACE_TAG, @source_label)

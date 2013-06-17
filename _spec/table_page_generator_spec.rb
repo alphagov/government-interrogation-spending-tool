@@ -237,6 +237,9 @@ describe "TablePageGenerator" do
       it "should set the page variable 'total-value'" do
         @content.should match /total-value: 300/
       end
+      it "should set the page variable 'total-row-label'" do
+        @content.should match /total-row-label: £300/
+      end
       it "should set the page variable list for breadcrumb links" do
         @content.should match /breadcrumbs:/
         @content.should include " - \"#{@parent_title_list[0]}\": /#{@parent_slug_list[0]}"
