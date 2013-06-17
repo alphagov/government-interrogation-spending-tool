@@ -2,7 +2,7 @@
 
 class QdsData
 
-  QUARTER_GROUPING_REG_EX = /(Quarter )([0-9])( - )([0-9]{4})(\/[0-9]{2})/
+  QUARTER_GROUPING_REG_EX = /(Quarter )([0-9])( - )([0-9]{4})(\/)([0-9]{2})/
   DEPARTMENT_ABBR_FROM_SCOPE = /(.+?) - Core/
 
   TOTAL_SPEND = "Total Spend"
@@ -57,11 +57,11 @@ class QdsData
     end
 
     def self.quarter_short(report_date)
-      report_date.gsub(QUARTER_GROUPING_REG_EX, 'Q\2 \4')
+      report_date.gsub(QUARTER_GROUPING_REG_EX, 'Q\2 \4\6')
     end
 
     def self.quarter_long(report_date)
-      report_date.gsub(QUARTER_GROUPING_REG_EX, 'Quarter \2 \4')
+      report_date.gsub(QUARTER_GROUPING_REG_EX, 'Quarter \2 \4-\6')
     end
 
     def is_total

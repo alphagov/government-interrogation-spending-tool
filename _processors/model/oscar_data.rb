@@ -21,10 +21,10 @@ class OscarData
     end
 
     def self.quarter_short(quarter)
-      quarter.gsub(QUARTER_GROUPING_REG_EX, 'Q\2 20\4')
+      quarter.gsub(QUARTER_GROUPING_REG_EX, 'Q\2 20\4\5')
     end
 
     def self.quarter_long(quarter)
-      quarter.gsub(QUARTER_GROUPING_REG_EX, 'Quarter \2 20\4')
+      quarter.gsub(QUARTER_GROUPING_REG_EX, 'Quarter \2 20\4\5')
     end
 end
