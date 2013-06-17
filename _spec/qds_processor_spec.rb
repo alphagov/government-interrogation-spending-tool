@@ -39,7 +39,7 @@ describe "QdsProcessor" do
       it "should return options with the quarter in quarters_list" do
         @options.has_key?(:available_quarters).should be_true
         @options[:available_quarters].length.should eq 1
-        @options[:available_quarters][0].should eq({ :title => "Quarter 2 2012", :slug => "q2-2012" })
+        @options[:available_quarters][0].should eq({ :title => "Quarter 2 2012-13", :slug => "q2-2012-13" })
       end
     end
     context "qds data for a two quarters, one department, with one parent_department" do
@@ -51,8 +51,8 @@ describe "QdsProcessor" do
         options = @processor.root_node_options(data_objects)
         options.has_key?(:available_quarters).should be_true
         options[:available_quarters].length.should eq 2
-        options[:available_quarters][0].should eq({ :title => "Quarter 1 2012", :slug => "q1-2012" })
-        options[:available_quarters][1].should eq({ :title => "Quarter 2 2012", :slug => "q2-2012" })
+        options[:available_quarters][0].should eq({ :title => "Quarter 1 2012-13", :slug => "q1-2012-13" })
+        options[:available_quarters][1].should eq({ :title => "Quarter 2 2012-13", :slug => "q2-2012-13" })
       end
     end
   end
@@ -84,8 +84,8 @@ describe "QdsProcessor" do
 
       it "should have a child node for quarter with generic quarter title and slug, alternative title" do
         @root_node.children[0].is_quarter.should be_true
-        @root_node.children[0].slug.should eq "q2-2012"
-        @root_node.children[0].title.should eq "Quarter 2 2012"
+        @root_node.children[0].slug.should eq "q2-2012-13"
+        @root_node.children[0].title.should eq "Quarter 2 2012-13"
         @root_node.children[0].alternative_title_or_title.should eq "All Departments"
       end
 
@@ -99,7 +99,7 @@ describe "QdsProcessor" do
       end
 
       it "should have redirect url set at parent_department level to redirect to spend-by-type-of-budget" do
-        @root_node.children[0].children[0].children[0].redirect_url.should eq "/qds/q2-2012/dep/dep1/spend-by-type-of-budget"
+        @root_node.children[0].children[0].children[0].redirect_url.should eq "/qds/q2-2012-13/dep/dep1/spend-by-type-of-budget"
       end
 
       it "should use alternative_title with Parent Department at the section level" do
@@ -236,24 +236,24 @@ describe "QdsProcessor" do
       it "should have generated the structure for the sample file" do
         @test_processor.process("_spec/test_data/test_qds_sample.csv")
 
-        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/index.html").should be_true
-        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/toy/index.html").should be_true
-        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/toy/index.html").should be_true
-        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/toy/spend-by-type-of-budget/index.html").should be_true
-        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/toy/spend-by-type-of-budget/organisations-own-budget-del/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012-13/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012-13/toy/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012-13/toy/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012-13/toy/spend-by-type-of-budget/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012-13/toy/spend-by-type-of-budget/organisations-own-budget-del/index.html").should be_true
       end
     end
     context "test_qds.csv" do
       it "should have generated the structure for the sample file" do
         @test_processor.process("_spec/test_data/test_qds.csv")
 
-        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/index.html").should be_true
-        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/toy/index.html").should be_true
-        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012/yot/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012-13/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012-13/toy/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q2-2012-13/yot/index.html").should be_true
 
-        File.exists?("#{TEST_QDS_PAGE_PATH}/q1-2012/index.html").should be_true
-        File.exists?("#{TEST_QDS_PAGE_PATH}/q1-2012/toy/index.html").should be_true
-        File.exists?("#{TEST_QDS_PAGE_PATH}/q1-2012/yot/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q1-2012-13/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q1-2012-13/toy/index.html").should be_true
+        File.exists?("#{TEST_QDS_PAGE_PATH}/q1-2012-13/yot/index.html").should be_true
       end
     end
 

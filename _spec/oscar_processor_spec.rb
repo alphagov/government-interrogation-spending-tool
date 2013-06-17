@@ -39,7 +39,7 @@ describe "OscarProcessor" do
       it "should return options with the quarter in quarters_list" do
         @options.has_key?(:available_quarters).should be_true
         @options[:available_quarters].length.should eq 1
-        @options[:available_quarters][0].should eq({ :title => "Quarter 2 2012", :slug => "q2-2012" })
+        @options[:available_quarters][0].should eq({ :title => "Quarter 2 2012-13", :slug => "q2-2012-13" })
       end
     end
     context "oscar data for a two quarters" do
@@ -51,8 +51,8 @@ describe "OscarProcessor" do
         options = @processor.root_node_options(data_objects)
         options.has_key?(:available_quarters).should be_true
         options[:available_quarters].length.should eq 2
-        options[:available_quarters][0].should eq({ :title => "Quarter 1 2012", :slug => "q1-2012" })
-        options[:available_quarters][1].should eq({ :title => "Quarter 2 2012", :slug => "q2-2012" })
+        options[:available_quarters][0].should eq({ :title => "Quarter 1 2012-13", :slug => "q1-2012-13" })
+        options[:available_quarters][1].should eq({ :title => "Quarter 2 2012-13", :slug => "q2-2012-13" })
       end
     end
   end
@@ -91,8 +91,8 @@ describe "OscarProcessor" do
       end
       it "should have a child node for quarter with generic quarter slug and title, alternative title, table header name label" do
         @root_node.children[0].is_quarter.should be_true
-        @root_node.children[0].slug.should eq "q2-2012"
-        @root_node.children[0].title.should eq "Quarter 2 2012"
+        @root_node.children[0].slug.should eq "q2-2012-13"
+        @root_node.children[0].title.should eq "Quarter 2 2012-13"
         @root_node.children[0].alternative_title_or_title.should eq "All Departments"
         @root_node.children[0].table_header_name_label.should eq "Department"
       end
@@ -125,7 +125,7 @@ describe "OscarProcessor" do
         @test_processor.process("_spec/test_data/test_oscar_sample.csv")
 
         File.exists?("#{TEST_PAGE_PATH}/index.html").should be_true
-        File.exists?("#{TEST_PAGE_PATH}/q2-2012/index.html").should be_true
+        File.exists?("#{TEST_PAGE_PATH}/q2-2012-13/index.html").should be_true
       end
     end
 
@@ -134,7 +134,7 @@ describe "OscarProcessor" do
         @test_processor.process("_spec/test_data/test_oscar.csv")
 
         File.exists?("#{TEST_PAGE_PATH}/index.html").should be_true
-        File.exists?("#{TEST_PAGE_PATH}/q2-2012/index.html").should be_true
+        File.exists?("#{TEST_PAGE_PATH}/q2-2012-13/index.html").should be_true
       end
     end
 

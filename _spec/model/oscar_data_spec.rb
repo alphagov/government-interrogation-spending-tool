@@ -67,20 +67,20 @@ describe "OscarData" do
 
   describe "quarter_short" do
     it "returns a formatted short quarter string" do
-      OscarData.quarter_short("Qtr4 - 11-12").should eq "Q4 2011"
-      OscarData.quarter_short("Qtr1 - 12-13").should eq "Q1 2012"
-      OscarData.quarter_short("Qtr2 - 12-13").should eq "Q2 2012"
-      OscarData.quarter_short("Qtr3 - 12-13").should eq "Q3 2012"
-      OscarData.quarter_short("Qtr4 - 12-13").should eq "Q4 2012"
+      OscarData.quarter_short("Qtr4 - 11-12").should eq "Q4 2011-12"
+      OscarData.quarter_short("Qtr1 - 12-13").should eq "Q1 2012-13"
+      OscarData.quarter_short("Qtr2 - 12-13").should eq "Q2 2012-13"
+      OscarData.quarter_short("Qtr3 - 12-13").should eq "Q3 2012-13"
+      OscarData.quarter_short("Qtr4 - 12-13").should eq "Q4 2012-13"
     end
   end
   describe "quarter_long" do
     it "returns a formatted long quarter string" do
-      OscarData.quarter_long("Qtr4 - 11-12").should eq "Quarter 4 2011"
-      OscarData.quarter_long("Qtr1 - 12-13").should eq "Quarter 1 2012"
-      OscarData.quarter_long("Qtr2 - 12-13").should eq "Quarter 2 2012"
-      OscarData.quarter_long("Qtr3 - 12-13").should eq "Quarter 3 2012"
-      OscarData.quarter_long("Qtr4 - 12-13").should eq "Quarter 4 2012"
+      OscarData.quarter_long("Qtr4 - 11-12").should eq "Quarter 4 2011-12"
+      OscarData.quarter_long("Qtr1 - 12-13").should eq "Quarter 1 2012-13"
+      OscarData.quarter_long("Qtr2 - 12-13").should eq "Quarter 2 2012-13"
+      OscarData.quarter_long("Qtr3 - 12-13").should eq "Quarter 3 2012-13"
+      OscarData.quarter_long("Qtr4 - 12-13").should eq "Quarter 4 2012-13"
     end
   end
 end
