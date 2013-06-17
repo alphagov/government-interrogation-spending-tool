@@ -11,10 +11,7 @@ gist.charts.doughnut = gist.charts.doughnut || (function() {
   }, gist.charts.BaseChart);
 
   $.extend(doughnut_d3js, {
-    default_options : {
-      max_percentile_bar_for_other : 0.6,
-      min_percentile_bar_for_other : 0.8
-    }
+    default_options : {}
   });
 
   $.extend(doughnut_d3js.prototype, {
@@ -34,10 +31,7 @@ gist.charts.doughnut = gist.charts.doughnut || (function() {
       if (this.opts.chart_data) {
         $("#" + node_id).empty();
 
-        var filtered_data = this.util.filter_sort_data(this.opts.chart_data),
-            percentile_bar_for_other_scale = d3.scale.linear().domain([184, 428]).range([this.opts.min_percentile_bar_for_other, this.opts.max_percentile_bar_for_other]),
-            percentile_bar_for_other = percentile_bar_for_other_scale(radius),
-            data = this.util.group_data_by_percentile_lowest(filtered_data, percentile_bar_for_other),
+        var data = this.util.filter_sort_data(this.opts.chart_data),
             total_spend_label = "Total Spend",
             total_spend_text = this.get_total_spend_text(data);
 
