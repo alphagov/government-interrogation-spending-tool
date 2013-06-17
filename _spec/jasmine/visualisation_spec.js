@@ -234,19 +234,19 @@ describe("Util", function() {
       expect(mag_999.suffix).toEqual("");
       expect(mag_999.long_suffix).toEqual("");
 
-      expect(mag_9990.value).toEqual("9.99");
+      expect(mag_9990.value).toEqual("10");
       expect(mag_9990.suffix).toEqual("k");
       expect(mag_9990.long_suffix).toEqual("thousand");
 
-      expect(mag_9990000.value).toEqual("9.99");
+      expect(mag_9990000.value).toEqual("10");
       expect(mag_9990000.suffix).toEqual("m");
       expect(mag_9990000.long_suffix).toEqual("million");
 
-      expect(mag_9990000000.value).toEqual("9.99");
+      expect(mag_9990000000.value).toEqual("10");
       expect(mag_9990000000.suffix).toEqual("bn");
       expect(mag_9990000000.long_suffix).toEqual("billion");
 
-      expect(mag_9990000000000.value).toEqual("9.99");
+      expect(mag_9990000000000.value).toEqual("10");
       expect(mag_9990000000000.suffix).toEqual("tn");
       expect(mag_9990000000000.long_suffix).toEqual("trillion");
 
@@ -257,7 +257,7 @@ describe("Util", function() {
     it("should return an object representation of a negative number", function() {
       var mag_neg_9990 = util.format_number_by_magnitude(-9990.0);
 
-      expect(mag_neg_9990.value).toEqual("-9.99");
+      expect(mag_neg_9990.value).toEqual("-10");
       expect(mag_neg_9990.suffix).toEqual("k");
       expect(mag_neg_9990.long_suffix).toEqual("thousand");
     });
@@ -271,11 +271,11 @@ describe("Util", function() {
       expect(mag_sterling_999.suffix).toEqual("");
       expect(mag_sterling_999.long_suffix).toEqual("");
 
-      expect(mag_sterling_9990000.value).toEqual("£9.99");
+      expect(mag_sterling_9990000.value).toEqual("£10");
       expect(mag_sterling_9990000.suffix).toEqual("m");
       expect(mag_sterling_9990000.long_suffix).toEqual("million");
 
-      expect(mag_neg_sterling_9990.value).toEqual("-£9.99");
+      expect(mag_neg_sterling_9990.value).toEqual("-£10");
       expect(mag_neg_sterling_9990.suffix).toEqual("k");
       expect(mag_neg_sterling_9990.long_suffix).toEqual("thousand");
     });
@@ -287,10 +287,10 @@ describe("Util", function() {
           fixed_mag_91111_m = util.format_number_by_magnitude(91111.0, false, "m"),
           specific1         = util.format_number_by_magnitude(13581853647.0, false, "m");
 
-      expect(fixed_mag_999_k.value).toEqual("0.999");   expect(fixed_mag_999_k.suffix).toEqual("k");
-      expect(fixed_mag_99_k.value).toEqual("0.099");    expect(fixed_mag_999_k.suffix).toEqual("k");
-      expect(fixed_mag_9_k.value).toEqual("0.009");     expect(fixed_mag_999_k.suffix).toEqual("k");
-      expect(fixed_mag_91111_m.value).toEqual("0.091"); expect(fixed_mag_91111_m.suffix).toEqual("m");
+      expect(fixed_mag_999_k.value).toEqual("1");   expect(fixed_mag_999_k.suffix).toEqual("k");
+      expect(fixed_mag_99_k.value).toEqual("0.1");    expect(fixed_mag_999_k.suffix).toEqual("k");
+      expect(fixed_mag_9_k.value).toEqual("0");     expect(fixed_mag_999_k.suffix).toEqual("k");
+      expect(fixed_mag_91111_m.value).toEqual("0.1"); expect(fixed_mag_91111_m.suffix).toEqual("m");
 
       expect(specific1.value).toEqual("13,582");        expect(specific1.suffix).toEqual("m");
     });

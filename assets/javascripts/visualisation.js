@@ -224,11 +224,7 @@ gist.utils = gist.utils || (function() {
       var scaled_value = (value / magnitude.value),
           abs_scaled_value = Math.abs(scaled_value),
           scaled_value_sig_figures = scaled_value.toFixed(0);
-      if (abs_scaled_value < 1) {
-        scaled_value_sig_figures = scaled_value.toFixed(3);
-      } else if (abs_scaled_value < 10) {
-        scaled_value_sig_figures = scaled_value.toFixed(2)
-      } else if (abs_scaled_value < 100) {
+      if (abs_scaled_value < 100) {
         scaled_value_sig_figures = scaled_value.toFixed(1)
       } else if (abs_scaled_value >= 1000) {
         scaled_value_sig_figures = (new gist.utils.Util()).format_numeric_string_to_uk_format(scaled_value_sig_figures, false);
