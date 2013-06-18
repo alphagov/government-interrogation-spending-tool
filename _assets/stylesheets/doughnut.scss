@@ -40,13 +40,21 @@
 
 @media (max-width: 700px) {
   .doughnut {
+    @include core-19;
+
+    .header {
+      @include bold-24;
+    }
+
     .doughnut-tooltips {
       ul {
         li {
           div {
+            @include bold-19;
             display: inline-block;
           }
           div.label{
+            @include core-19;
             margin-right: 10px;
           }
 
