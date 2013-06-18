@@ -507,6 +507,18 @@ describe "TablePageGenerator" do
         children_json.should include "&quot;name&quot;"
       end
     end
+
+    context "node with a child with a child" do
+      it "should have url attribute in json" do
+        node2 = TablePageNode.new("Node2", 0.0, [])
+        node1 = TablePageNode.new("Node1", 0.0, [node2])
+        root_node = TablePageNode.new("All", 0.0, [node1])
+        children_json = @page_generator.generate_table_page_node_children_json(root_node)
+        parsed = JSON.parse(CGI.unescapeHTML(children_json))
+
+        parsed[0]["url"].should eq("all/node1")
+      end
+    end
   end
 
   describe "generate_csv_content" do

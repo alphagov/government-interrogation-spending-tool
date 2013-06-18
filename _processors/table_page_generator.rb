@@ -230,7 +230,8 @@ class TablePageGenerator
         "total" => node.total,
         "totalLabel" => node.total.to_uk_formatted_currency_string(number_formatter_scale, number_formatter_decimal_places),
         "colour" => data_colour,
-        "fontColour" => data_font_colour
+        "fontColour" => data_font_colour,
+        "url" => node.has_children ? table_page_node.slug + "/" + node.slug : ""
       }
     end
 
