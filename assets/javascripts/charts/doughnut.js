@@ -11,7 +11,9 @@ gist.charts.doughnut = gist.charts.doughnut || (function() {
   }, gist.charts.BaseChart);
 
   $.extend(doughnut_d3js, {
-    default_options : {}
+    default_options : {
+      total_spend_label: "Total Spend"
+    }
   });
 
   $.extend(doughnut_d3js.prototype, {
@@ -32,7 +34,6 @@ gist.charts.doughnut = gist.charts.doughnut || (function() {
         $("#" + node_id).empty();
 
         var data = this.util.filter_sort_data(this.opts.chart_data),
-            total_spend_label = "Total Spend",
             total_spend_text = this.get_total_spend_text(data);
 
         if (!data || data.length == 0) {
@@ -104,7 +105,7 @@ gist.charts.doughnut = gist.charts.doughnut || (function() {
           .text(total_spend_text);
 
         this.setupTooltips(tooltip_div, vis.selectAll("path"));
-        this.draw_tooltip(tooltip_div, { name: total_spend_label, totalLabel: total_spend_text });
+        this.draw_tooltip(tooltip_div, { name: this.opts.total_spend_label, totalLabel: total_spend_text });
       }
     },
 
@@ -138,6 +139,21 @@ gist.charts.doughnut = gist.charts.doughnut || (function() {
             li = ul.append('li').attr('class', 'ellipsis').text('...')
           }
         });
+      } else if (d.name != this.opts.total_spend_label) {
+
+        var percentage_gov_spend = this.calculate_percentage_gov_spend(d.total);
+        if (percentage_gov_spend != null) {
+          var percentage_gov_spend_li = list.append('li');
+          percentage_gov_spend_li.append('div').attr('class', 'label').text("% Government Spend");
+          percentage_gov_spend_li.append('div').text(percentage_gov_spend.toFixed(2) + "%");
+        }
+
+        var cost_per_citizen = this.calculate_cost_per_citizen(d.total);
+        if (cost_per_citizen != null) {
+          var cost_per_citizen_li = list.append('li');
+          cost_per_citizen_li.append('div').attr('class', 'label').text("Cost per UK citizen");
+          cost_per_citizen_li.append('div').text("£" + cost_per_citizen.toFixed(2));
+        }
       }
     },
 
@@ -151,8 +167,39 @@ gist.charts.doughnut = gist.charts.doughnut || (function() {
       }
 
       return total_elem_text;
-    }
+    },
 
+    get_uk_population : function() {
+      return $("#uk_population").val();
+    },
+
+    get_uk_gov_expenditure : function() {
+      return $("#uk_gov_expenditure").val();
+    },
+
+    calculate_percentage_gov_spend : function(total) {
+      var percentage_gov_spend = null,
+          uk_gov_expenditure = this.get_uk_gov_expenditure();
+
+      if (uk_gov_expenditure != null && uk_gov_expenditure != "" && !isNaN(uk_gov_expenditure)) {
+        var uk_gov_expenditure_val = parseFloat(uk_gov_expenditure);
+        percentage_gov_spend = (total / uk_gov_expenditure_val) * 100.0;
+      }
+
+      return percentage_gov_spend;
+    },
+
+    calculate_cost_per_citizen : function(total) {
+      var cost_per_citizen = null,
+          uk_population = this.get_uk_population();
+
+      if (uk_population != null && uk_population != "" && !isNaN(uk_population)) {
+        var uk_population_val = parseFloat(uk_population);
+        cost_per_citizen = total / uk_population_val;
+      }
+
+      return cost_per_citizen;
+    }
   });
 
   return {
