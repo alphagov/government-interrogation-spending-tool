@@ -38,7 +38,6 @@ gist.charts.treemap = gist.charts.treemap || (function() {
         if (!data || data.length == 0) {
           return null;
         }
-        data.forEach(function(d) { d.children = null; });
 
         var root = {
           name: "",
@@ -52,6 +51,10 @@ gist.charts.treemap = gist.charts.treemap || (function() {
               .value(function(d) { return d.total; })
               .sort(function(a, b) {
                 return a.value - b.value;
+              })
+              .children(function(d) {
+                // displaying a single level so only root returns children
+                return d.name == "" ? d.children : null;
               }),
             div = d3.select("#" + node_id).append("div")
               .style("position", "relative")
@@ -75,14 +78,14 @@ gist.charts.treemap = gist.charts.treemap || (function() {
                   that._click_link(d.url);
                 }
               })
-              .style("background", function(d) { return d.children ? null : d.colour ? d.colour : that.opts.default_colour; });
+              .style("background", function(d) { return d.name == "" ? null : d.colour ? d.colour : that.opts.default_colour; });
 
             divs = nodes
               .append('div')
                 .attr("class", "treemap-label")
                 .style("width", function(d) { return Math.max(0, d.dx - 1) + "px"; })
                 .style("height", function(d) { return Math.max(0, d.dy - 1) + "px"; })
-                .style("color", function(d) { return d.children ? null : d.fontColour ? d.fontColour : that.opts.default_font_colour; })
+                .style("color", function(d) { return d.name == "" ? null : d.fontColour ? d.fontColour : that.opts.default_font_colour; })
                 .html(function(d) {
                   return that.generate_label_html(d); });
 
@@ -91,6 +94,8 @@ gist.charts.treemap = gist.charts.treemap || (function() {
     },
 
     generate_label_html : function(d) {
+      if (d.name == "") { return ""; }
+
       var font_classes =     ["none","ellipsis","small","medium","large","x-large"],
           font_classes_key = [0     ,1         ,2      ,3       ,4      ,5],
           dx_font = d3.scale.threshold().domain([20,50,130,200,250]).range(font_classes_key),

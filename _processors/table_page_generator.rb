@@ -1,6 +1,7 @@
 # encoding: utf-8
 require "fileutils"
 require "json"
+require "cgi"
 require_relative "extensions/float"
 require_relative "department_mapper"
 
@@ -152,10 +153,10 @@ class TablePageGenerator
 
       row_title = node.has_children ? "<a href='#{node.slug}'>#{node.title}</a>" : node.title
       row_total_label = node.total.to_uk_formatted_currency_string(number_formatter_scale, number_formatter_decimal_places)
-      row = "<tr data-name=\"#{node.title}\" "\
+      row = "<tr data-name=\"#{CGI.escapeHTML(node.title)}\" "\
                 "data-total=\"#{node.total.to_attribute_format}\" "\
                 "data-total-label=\"#{row_total_label}\" "\
-                "data-children='#{generate_table_page_node_children_json(node, number_formatter_scale, number_formatter_decimal_places)}' "\
+                "data-children=\"#{generate_table_page_node_children_json(node, number_formatter_scale, number_formatter_decimal_places)}\" "\
                 "data-colour=\"#{data_colour}\" "\
                 "data-font-colour=\"#{data_font_colour}\""\
                 "#{node.has_children ? "data-url=\"" + node.slug + "\"" : ""} "\
@@ -231,7 +232,7 @@ class TablePageGenerator
       }
     end
 
-    children_array.to_json
+    CGI.escapeHTML(children_array.to_json)
   end
 
   def generate_csv_content(table_page_node, options = {})

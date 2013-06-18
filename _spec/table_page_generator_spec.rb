@@ -1,5 +1,6 @@
 # encoding: utf-8
 require "json"
+require "cgi"
 require_relative "../_processors/table_page_generator.rb"
 require_relative "../_processors/model/table_page_node.rb"
 
@@ -284,6 +285,14 @@ describe "TablePageGenerator" do
       end
     end
 
+    context "node with one child containing name with html special characters" do
+      it "should escape the special characters in the data-name attribute" do
+        root_node = TablePageNode.new("All", 0.0, [TablePageNode.new("Teachers' Pension Scheme (England and Wales)", 9990000.0)])
+        content = @page_generator.generate_html_content(root_node, {})
+        content.should include "data-name=\"Teachers' Pension Scheme (England and Wales)\""
+      end
+    end
+
     context "node with unknown Department" do
       before :each do
         root_node = TablePageNode.new("All", 0.0, [TablePageNode.new("Test1", 100.0)])
@@ -348,7 +357,7 @@ describe "TablePageGenerator" do
         @content.should match /data-url="test2"/
       end
       it "should set the data attribute for data-children containing json for child nodes" do
-        @content.should include "data-children='[{\"name\":\"Test1\",\"total\":100.0,\"totalLabel\":\"£100\"}]'"
+        @content.should match /data-children=\"\[.+\]\"/
       end
       it "should contain a link" do
         @content.should match /<a href='test2'/
@@ -464,7 +473,7 @@ describe "TablePageGenerator" do
       end
       it "should return a json string" do
         @children_json.should be_an_instance_of(String)
-        parsed = JSON.parse(@children_json)
+        parsed = JSON.parse(CGI.unescapeHTML(@children_json))
         parsed.should have(2).items
 
         parsed[0]["name"].should eq("Toy")
@@ -480,6 +489,14 @@ describe "TablePageGenerator" do
       it "should return empty string" do
         children_json = @page_generator.generate_table_page_node_children_json(@empty_node)
         children_json.should eq("")
+      end
+    end
+
+    context "node with a child with name with html special characters" do
+      it "should escape the special characters in the data-children attribute" do
+        root_node = TablePageNode.new("All", 0.0, [TablePageNode.new("Teachers' Pension Scheme (England and Wales)", 9990000.0)])
+        children_json = @page_generator.generate_table_page_node_children_json(root_node)
+        children_json.should include "&quot;name&quot;"
       end
     end
   end

@@ -67,7 +67,6 @@ gist.charts.doughnut = gist.charts.doughnut || (function() {
           .sort(null)
           .size([2 * Math.PI, radius * radius])
           .value(function(d) { return d.total; })
-          .children(function(d) { return d.values; });
 
         var arc = d3.svg.arc()
           .startAngle(function(d) { return d.x; })
@@ -75,7 +74,7 @@ gist.charts.doughnut = gist.charts.doughnut || (function() {
           .innerRadius(function(d) { return Math.sqrt(d.y); })
           .outerRadius(function(d,i) { return Math.sqrt(d.y + d.dy); });
 
-        var root = { "name": "root", "values": data };
+        var root = { name: "root", children: data };
 
         var path = vis.data([root]).selectAll("path")
           .data(partition.nodes)
