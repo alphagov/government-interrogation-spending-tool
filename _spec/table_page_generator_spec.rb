@@ -469,7 +469,11 @@ describe "TablePageGenerator" do
   describe "generate_table_page_node_children_json" do
     context "node with two children, both empty" do
       before :each do
-        @children_json = @page_generator.generate_table_page_node_children_json(@root_node)
+        number_formatter_scale = nil
+        number_formatter_decimal_places = 0
+        data_colour = "#000"
+        data_font_colour = "#fff"
+        @children_json = @page_generator.generate_table_page_node_children_json(@root_node, number_formatter_scale, number_formatter_decimal_places, data_colour, data_font_colour)
       end
       it "should return a json string" do
         @children_json.should be_an_instance_of(String)
@@ -479,10 +483,14 @@ describe "TablePageGenerator" do
         parsed[0]["name"].should eq("Toy")
         parsed[0]["total"].should eq(100.0)
         parsed[0]["totalLabel"].should eq("£100")
+        parsed[0]["colour"].should eq("#000")
+        parsed[0]["fontColour"].should eq("#fff")
 
         parsed[1]["name"].should eq("Test")
         parsed[1]["total"].should eq(200.0)
         parsed[1]["totalLabel"].should eq("£200")
+        parsed[1]["colour"].should eq("#000")
+        parsed[1]["fontColour"].should eq("#fff")
       end
     end
     context "node with no children" do

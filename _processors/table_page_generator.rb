@@ -156,7 +156,7 @@ class TablePageGenerator
       row = "<tr data-name=\"#{CGI.escapeHTML(node.title)}\" "\
                 "data-total=\"#{node.total.to_attribute_format}\" "\
                 "data-total-label=\"#{row_total_label}\" "\
-                "data-children=\"#{generate_table_page_node_children_json(node, number_formatter_scale, number_formatter_decimal_places)}\" "\
+                "data-children=\"#{generate_table_page_node_children_json(node, number_formatter_scale, number_formatter_decimal_places, data_colour, data_font_colour)}\" "\
                 "data-colour=\"#{data_colour}\" "\
                 "data-font-colour=\"#{data_font_colour}\""\
                 "#{node.has_children ? "data-url=\"" + node.slug + "\"" : ""} "\
@@ -220,7 +220,7 @@ class TablePageGenerator
     content
   end
 
-  def generate_table_page_node_children_json(table_page_node, number_formatter_scale=nil, number_formatter_decimal_places=0)
+  def generate_table_page_node_children_json(table_page_node, number_formatter_scale=nil, number_formatter_decimal_places=0, data_colour="", data_font_colour="")
     return "" if table_page_node.children.nil? || table_page_node.children.length == 0
 
     children_array = []
@@ -228,7 +228,9 @@ class TablePageGenerator
       children_array << {
         "name" => node.title,
         "total" => node.total,
-        "totalLabel" => node.total.to_uk_formatted_currency_string(number_formatter_scale, number_formatter_decimal_places)
+        "totalLabel" => node.total.to_uk_formatted_currency_string(number_formatter_scale, number_formatter_decimal_places),
+        "colour" => data_colour,
+        "fontColour" => data_font_colour
       }
     end
 
