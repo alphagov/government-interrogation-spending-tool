@@ -149,6 +149,46 @@ describe "TablePageNode" do
     end
   end
 
+  describe "is_qds" do
+    it "returns true if node is qds node" do
+      node1 = TablePageNode.new("All Quarters", 100.0, [], "All Quarters", { :qds => true })
+      node2 = TablePageNode.new("Toy", 100.0)
+
+      node1.is_qds.should be_true
+      node2.is_qds.should be_false
+    end
+  end
+
+  describe "is_qds_section" do
+    it "returns true if qds section else false" do
+      node1 = TablePageNode.new("Spend by Type of Internal Operation", 100.0, [], "Spend by Type of Internal Operation", { :qds_section => true })
+      node2 = TablePageNode.new("Toy", 100.0)
+
+      node1.is_qds_section.should be_true
+      node2.is_qds_section.should be_false
+    end
+  end
+
+  describe "is_qds_parent_department" do
+    it "returns true if qds parent department else false" do
+      node1 = TablePageNode.new("NDA", 100.0, [], "NDA", { :qds_parent_department => true })
+      node2 = TablePageNode.new("Toy", 100.0)
+
+      node1.is_qds_parent_department.should be_true
+      node2.is_qds_parent_department.should be_false
+    end
+  end
+
+  describe "is_qds_scope" do
+    it "returns true if qds scope else false" do
+      node1 = TablePageNode.new("DWP", 100.0, [], "DWP", { :qds_scope => true })
+      node2 = TablePageNode.new("Toy", 100.0)
+
+      node1.is_qds_scope.should be_true
+      node2.is_qds_scope.should be_false
+    end
+  end
+
   describe "self.slugify_paths_to_url" do
     it "returns a slugified url for an array of path values" do
       TablePageNode.slugify_paths_to_url("qds", "Q1 2012", "TOY", "TOY", "Spend by Type of Budget").should eq "/qds/q1-2012/toy/toy/spend-by-type-of-budget"

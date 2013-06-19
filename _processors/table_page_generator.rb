@@ -35,6 +35,8 @@ class TablePageGenerator
   INDEX_FILE_NAME = "index.html"
   CSV_FILE_NAME   = "data.csv"
 
+  QDS_SECTION_TITLE_SPEND_BY_TYPE_OF_INTERNAL_OPERATION = "Spend by Type of Internal Operation"
+
   attr_accessor :root_directory_path, :source_label
   def initialize root_directory_path, source_label
     @root_directory_path = root_directory_path
@@ -223,9 +225,22 @@ class TablePageGenerator
   def generate_table_page_node_children_json(table_page_node, number_formatter_scale=nil, number_formatter_decimal_places=0, data_colour="", data_font_colour="")
     return "" if table_page_node.children.nil? || table_page_node.children.length == 0
 
+    CGI.escapeHTML(generate_table_page_node_children_array(table_page_node, number_formatter_scale, number_formatter_decimal_places, data_colour, data_font_colour).to_json)
+  end
+
+  def generate_table_page_node_children_array(table_page_node, number_formatter_scale=nil, number_formatter_decimal_places=0, data_colour="", data_font_colour="")
+    return [] if table_page_node.children.nil? || table_page_node.children.length == 0
+
+    node_children = table_page_node.children
+    if table_page_node.is_qds_parent_department ||
+      (table_page_node.is_qds_scope && table_page_node.has_children && table_page_node.children.first.is_qds_section)
+      qds_section_operations_node = node_children.detect { |section_node| section_node.title == QDS_SECTION_TITLE_SPEND_BY_TYPE_OF_INTERNAL_OPERATION }
+      node_children = qds_section_operations_node.children if !qds_section_operations_node.nil?
+    end
+
     children_array = []
-    table_page_node.children.each do |node|
-      children_array << {
+    node_children.each do |node|
+      child = {
         "name" => node.title,
         "total" => node.total,
         "totalLabel" => node.total.to_uk_formatted_currency_string(number_formatter_scale, number_formatter_decimal_places),
@@ -233,9 +248,15 @@ class TablePageGenerator
         "fontColour" => data_font_colour,
         "url" => node.has_children ? table_page_node.slug + "/" + node.slug : ""
       }
+
+      if table_page_node.is_qds_scope && node.is_qds_parent_department
+        child["children"] = generate_table_page_node_children_array(node, number_formatter_scale, number_formatter_decimal_places, data_colour, data_font_colour)
+      end
+
+      children_array << child
     end
 
-    CGI.escapeHTML(children_array.to_json)
+    children_array
   end
 
   def generate_csv_content(table_page_node, options = {})

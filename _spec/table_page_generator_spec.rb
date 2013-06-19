@@ -5,6 +5,11 @@ require_relative "../_processors/table_page_generator.rb"
 require_relative "../_processors/model/table_page_node.rb"
 
 describe "TablePageGenerator" do
+
+  SPEND_BY_TYPE_OF_BUDGET = "Spend by Type of Budget"
+  SPEND_BY_TYPE_OF_INTERNAL_OPERATION = "Spend by Type of Internal Operation"
+  SPEND_BY_TYPE_OF_TRANSACTION = "Spend by Type of Transaction"
+
   before(:each) do
     @root_directory_path = "_spec/test_pages"
     @source_label = "PESA 2011, date:15.01.12"
@@ -517,6 +522,74 @@ describe "TablePageGenerator" do
         parsed = JSON.parse(CGI.unescapeHTML(children_json))
 
         parsed[0]["url"].should eq("all/node1")
+      end
+    end
+
+    context "qds nodes" do
+      before :each do
+        budget_headline_node           = TablePageNode.new("bu1", 1.0, [TablePageNode.new("bu11", 1.0)], "bu1", { :qds => true })
+        operations_headline_node1      = TablePageNode.new("op1", 1.0, [TablePageNode.new("op11", 1.0)], "op1", { :qds => true })
+        operations_headline_node2      = TablePageNode.new("op2", 1.0, [TablePageNode.new("op21", 1.0)], "op2", { :qds => true })
+        transactions_headline_node     = TablePageNode.new("tr1", 1.0, [TablePageNode.new("tr11", 1.0)], "tr1", { :qds => true })
+
+        section_budgets_node           = TablePageNode.new(SPEND_BY_TYPE_OF_BUDGET, 100.0, [budget_headline_node], SPEND_BY_TYPE_OF_BUDGET, { :qds => true, :qds_section => true })
+        section_operations_node        = TablePageNode.new(SPEND_BY_TYPE_OF_INTERNAL_OPERATION, 100.0, [operations_headline_node1, operations_headline_node2], SPEND_BY_TYPE_OF_INTERNAL_OPERATION, { :qds => true, :qds_section => true })
+        section_transactions_node      = TablePageNode.new(SPEND_BY_TYPE_OF_TRANSACTION, 100.0, [transactions_headline_node], SPEND_BY_TYPE_OF_TRANSACTION, { :qds => true, :qds_section => true })
+
+        @parent_department_node        = TablePageNode.new("NDA", 100.0, [section_budgets_node, section_operations_node, section_transactions_node], "NDA", { :qds => true, :qds_parent_department => true })
+        @parent_department_node2       = TablePageNode.new("DECC", 100.0, [section_budgets_node, section_operations_node, section_transactions_node], "DECC", { :qds => true, :qds_parent_department => true })
+
+        @scope_node_with_department    = TablePageNode.new("DECC", 100.0, [@parent_department_node, @parent_department_node2], "DECC", { :qds => true, :qds_scope => true })
+        @scope_node_without_department = TablePageNode.new("DWP", 100.0, [section_budgets_node, section_operations_node, section_transactions_node], "DWP", { :qds => true, :qds_scope => true })
+
+        @report_date_node              = TablePageNode.new("Quarter 1 2012-13", 100.0, [@scope_node_with_department, @scope_node_without_department], "Quarter 1 2012-13", { :qds => true })
+      end
+
+      context "qds scope node without parent department" do
+        it "should return children with section 'Spend by Type of Internal Operation'" do
+          children_json = @page_generator.generate_table_page_node_children_json(@scope_node_without_department)
+          parsed = JSON.parse(CGI.unescapeHTML(children_json))
+
+          parsed.should have(2).items
+          parsed[0]["name"].should eq "op1"
+          parsed[1]["name"].should eq "op2"
+
+          parsed[0].has_key?("children").should be_false
+          parsed[1].has_key?("children").should be_false
+        end
+      end
+
+      context "qds scope node with parent departments" do
+        it "should return children with parent departments with children populated with section 'Spend by Type of Internal Operation' nodes" do
+          children_json = @page_generator.generate_table_page_node_children_json(@scope_node_with_department)
+          parsed = JSON.parse(CGI.unescapeHTML(children_json))
+
+          parsed.should have(2).items
+          parsed[0]["name"].should eq "NDA"
+          parsed[1]["name"].should eq "DECC"
+
+          parsed[0].has_key?("children").should be_true
+          parsed[1].has_key?("children").should be_true
+
+          parsed[0]["children"].should have(2).items
+          parsed[0]["children"][0]["name"].should eq "op1"
+          parsed[0]["children"][1]["name"].should eq "op2"
+
+          parsed[1]["children"].should have(2).items
+          parsed[1]["children"][0]["name"].should eq "op1"
+          parsed[1]["children"][1]["name"].should eq "op2"
+        end
+      end
+
+      context "qds parent department nodes" do
+        it "should return children with section 'Spend by Type of Internal Operation' data headline nodes rather than all section level nodes" do
+          children_json = @page_generator.generate_table_page_node_children_json(@parent_department_node)
+          parsed = JSON.parse(CGI.unescapeHTML(children_json))
+
+          parsed.should have(2).items
+          parsed[0]["name"].should eq "op1"
+          parsed[1]["name"].should eq "op2"
+        end
       end
     end
   end

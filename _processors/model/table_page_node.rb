@@ -72,6 +72,22 @@ class TablePageNode
     @options.has_key?(:display_foi) ? @options[:display_foi] : false
   end
 
+  def is_qds
+    @options.has_key?(:qds) ? @options[:qds] : false
+  end
+
+  def is_qds_section
+    @options.has_key?(:qds_section) ? @options[:qds_section] : false
+  end
+
+  def is_qds_parent_department
+    @options.has_key?(:qds_parent_department) ? @options[:qds_parent_department] : false
+  end
+
+  def is_qds_scope
+    @options.has_key?(:qds_scope) ? @options[:qds_scope] : false
+  end
+
   def to_s
     "TablePageNode: title = #{title}, total = #{total.to_s}, slug = #{slug}, children = #{children.to_s}"
   end

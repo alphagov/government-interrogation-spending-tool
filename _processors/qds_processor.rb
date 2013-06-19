@@ -120,7 +120,11 @@ class QdsProcessor < BaseProcessor
               section_total,
               section_children,
               section,
-              { :alternative_title => section_alternative_title, :alternative_layout => "table_qds_section" })
+              {
+                :alternative_title => section_alternative_title,
+                :alternative_layout => "table_qds_section",
+                :qds_section => true
+              })
           end
 
           begin
@@ -138,13 +142,17 @@ class QdsProcessor < BaseProcessor
             top_total,
             parent_department_children,
             parent_department,
-            { :redirect_url => TablePageNode.slugify_paths_to_url("qds", QdsData.quarter_short(report_date), abbr, parent_department, SPEND_BY_TYPE_OF_BUDGET) })
+            {
+              :redirect_url => TablePageNode.slugify_paths_to_url("qds", QdsData.quarter_short(report_date), abbr, parent_department, SPEND_BY_TYPE_OF_BUDGET),
+              :qds_parent_department => true
+            })
         end
 
         report_date_total += abbr_total
         if abbr_children.length == 1 && abbr_children[0].title == abbr
           abbr_children[0].options = {
             :is_department => true,
+            :qds_parent_department => true,
             :redirect_url => TablePageNode.slugify_paths_to_url("qds", QdsData.quarter_short(report_date), abbr, SPEND_BY_TYPE_OF_BUDGET) }
           report_date_children << abbr_children[0]
         else
@@ -153,7 +161,7 @@ class QdsProcessor < BaseProcessor
             abbr_total,
             abbr_children,
             abbr,
-            { :is_department => true, :alternative_title => "", :table_header_name_label => "Department/Organisation" })
+            { :is_department => true, :alternative_title => "", :table_header_name_label => "Department/Organisation", :qds_scope => true })
         end
       end
 
@@ -171,6 +179,10 @@ class QdsProcessor < BaseProcessor
       root_children,
       "",
       { :alternative_layout => ROOT_NODE_LAYOUT, :table_header_name_label => "Quarter" })
+
+    set_qds_option_for_node_tree(root)
+
+    root
   end
 
   def add_qds_sections_if_missing(parent_department_children)
@@ -188,6 +200,13 @@ class QdsProcessor < BaseProcessor
       0.0,
       [],
       section,
-      { :alternative_layout => "table_qds_section_no_data", :force_generate_with_no_children => true })
+      { :alternative_layout => "table_qds_section_no_data", :force_generate_with_no_children => true, :qds_section => true })
+  end
+
+  def set_qds_option_for_node_tree(table_page_node)
+    table_page_node.options[:qds] = true
+    if table_page_node.has_children
+      table_page_node.children.each { |child_node| set_qds_option_for_node_tree(child_node) }
+    end
   end
 end

@@ -129,6 +129,39 @@ describe "QdsProcessor" do
       it "should use alternative_title with Parent Department included at the data headline level" do
         @root_node.children[0].children[0].children[0].children[0].children[0].alternative_title_or_title.should eq "DEP1 - DEL1"
       end
+
+      it "should set qds option for all nodes" do
+        @root_node.is_qds.should be_true
+        @root_node.children[0].is_qds.should be_true
+        @root_node.children[0].children[0].is_qds.should be_true
+        @root_node.children[0].children[0].children[0].is_qds.should be_true
+        @root_node.children[0].children[0].children[0].children[0].is_qds.should be_true
+        @root_node.children[0].children[0].children[0].children[0].children[0].is_qds.should be_true
+      end
+
+      it "should set qds_scope option for qds scope nodes" do
+        @root_node.is_qds_parent_department.should be_false
+        @root_node.children[0].is_qds_parent_department.should be_false
+
+        scope_nodes = @root_node.children[0].children
+        scope_nodes.each { |scope_node| scope_node.is_qds_scope.should be_true }
+      end
+
+      it "should set qds_parent_department option for qds section nodes" do
+        @root_node.is_qds_parent_department.should be_false
+        @root_node.children[0].is_qds_parent_department.should be_false
+
+        parent_nodes = @root_node.children[0].children[0].children
+        parent_nodes.each { |parent_node| parent_node.is_qds_parent_department.should be_true }
+      end
+
+      it "should set qds_section option for qds section nodes" do
+        @root_node.is_qds_section.should be_false
+        @root_node.children[0].is_qds_section.should be_false
+
+        section_nodes = @root_node.children[0].children[0].children[0].children
+        section_nodes.each { |section_node| section_node.is_qds_section.should be_true }
+      end
     end
     context "qds data for a single quarter, one scope abbr, two parent_departments, one section, one headline" do
       before(:each) do
@@ -176,20 +209,22 @@ describe "QdsProcessor" do
       end
     end
     context "qds data with only a single parent department value matching the name of the scope" do
-      it "should not contain the parent department node, as this is redundant" do
+      before(:each) do
         data_objects = get_qds_data_objects("Quarter 2 - 2012/13", ["DWP"], ["DWP - Core"], ["Spend by Type of Budget"], ["DEL1"], ["Capital1"])
         root_node = @processor.generate_root_node(data_objects)
 
-        quarters    = root_node.children
-        departments = root_node.children[0].children
-        sections    = root_node.children[0].children[0].children
+        @quarters    = root_node.children
+        @departments = root_node.children[0].children
+        @sections    = root_node.children[0].children[0].children
+      end
 
-        quarters.should have(1).items
-        departments.should have(1).items
-        departments[0].title.should eq("DWP")
+      it "should not contain the parent department node, as this is redundant" do
+        @quarters.should have(1).items
+        @departments.should have(1).items
+        @departments[0].title.should eq("DWP")
 
-        sections.should have_at_least(1).items
-        sections[0].title.should eq("Spend by Type of Budget")
+        @sections.should have_at_least(1).items
+        @sections[0].title.should eq("Spend by Type of Budget")
       end
     end
     context "qds data with multiple parent department values some not matching the name of the scope" do
