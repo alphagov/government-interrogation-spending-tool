@@ -36,6 +36,7 @@ class TablePageGenerator
   CSV_FILE_NAME   = "data.csv"
 
   QDS_SECTION_TITLE_SPEND_BY_TYPE_OF_INTERNAL_OPERATION = "Spend by Type of Internal Operation"
+  QDS_SECTION_TITLE_SPEND_BY_TYPE_OF_INTERNAL_OPERATION_SLUG = "spend-by-type-of-internal-operation"
 
   attr_accessor :root_directory_path, :source_label
   def initialize root_directory_path, source_label
@@ -231,11 +232,15 @@ class TablePageGenerator
   def generate_table_page_node_children_array(table_page_node, number_formatter_scale=nil, number_formatter_decimal_places=0, data_colour="", data_font_colour="")
     return [] if table_page_node.children.nil? || table_page_node.children.length == 0
 
+    section_slug = ""
     node_children = table_page_node.children
     if table_page_node.is_qds_parent_department ||
       (table_page_node.is_qds_scope && table_page_node.has_children && table_page_node.children.first.is_qds_section)
       qds_section_operations_node = node_children.detect { |section_node| section_node.title == QDS_SECTION_TITLE_SPEND_BY_TYPE_OF_INTERNAL_OPERATION }
-      node_children = qds_section_operations_node.children if !qds_section_operations_node.nil?
+      if !qds_section_operations_node.nil?
+        node_children = qds_section_operations_node.children
+        section_slug = QDS_SECTION_TITLE_SPEND_BY_TYPE_OF_INTERNAL_OPERATION_SLUG + "/"
+      end
     end
 
     children_array = []
@@ -246,7 +251,7 @@ class TablePageGenerator
         "totalLabel" => node.total.to_uk_formatted_currency_string(number_formatter_scale, number_formatter_decimal_places),
         "colour" => data_colour,
         "fontColour" => data_font_colour,
-        "url" => node.has_children ? table_page_node.slug + "/" + node.slug : ""
+        "url" => node.has_children ? table_page_node.slug + "/" + section_slug + node.slug : ""
       }
 
       if table_page_node.is_qds_scope && node.is_qds_parent_department

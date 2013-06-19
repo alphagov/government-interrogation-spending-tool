@@ -10,6 +10,8 @@ describe "TablePageGenerator" do
   SPEND_BY_TYPE_OF_INTERNAL_OPERATION = "Spend by Type of Internal Operation"
   SPEND_BY_TYPE_OF_TRANSACTION = "Spend by Type of Transaction"
 
+  SPEND_BY_TYPE_OF_INTERNAL_OPERATION_SLUG = "spend-by-type-of-internal-operation"
+
   before(:each) do
     @root_directory_path = "_spec/test_pages"
     @source_label = "PESA 2011, date:15.01.12"
@@ -551,8 +553,12 @@ describe "TablePageGenerator" do
           parsed = JSON.parse(CGI.unescapeHTML(children_json))
 
           parsed.should have(2).items
+
           parsed[0]["name"].should eq "op1"
+          parsed[0]["url"].should include SPEND_BY_TYPE_OF_INTERNAL_OPERATION_SLUG
+
           parsed[1]["name"].should eq "op2"
+          parsed[1]["url"].should include SPEND_BY_TYPE_OF_INTERNAL_OPERATION_SLUG
 
           parsed[0].has_key?("children").should be_false
           parsed[1].has_key?("children").should be_false
@@ -573,11 +579,15 @@ describe "TablePageGenerator" do
 
           parsed[0]["children"].should have(2).items
           parsed[0]["children"][0]["name"].should eq "op1"
+          parsed[0]["children"][0]["url"].should include SPEND_BY_TYPE_OF_INTERNAL_OPERATION_SLUG
           parsed[0]["children"][1]["name"].should eq "op2"
+          parsed[0]["children"][1]["url"].should include SPEND_BY_TYPE_OF_INTERNAL_OPERATION_SLUG
 
           parsed[1]["children"].should have(2).items
           parsed[1]["children"][0]["name"].should eq "op1"
+          parsed[1]["children"][0]["url"].should include SPEND_BY_TYPE_OF_INTERNAL_OPERATION_SLUG
           parsed[1]["children"][1]["name"].should eq "op2"
+          parsed[1]["children"][1]["url"].should include SPEND_BY_TYPE_OF_INTERNAL_OPERATION_SLUG
         end
       end
 
