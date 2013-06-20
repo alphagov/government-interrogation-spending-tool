@@ -13,7 +13,7 @@ echo "Processing data ...."
 rm -rf _processors/data/*
 
 if [ -e /data/qds.csv ] && [ -e /data/oscar.csv ]; then
-cp /data/* _processors/data/
+cp /data/*.csv _processors/data/
 /bin/bash _convert_from_windows_encoding.sh _processors/data/qds.cvs _processors/data/qds.cvs
 /bin/bash _convert_from_windows_encoding.sh _processors/data/oscar.cvs _processors/data/oscar.cvs
 /bin/bash _process_data.sh
@@ -21,6 +21,9 @@ else \
 /bin/bash _process_test_data.sh && sleep 2
 fi
 
+if [ -e /data/_config.yml ]; then
+  cp /data/_config.yml .
+fi
 
 cp -R _submodules/static/app/assets/images/* static/
 cp -R _submodules/static/app/assets/javascripts/* static/
