@@ -33,8 +33,9 @@ gist.charts.doughnut = gist.charts.doughnut || (function() {
       if (this.opts.chart_data) {
         $("#" + node_id).empty();
 
-        var data = this.util.filter_sort_data(this.opts.chart_data),
-            total_spend_text = this.get_total_spend_text(data);
+        var filter_sorted_data = this.util.filter_sort_data(this.opts.chart_data),
+            total_spend_text = this.get_total_spend_text(data),
+            data = this.equalise_data_depth_to_two_level(filter_sorted_data);
 
         if (!data || data.length == 0) {
           return null;
@@ -75,10 +76,11 @@ gist.charts.doughnut = gist.charts.doughnut || (function() {
           .innerRadius(function(d) { return Math.sqrt(d.y); })
           .outerRadius(function(d,i) { return Math.sqrt(d.y + d.dy); });
 
-        var root = { name: "root", children: data };
+        var root  = { name: "root", children: data },
+            nodes = partition.nodes(root);
 
-        var path = vis.data([root]).selectAll("path")
-          .data(partition.nodes)
+        var path = vis.selectAll("path")
+          .data(nodes)
           .enter().append("path")
             .attr("display", function(d) { return d.depth ? null : "none"; }) // hide inner ring
             .attr("d", arc)
@@ -107,6 +109,23 @@ gist.charts.doughnut = gist.charts.doughnut || (function() {
         this.setupTooltips(tooltip_div, vis.selectAll("path"));
         this.draw_tooltip(tooltip_div, { name: this.opts.total_spend_label, totalLabel: total_spend_text });
       }
+    },
+
+    equalise_data_depth_to_two_level : function(data) {
+      var equalised_data = [];
+
+      data.forEach(function(d) {
+        if ('children' in d && d.children.length > 0 &&
+            'children' in d.children[0] && d.children[0].children.length > 0) {
+          d.children.forEach(function(c) {
+            equalised_data.push(c);
+          });
+        } else {
+          equalised_data.push(d);
+        }
+      });
+
+      return equalised_data;
     },
 
     setupTooltips : function(tooltip_div, paths) {
